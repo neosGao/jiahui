@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import indexPage from "../view/index.vue";
 
 const routerHistory = createWebHistory();
 
@@ -13,7 +12,11 @@ const router = createRouter({
     },
     {
       path: "/index",
-      component: indexPage,
+      component: () => import("../view/index.vue"),
+    },
+    {
+      path: "/catalogue",
+      component: () => import("../view/catalogue.vue"),
     },
   ],
 });
