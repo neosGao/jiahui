@@ -86,3 +86,27 @@ button:focus-visible {
 .incenter {
   @apply flex items-center justify-center;
 }
+
+:root {
+  --ant-primary-color: #208d7b;
+}
+
+.ant-btn-primary {
+  background-color: #208d7b;
+  border-color: #208d7b;
+}
+
+.ant-btn-primary:hover {
+  background-color: #208d7b !important;
+  border-color: #208d7b;
+}
+
+.ant-btn-primary.ant-btn-background-ghost {
+  border-color: #208d7b;
+  color: #208d7b;
+}
+
+.ant-btn-background-ghost:hover {
+  border-color: #208d7b !important;
+  color: #fff !important;
+}

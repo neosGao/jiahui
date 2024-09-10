@@ -1,5 +1,5 @@
 <template>
-  <topNav/>
+  <topNav />
   <div
     class="w-full h-[333px] bg-cover bg-center bg-[url('/src/assets/img/catalogue/catalogue1.png')]"
   ></div>
@@ -23,7 +23,7 @@
       <img src="../assets/img/catalogue/catalogue6.png" alt="" />
       <img src="../assets/img/catalogue/catalogue8.png" alt="" />
     </div>
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center pb-20">
       <img src="../assets/img/catalogue/catalogue7.png" alt="" />
       <img src="../assets/img/catalogue/catalogue8.png" alt="" />
     </div>
@@ -32,6 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-import topNav from '../components/topNav.vue';
-import bottomNav from '../components/bottomNav.vue';
+import topNav from "../components/topNav.vue";
+import bottomNav from "../components/bottomNav.vue";
 </script>
