@@ -1,4 +1,5 @@
 <template>
+  <topNav/>
   <div
     class="w-full h-[333px] bg-cover bg-center bg-[url('/src/assets/img/catalogue/catalogue1.png')]"
   ></div>
@@ -27,6 +28,10 @@
       <img src="../assets/img/catalogue/catalogue8.png" alt="" />
     </div>
   </div>
+  <bottomNav></bottomNav>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import topNav from '../components/topNav.vue';
+import bottomNav from '../components/bottomNav.vue';
+</script>
