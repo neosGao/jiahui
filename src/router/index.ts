@@ -22,6 +22,10 @@ const router = createRouter({
       path: "/contact",
       component: () => import("../view/contact.vue"),
     },
+    {
+      path: "/home",
+      component: () => import("../view/home.vue"),
+    },
   ],
 });
 
