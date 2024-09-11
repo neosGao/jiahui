@@ -113,6 +113,7 @@ import { CaretDownOutlined, SearchOutlined, UserOutlined } from '@ant-design/ico
         justify-content: center;
         .bottom_main {
             width: 70%;
+            min-width: 1280px;
             display: flex;
             justify-content: space-between;
             align-items: center;

@@ -34,6 +34,7 @@ const router = createRouter({
       path: "/signup",
       component: () => import("../view/signup.vue"),
     },
+    // personal
     {
       path: "/personal",
       component: () => import("../view/personal/index.vue"),
@@ -45,6 +46,39 @@ const router = createRouter({
     {
       path: "/order",
       component: () => import("../view/personal/order.vue"),
+    },
+    // product
+    {
+      path: "/allProducts",
+      component: () => import("../view/product/allProduct.vue"),
+    },
+    {
+      path: "/cut",
+      component: () => import("../view/product/cut.vue"),
+    },
+    {
+      path: "/potted",
+      component: () => import("../view/product/potted.vue"),
+    },
+    {
+      path: "/spice",
+      component: () => import("../view/product/spice.vue"),
+    },
+    {
+      path: "/seasonal",
+      component: () => import("../view/product/seasonal.vue"),
+    },
+    {
+      path: "/trees",
+      component: () => import("../view/product/trees.vue"),
+    },
+    {
+      path: "/ornaments",
+      component: () => import("../view/product/ornaments.vue"),
+    },
+    {
+      path: "/detail",
+      component: () => import("../view/product/detail.vue"),
     },
   ],
 });
