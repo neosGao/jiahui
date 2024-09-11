@@ -60,6 +60,8 @@
 .bottom_nav_bottom {
   width: 100%;
   margin-top: 20px;
+  position: absolute;
+  bottom: 0;
   .top_bg {
     width: 100%;
     padding: 45px 0px;
