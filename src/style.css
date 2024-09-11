@@ -109,3 +109,8 @@ button:focus-visible {
   border-color: #208d7b !important;
   color: #fff !important;
 }
+
+.anticon {
+  position: relative;
+  top: -4px; 
+}

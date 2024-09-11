@@ -34,6 +34,18 @@ const router = createRouter({
       path: "/signup",
       component: () => import("../view/signup.vue"),
     },
+    {
+      path: "/personal",
+      component: () => import("../view/personal/index.vue"),
+    },
+    {
+      path: "/shoppingBag",
+      component: () => import("../view/personal/shoppingBag.vue"),
+    },
+    {
+      path: "/order",
+      component: () => import("../view/personal/order.vue"),
+    },
   ],
 });
 

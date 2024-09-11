@@ -152,6 +152,12 @@ interface FormState {
   firstName: string;
   lastName: string;
   password: string;
+  company: string;
+  org: string;
+  country: string;
+  website: string;
+  address: string;
+  agree: boolean;
 }
 
 const formState = reactive<FormState>({
@@ -160,6 +166,12 @@ const formState = reactive<FormState>({
   firstName: "",
   lastName: "",
   password: "",
+  company: "",
+  org: "",
+  country: "",
+  website: "",
+  address: "",
+  agree: false,
 });
 const onFinish = (values: any) => {
   console.log("Success:", values);
