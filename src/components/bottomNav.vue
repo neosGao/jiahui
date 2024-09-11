@@ -70,6 +70,7 @@
     min-width: 1280px;
     .top {
       width: 70%;
+      min-width: 1280px;
       background-color: #f8f7f8;
       display: flex;
       justify-content: space-between;
