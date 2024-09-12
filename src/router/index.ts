@@ -47,6 +47,10 @@ const router = createRouter({
       path: "/order",
       component: () => import("../view/personal/order.vue"),
     },
+    {
+      path: "/collection",
+      component: () => import("../view/personal/collection.vue"),
+    },
     // product
     {
       path: "/allProducts",

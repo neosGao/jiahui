@@ -124,11 +124,11 @@ const formState = reactive<FormState>({
   address: "",
   agree: false,
 });
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
+// const onFinish = (values: any) => {
+//   console.log("Success:", values);
+// };
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
+// const onFinishFailed = (errorInfo: any) => {
+//   console.log("Failed:", errorInfo);
+// };
 </script>
