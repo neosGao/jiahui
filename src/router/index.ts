@@ -84,6 +84,23 @@ const router = createRouter({
       path: "/detail",
       component: () => import("../view/product/detail.vue"),
     },
+    // seasons
+    {
+      path: "/spring",
+      component: () => import("../view/seasons/spring.vue"),
+    },
+    {
+      path: "/summer",
+      component: () => import("../view/seasons/summer.vue"),
+    },
+    {
+      path: "/autumn",
+      component: () => import("../view/seasons/autumn.vue"),
+    },
+    {
+      path: "/winter",
+      component: () => import("../view/seasons/winter.vue"),
+    },
   ],
 });
 
