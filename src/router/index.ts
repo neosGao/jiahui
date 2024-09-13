@@ -101,6 +101,15 @@ const router = createRouter({
       path: "/winter",
       component: () => import("../view/seasons/winter.vue"),
     },
+    // story
+    {
+      path: "/story",
+      component: () => import("../view/story.vue"),
+    },
+    {
+      path: "/inspiration",
+      component: () => import("../view/inspiration.vue"),
+    },
   ],
 });
 
