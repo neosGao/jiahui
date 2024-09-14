@@ -1,8 +1,8 @@
 <template>
   <topNav />
   <div class="px-[160px] py-[80px]">
-    <img src="../assets/img/signup/signup.png" alt="" />
-    <img src="../assets/img/signup/signup1.png" alt="" class="mt-5" />
+    <img src="@/assets/img/signup/signup.png" alt="" />
+    <img src="@/assets/img/signup/signup1.png" alt="" class="mt-5" />
     <div class="font-bold mt-[60px]">CONCAT</div>
     <a-form
       :model="formState"
@@ -126,7 +126,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <img src="../assets/img/signup/signup2.png" alt="" />
+          <img src="@/assets/img/signup/signup2.png" alt="" />
         </a-col>
         <a-col :span="24" class="mt-4">
           <a-checkbox v-model:checked="formState.agree"

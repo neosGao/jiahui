@@ -16,12 +16,6 @@ const defaultConfig: AxiosRequestConfig = {
 };
 
 class jobHttp {
-  /** token过期后，暂存待执行的请求 */
-  private static requests = [];
-
-  /** 初始化配置对象 */
-  private static initConfig: PureHttpRequestConfig = {};
-
   /** 保存当前Axios实例对象 */
   private static axiosInstance: AxiosInstance = Axios.create(defaultConfig);
 

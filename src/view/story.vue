@@ -2,34 +2,34 @@
   <topNav />
   <div class="cut_mian">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('/src/assets/img/story/story.png')]"
+      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/story/story.png')]"
     ></div>
     <div
       class="bg-slate-200 bg-opacity-50 w-full h-[50px] flex items-center justify-end"
     >
-      <img src="../assets/img/story/story1.png" alt="" class="mr-[15%]" />
+      <img src="@/assets/img/story/story1.png" alt="" class="mr-[15%]" />
     </div>
     <div class="w-[70%] mx-auto mt-[100px] mb-[100px]">
-      <img src="../assets/img/story/story2.png" alt="" />
+      <img src="@/assets/img/story/story2.png" alt="" />
       <div>视频占位</div>
       <div class="flex items-center">
-        <img src="../assets/img/story/story3.png" alt="" />
+        <img src="@/assets/img/story/story3.png" alt="" />
         <div class="bg-[#aeacac] h-[3px] inline-block flex-1 ml-[30px]"></div>
       </div>
       <div class="flex items-center justify-between mt-[50px]">
-        <img src="../assets/img/story/story4.png" alt="" />
-        <img src="../assets/img/story/story5.png" alt="" />
-        <img src="../assets/img/story/story6.png" alt="" />
+        <img src="@/assets/img/story/story4.png" alt="" />
+        <img src="@/assets/img/story/story5.png" alt="" />
+        <img src="@/assets/img/story/story6.png" alt="" />
       </div>
     </div>
     <div class="bg-[#f8f7f8] pt-[100px]">
       <div class="w-[70%] mx-auto incenter flex-col pb-[100px]">
         <img
-          src="../assets/img/story/story8.png"
+          src="@/assets/img/story/story8.png"
           alt=""
           class="transform -translate-x-[500px]"
         />
-        <img src="../assets/img/story/story7.png" alt="" />
+        <img src="@/assets/img/story/story7.png" alt="" />
         <a-row :gutter="18" class="mt-[100px]">
           <a-col :span="8" v-for="(a, b) in picList" :key="b" class="mt-[50px]">
             <img :src="a.a" alt="" />
@@ -46,6 +46,24 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
+import story9 from "@/assets/img/story/story9.png";
+import story10 from "@/assets/img/story/story10.png";
+import story11 from "@/assets/img/story/story11.png";
+import story12 from "@/assets/img/story/story12.png";
+import story13 from "@/assets/img/story/story13.png";
+import story14 from "@/assets/img/story/story14.png";
+import story15 from "@/assets/img/story/story15.png";
+import story16 from "@/assets/img/story/story16.png";
+import story17 from "@/assets/img/story/story17.png";
+import story18 from "@/assets/img/story/story18.png";
+import story26 from "@/assets/img/story/story26.png";
+import story19 from "@/assets/img/story/story19.png";
+import story20 from "@/assets/img/story/story20.png";
+import story21 from "@/assets/img/story/story21.png";
+import story22 from "@/assets/img/story/story22.png";
+import story23 from "@/assets/img/story/story23.png";
+import story24 from "@/assets/img/story/story24.png";
+import story25 from "@/assets/img/story/story25.png";
 
 interface picListType {
   a: string;
@@ -55,34 +73,34 @@ interface picListType {
 
 const picList = ref<picListType[]>([
   {
-    a: "/src/assets/img/story/story9.png",
-    b: "/src/assets/img/story/story10.png",
-    c: "/src/assets/img/story/story11.png",
+    a: story9,
+    b: story10,
+    c: story11,
   },
   {
-    a: "/src/assets/img/story/story12.png",
-    b: "/src/assets/img/story/story13.png",
-    c: "/src/assets/img/story/story14.png",
+    a: story12,
+    b: story13,
+    c: story14,
   },
   {
-    a: "/src/assets/img/story/story15.png",
-    b: "/src/assets/img/story/story16.png",
-    c: "/src/assets/img/story/story17.png",
+    a: story15,
+    b: story16,
+    c: story17,
   },
   {
-    a: "/src/assets/img/story/story18.png",
-    b: "/src/assets/img/story/story26.png",
-    c: "/src/assets/img/story/story19.png",
+    a: story18,
+    b: story26,
+    c: story19,
   },
   {
-    a: "/src/assets/img/story/story20.png",
-    b: "/src/assets/img/story/story21.png",
-    c: "/src/assets/img/story/story22.png",
+    a: story20,
+    b: story21,
+    c: story22,
   },
   {
-    a: "/src/assets/img/story/story23.png",
-    b: "/src/assets/img/story/story24.png",
-    c: "/src/assets/img/story/story25.png",
+    a: story23,
+    b: story24,
+    c: story25,
   },
 ]);
 </script>

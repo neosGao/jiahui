@@ -2,20 +2,20 @@
   <topNav />
   <div class="cut_mian">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('/src/assets/img/spring/spring.png')]"
+      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/spring/spring.png')]"
     ></div>
     <div
       class="bg-slate-200 bg-opacity-50 w-full h-[50px] flex items-center justify-end"
     >
-      <img src="../../assets/img/spring/spring1.png" alt="" class="mr-[15%]" />
+      <img src="@/assets/img/spring/spring1.png" alt="" class="mr-[15%]" />
     </div>
     <div class="incenter flex-col mt-[60px]">
-      <img src="../../assets/img/spring/spring2.png" alt="" />
-      <img src="../../assets/img/spring/spring3.png" alt="" class="mt-2" />
+      <img src="@/assets/img/spring/spring2.png" alt="" />
+      <img src="@/assets/img/spring/spring3.png" alt="" class="mt-2" />
     </div>
     <div class="incenter mt-[50px] mb-[90px]">
-      <img src="../../assets/img/spring/spring4.png" alt="" />
-      <img src="../../assets/img/spring/spring5.png" alt="" class="ml-20" />
+      <img src="@/assets/img/spring/spring4.png" alt="" />
+      <img src="@/assets/img/spring/spring5.png" alt="" class="ml-20" />
     </div>
     <div class="select_box">
       <div class="left">
@@ -56,7 +56,7 @@
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
         <div class="img_box">
-          <img src="../../assets/img/product/cut/cut.png" />
+          <img src="@/assets/img/product/cut/cut.png" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
             <HeartTwoTone twoToneColor="#eb2f96" />

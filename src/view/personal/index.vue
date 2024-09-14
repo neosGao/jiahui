@@ -3,7 +3,7 @@
   <div class="px-[160px] py-[80px] flex">
     <div class="bg-[#f8f7f8] w-[450px] h-[850px]">
       <div class="incenter pt-[85px] flex-col">
-        <img src="../../assets/img/personal/personal.png" alt="" />
+        <img src="@/assets/img/personal/personal.png" alt="" />
         <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
         <div class="text-sm mt-2">ID: 321321321321</div>
       </div>

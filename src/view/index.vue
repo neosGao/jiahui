@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-cover bg-center bg-[url('/src/assets/img/index/bg.png')]"
+    class="w-full h-full bg-cover bg-center bg-[url('@/assets/img/index/bg.png')]"
   >
     <div
       class="bg-slate-600 bg-opacity-50 w-1/4 h-full p-4 pl-[5%] pt-60 relative"
@@ -32,12 +32,12 @@
 </template>
 
 <script lang="ts" setup>
-const url1 = "/src/assets/img/index/index1.png";
-const url2 = "/src/assets/img/index/index2.png";
-const url3 = "/src/assets/img/index/index3.png";
-const url4 = "/src/assets/img/index/index4.png";
-const url5 = "/src/assets/img/index/index5.png";
-const url6 = "/src/assets/img/index/index6.png";
-const url7 = "/src/assets/img/index/index7.png";
-const url8 = "/src/assets/img/index/index8.png";
+const url1 = new URL("@/assets/img/index/index1.png", import.meta.url).href;
+const url2 = new URL("@/assets/img/index/index2.png", import.meta.url).href;
+const url3 = new URL("@/assets/img/index/index3.png", import.meta.url).href;
+const url4 = new URL("@/assets/img/index/index4.png", import.meta.url).href;
+const url5 = new URL("@/assets/img/index/index5.png", import.meta.url).href;
+const url6 = new URL("@/assets/img/index/index6.png", import.meta.url).href;
+const url7 = new URL("@/assets/img/index/index7.png", import.meta.url).href;
+const url8 = new URL("@/assets/img/index/index8.png", import.meta.url).href;
 </script>

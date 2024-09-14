@@ -3,7 +3,7 @@
   <div class="px-[160px] py-[80px] flex">
     <div class="bg-[#f8f7f8] w-[450px] h-[850px]">
       <div class="incenter pt-[85px] flex-col">
-        <img src="../../assets/img/personal/personal.png" alt="" />
+        <img src="@/assets/img/personal/personal.png" alt="" />
         <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
         <div class="text-sm mt-2">ID: 321321321321</div>
       </div>
@@ -43,7 +43,7 @@
       <div class="content_box">
         <div class="item" v-for="(item, index) in datalist" :key="index">
           <div class="img_box">
-            <img src="../../assets/img/product/cut/cut.png" />
+            <img src="@/assets/img/product/cut/cut.png" />
             <div class="like">
               <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
               <HeartTwoTone twoToneColor="#eb2f96" />
@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { SwapOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
 import {
   EditOutlined,
@@ -81,46 +81,12 @@ import {
   ShoppingCartOutlined,
   HeartOutlined,
 } from "@ant-design/icons-vue";
-interface FormState {
-  email: string;
-  telphone: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  company: string;
-  org: string;
-  country: string;
-  website: string;
-  address: string;
-  agree: boolean;
-}
 
 const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
 
 const total = ref<number>(0);
 
 const current = ref<number>(1);
-
-const formState = reactive<FormState>({
-  email: "",
-  telphone: "",
-  firstName: "",
-  lastName: "",
-  password: "",
-  company: "",
-  org: "",
-  country: "",
-  website: "",
-  address: "",
-  agree: false,
-});
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
 </script>
 
 <style scoped>

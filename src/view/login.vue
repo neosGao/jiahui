@@ -6,7 +6,7 @@
       class="bg-[#f8f7f8] bg-opacity-50 inline-block w-full p-[50px] incenter"
     >
       <div class="w-[800px] incenter flex-col">
-        <img src="../assets/img/login/login.png" alt="" class="mb-20" />
+        <img src="@/assets/img/login/login.png" alt="" class="mb-20" />
         <div>
           <div class="text-left">
             <DownloadOutlined
@@ -85,7 +85,7 @@
             >
           </a-col>
           <a-col :span="24" class="text-left">
-            <img src="../assets/img/login/login1.png" alt="" class="py-10" />
+            <img src="@/assets/img/login/login1.png" alt="" class="py-10" />
           </a-col>
         </a-row>
         <a-row>
@@ -101,7 +101,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24" class="mb-5"
-            ><img src="../assets/img/login/login2.png" alt=""
+            ><img src="@/assets/img/login/login2.png" alt=""
           /></a-col>
         </a-row>
       </a-form>
@@ -109,7 +109,7 @@
     <div
       class="bg-[#f8f7f8] bg-opacity-50 inline-block w-full p-[50px] incenter flex-col mt-5"
     >
-      <img src="../assets/img/login/login3.png" alt="" />
+      <img src="@/assets/img/login/login3.png" alt="" />
       <div class="w-[500px] mt-5">
         <a-button
           style="border-radius: 0%"
@@ -122,12 +122,10 @@
       </div>
     </div>
   </div>
-  <bottomNav></bottomNav>
+  <bottomNav />
 </template>
 
 <script lang="ts" setup>
-import topNav from "../components/topNav.vue";
-import bottomNav from "../components/bottomNav.vue";
 import { reactive } from "vue";
 import {
   DownloadOutlined,

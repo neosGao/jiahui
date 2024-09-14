@@ -3,7 +3,7 @@
   <div class="px-[160px] py-[80px] flex">
     <div class="bg-[#f8f7f8] w-[450px] h-[850px]">
       <div class="incenter pt-[85px] flex-col">
-        <img src="../../assets/img/personal/personal.png" alt="" />
+        <img src="@/assets/img/personal/personal.png" alt="" />
         <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
         <div class="text-sm mt-2">ID: 321321321321</div>
       </div>
@@ -45,7 +45,7 @@
       </div>
       <div class="mt-5 flex border-b-4 border-b-slate-500 border-dotted pb-5">
         <div class="basis-5/12 flex items-center">
-          <img src="../../assets/img/personal/personal.png" alt="" />
+          <img src="@/assets/img/personal/personal.png" alt="" />
           <div class="ml-5">
             <div>Big Banyan Tree</div>
             <div class="mt-2 text-slate-400">HA4LY19680</div>

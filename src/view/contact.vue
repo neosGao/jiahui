@@ -1,53 +1,38 @@
 <template>
+  <topNav />
   <div
-    class="w-full h-[880px] bg-cover bg-center bg-[url('/src/assets/img/contact/contact1.png')]"
+    class="w-full h-[880px] bg-cover bg-center bg-[url('@/assets/img/contact/contact1.png')]"
   ></div>
   <div
     class="bg-slate-200 bg-opacity-50 w-full h-[450px] flex flex-col items-center justify-center"
   >
-    <img src="../assets/img/contact/contact2.png" alt="" />
+    <img src="@/assets/img/contact/contact2.png" alt="" />
     <div class="flex flex-row items-center justify-center mt-[50px]">
       <div
         class="flex flex-col items-center justify-center p-[50px] px-[100px] border-r-4 border-r-slate-500 border-dotted"
       >
-        <img src="../assets/img/contact/contact3.png" alt="" />
-        <img
-          src="../assets/img/contact/contact4.png"
-          alt=""
-          class="mt-[25px]"
-        />
-        <img
-          src="../assets/img/contact/contact5.png"
-          class="mt-[10px]"
-          alt=""
-        />
+        <img src="@/assets/img/contact/contact3.png" alt="" />
+        <img src="@/assets/img/contact/contact4.png" alt="" class="mt-[25px]" />
+        <img src="@/assets/img/contact/contact5.png" class="mt-[10px]" alt="" />
       </div>
       <div
         class="flex flex-col items-center justify-center p-[50px] px-[100px] border-r-4 border-r-slate-500 border-dotted"
       >
-        <img src="../assets/img/contact/contact6.png" alt="" />
-        <img
-          src="../assets/img/contact/contact7.png"
-          alt=""
-          class="mt-[25px]"
-        />
-        <img
-          src="../assets/img/contact/contact8.png"
-          class="mt-[10px]"
-          alt=""
-        />
+        <img src="@/assets/img/contact/contact6.png" alt="" />
+        <img src="@/assets/img/contact/contact7.png" alt="" class="mt-[25px]" />
+        <img src="@/assets/img/contact/contact8.png" class="mt-[10px]" alt="" />
       </div>
       <div
         class="flex flex-col items-center justify-center p-[50px] px-[100px] border-r-4 border-r-slate-500 border-dotted"
       >
-        <img src="../assets/img/contact/contact9.png" alt="" />
+        <img src="@/assets/img/contact/contact9.png" alt="" />
         <img
-          src="../assets/img/contact/contact10.png"
+          src="@/assets/img/contact/contact10.png"
           alt=""
           class="mt-[25px]"
         />
         <img
-          src="../assets/img/contact/contact11.png"
+          src="@/assets/img/contact/contact11.png"
           class="mt-[10px]"
           alt=""
         />
@@ -55,14 +40,14 @@
       <div
         class="flex flex-col items-center justify-center p-[50px] px-[100px]"
       >
-        <img src="../assets/img/contact/contact12.png" alt="" />
+        <img src="@/assets/img/contact/contact12.png" alt="" />
         <img
-          src="../assets/img/contact/contact13.png"
+          src="@/assets/img/contact/contact13.png"
           alt=""
           class="mt-[25px]"
         />
         <img
-          src="../assets/img/contact/contact14.png"
+          src="@/assets/img/contact/contact14.png"
           class="mt-[10px]"
           alt=""
         />
@@ -159,6 +144,7 @@
       </a-form>
     </div>
   </div>
+  <bottomNav />
 </template>
 
 <script lang="ts" setup>
