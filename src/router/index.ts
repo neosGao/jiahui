@@ -54,32 +54,44 @@ const router = createRouter({
     // product
     {
       path: "/allProducts",
+      name: "allProducts",
       component: () => import("../view/product/allProduct.vue"),
     },
     {
-      path: "/cut",
+      path: "/Products",
+      name: "Products",
       component: () => import("../view/product/cut.vue"),
     },
-    {
-      path: "/potted",
-      component: () => import("../view/product/potted.vue"),
-    },
-    {
-      path: "/spice",
-      component: () => import("../view/product/spice.vue"),
-    },
-    {
-      path: "/seasonal",
-      component: () => import("../view/product/seasonal.vue"),
-    },
-    {
-      path: "/trees",
-      component: () => import("../view/product/trees.vue"),
-    },
-    {
-      path: "/ornaments",
-      component: () => import("../view/product/ornaments.vue"),
-    },
+    // {
+    //   path: "/Potted plants",
+    //   name: "Potted plants",
+    //   // component: () => import("../view/product/potted.vue"),
+    //   component: () => import("../view/product/cut.vue"),
+    // },
+    // {
+    //   path: "/spice",
+    //   name: "spice",
+    //   // component: () => import("../view/product/spice.vue"),
+    //   component: () => import("../view/product/cut.vue"),
+    // },
+    // {
+    //   path: "/Seasonal items ",
+    //   name: "Seasonal items ",
+    //   // component: () => import("../view/product/seasonal.vue"),
+    //   component: () => import("../view/product/cut.vue"),
+    // },
+    // {
+    //   path: "/Trees",
+    //   name: "Trees",
+    //   // component: () => import("../view/product/trees.vue"),
+    //   component: () => import("../view/product/cut.vue"),
+    // },
+    // {
+    //   path: "/ornaments",
+    //   name: "ornaments",
+    //   // component: () => import("../view/product/ornaments.vue"),
+    //   component: () => import("../view/product/cut.vue"),
+    // },
     {
       path: "/detail",
       component: () => import("../view/product/detail.vue"),
@@ -110,7 +122,27 @@ const router = createRouter({
       path: "/inspiration",
       component: () => import("../view/inspiration.vue"),
     },
+    {
+      path: "/aboutUs",
+      component: () => import("../view/aboutAs.vue"),
+    },
+    {
+      path: "/FAQ",
+      component: () => import("../view/FAQ.vue"),
+    },
+    {
+      path: "/ourProducts",
+      component: () => import("../view/ourProducts.vue"),
+    },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      // 滚动到页面顶部
+      return { top: 0 };
+    }
+  },
 });
 
 export default router;

@@ -2,21 +2,24 @@
   <topNav />
   <div class="cut_mian">
     <div class="top_img">
-      <img src="@/assets/img/product/cut/bg.jpg" class="big_img" />
+      <img :src="picRootPath + ProData.picUrl" class="big_img" />
     </div>
     <div class="title_switch">
       <div class="left">
         <div class="nul"></div>
-        <div class="title">Cut flowrs and branches</div>
+        <div class="title">{{ route.query.name }}</div>
       </div>
       <div class="right">
         <div class="item_box">
-          <div class="item active">Cut Flowers</div>
-          <div class="item">Foliage</div>
-          <div class="item">Bouquets</div>
-          <div class="item">Succulents</div>
-          <div class="item">Garland</div>
-          <div class="item">Wreath</div>
+          <!-- <div class="item active">Cut Flowers</div> -->
+          <div
+            :class="a.id === typeId ? 'item active' : 'item'"
+            v-for="(a, b) in ProData.typePicList"
+            :key="b"
+            @click="changeTypeId(a)"
+          >
+            {{ a.name }}
+          </div>
         </div>
         <div class="nul"></div>
       </div>
@@ -60,23 +63,23 @@
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
         <div class="img_box">
-          <img src="@/assets/img/product/cut/cut.png" />
+          <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
             <HeartTwoTone twoToneColor="#eb2f96" />
           </div>
         </div>
         <div class="title_box">
-          <div class="title">Kentia Palm</div>
+          <div class="title">{{ item.name }}</div>
           <div class="look">
             <EyeOutlined />
-            <span>55</span>
+            <span>{{ item.clickNum }}</span>
           </div>
         </div>
         <div class="tips_box">
-          <div class="tips">HA4LT19680</div>
-          <div class="tips">Items packed: {{ item }}st</div>
-          <div class="tips">PG: {{ item }}</div>
+          <div class="tips">{{ item.hhNo }}</div>
+          <div class="tips">Items packed: {{ item.weight }}st</div>
+          <div class="tips">PG: {{ item.sizeInfo }}</div>
         </div>
       </div>
     </div>
@@ -85,8 +88,16 @@
   <bottomNav />
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { SwapOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
+import { http } from "../../http";
+import { useRoute } from "vue-router";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+const route = useRoute();
+
+const ProData: any = ref({});
+const typeId = ref("");
 
 interface Objtype {
   label: string;
@@ -102,7 +113,47 @@ const price = ref<string>("");
 
 const total = ref<number>(0);
 
-const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
+const datalist: any = ref([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
+// 产品大类
+const getPicList = async () => {
+  const data: any = await http.get("/api/front/product/typebanner", {
+    params: {
+      tid: route.query.id,
+    },
+  });
+  console.log("😅 ~ getPicList ~ data:", data.data.data);
+  ProData.value = data.data.data;
+  typeId.value = ProData.value.typePicList[0].id;
+  search();
+};
+
+const search = async () => {
+  const searchParams = {
+    tid: typeId.value,
+  };
+  const data: any = await http.get("/api/front/product/page", {
+    params: searchParams,
+  });
+  console.log("😅 ~ search ~ data:", data.data.data.list);
+  datalist.value = data.data.data.list;
+  total.value = data.data.data.total;
+};
+
+const changeTypeId = (a: any) => {
+  typeId.value = a.id;
+  search();
+};
+onMounted(() => {
+  getPicList();
+});
+// 监听路由参数的变化
+watch(
+  () => route.query.id,
+  () => {
+    // 调用函数来获取新数据
+    getPicList();
+  }
+);
 </script>
 <style lang="less" scoped>
 .cut_mian {
@@ -259,6 +310,9 @@ const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
       .tips_box {
         line-height: 15px;
         color: #474443;
+        .tips {
+          margin-bottom: 10px;
+        }
       }
     }
   }

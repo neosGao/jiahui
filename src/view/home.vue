@@ -7,7 +7,19 @@
     class="bg-[#f8f7f8] w-full h-[200px] flex flex-col items-center justify-center"
   >
     <div class="flex flex-row items-center justify-center">
-      <div class="flex items-center justify-center p-[50px] px-[100px]">
+      <div
+        class="flex items-center justify-center p-[50px] px-[100px]"
+        v-for="(a, b) in picList"
+        :key="b"
+      >
+        <img :src="picRootPath + a.picUrl" alt="" class="w-[50px]" />
+        <div class="ml-5">
+          <div class="mt-[25px] text-[#208d7b]">{{ a.enName }}</div>
+          <div class="mt-[10px]">{{ a.name }}</div>
+        </div>
+      </div>
+
+      <!-- <div class="flex items-center justify-center p-[50px] px-[100px]">
         <img src="@/assets/img/home/home1.png" alt="" />
         <div class="ml-5">
           <img src="@/assets/img/home/home2.png" alt="" class="mt-[25px]" />
@@ -27,7 +39,7 @@
           <img src="@/assets/img/home/home8.png" alt="" class="mt-[25px]" />
           <img src="@/assets/img/home/home9.png" class="mt-[10px]" alt="" />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="w-full px-[500px] py-[50px] incenter">
@@ -57,4 +69,17 @@
   <bottomNav />
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { http } from "../http";
+import { ref } from "vue";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+// 图片地址
+const picList: any = ref([]);
+const getPicList = async () => {
+  const data: any = await http.get("/api/front/home/homeadsamlllist");
+  picList.value = data.data.data;
+};
+
+getPicList();
+</script>

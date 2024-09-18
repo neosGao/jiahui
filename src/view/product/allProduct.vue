@@ -2,7 +2,8 @@
   <topNav />
   <div class="all_product">
     <div class="top_img">
-      <img src="@/assets/img/product/all/top_bg.jpg" class="big_img" />
+      <!-- <img src="@/assets/img/product/all/top_bg.jpg" class="big_img" /> -->
+      <img :src="picRootPath + picLastPath" class="big_img" />
       <img src="@/assets/img/product/all/top_sgin.png" class="sgin_img" />
     </div>
     <div class="nav">
@@ -13,35 +14,58 @@
       </div>
     </div>
     <div class="content">
-      <div class="item">
-        <img src="@/assets/img/product/all/cut.jpg" />
-        <div class="title">Cut flowers and branches</div>
-      </div>
-      <div class="item">
-        <img src="@/assets/img/product/all/potted.jpg" />
-        <div class="title">Potted plants</div>
-      </div>
-      <div class="item">
-        <img src="@/assets/img/product/all/spice.jpg" />
-        <div class="title">Spice</div>
-      </div>
-      <div class="item">
-        <img src="@/assets/img/product/all/trees.jpg" />
-        <div class="title">Trees</div>
-      </div>
-      <div class="item">
-        <img src="@/assets/img/product/all/seasonal.jpg" />
-        <div class="title">Seasonal items</div>
-      </div>
-      <div class="item">
-        <img src="@/assets/img/product/all/ornaments.jpg" />
-        <div class="title">Ornaments</div>
+      <div
+        class="item"
+        v-for="(a, b) in picList"
+        :key="b"
+        @click="
+          router.push({ name: 'Products', query: { id: a.id, name: a.name } })
+        "
+      >
+        <img :src="picRootPath + a.picUrl" />
+        <div class="title">{{ a.name }}</div>
       </div>
     </div>
   </div>
   <bottomNav />
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { http } from "../../http";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+// import { useMyStore } from "@/store/goodsCount";
+
+// const myStore = useMyStore();
+// myStore.fetchData();
+// console.log("😅 ~ myStore:", myStore.data);
+// 图片地址
+const picLastPath = ref("");
+const picList: any = ref([]);
+const getPic = async () => {
+  const data: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "product_home_banner",
+      },
+    }
+  );
+  console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
+  picLastPath.value = data.data.data[0].picUrl;
+};
+// 产品大类
+const getPicList = async () => {
+  const data: any = await http.get("/api/front/product/allonelist");
+  picList.value = data.data.data;
+};
+
+getPic();
+getPicList();
+</script>
 
 <style lang="less">
 .all_product {

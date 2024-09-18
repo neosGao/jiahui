@@ -12,18 +12,22 @@
         <div class="nav">
           <div class="item">
             <a-dropdown class="item_nav">
-              <a-button @click.prevent> HOME </a-button>
+              <a-button @click="router.push('home')"> HOME </a-button>
             </a-dropdown>
           </div>
           <div class="item">
             <a-dropdown class="item_nav">
               <template #overlay>
                 <a-menu>
-                  <a-menu-item>About us</a-menu-item>
-                  <a-menu-item>F.A.Q</a-menu-item>
+                  <a-menu-item @click="router.push('aboutUs')"
+                    >About us</a-menu-item
+                  >
+                  <a-menu-item @click="router.push('FAQ')">F.A.Q</a-menu-item>
                   <a-menu-item>Event</a-menu-item>
                   <a-menu-item>History of</a-menu-item>
-                  <a-menu-item>developemnt<br />Our products</a-menu-item>
+                  <a-menu-item @click="router.push('ourProducts')"
+                    >developemnt<br />Our products</a-menu-item
+                  >
                 </a-menu>
               </template>
               <a-button @click.prevent>
@@ -35,13 +39,26 @@
             <a-dropdown class="item_nav">
               <template #overlay>
                 <a-menu>
-                  <a-menu-item>All products</a-menu-item>
-                  <a-menu-item>Cut flowrs and<br />Branches</a-menu-item>
+                  <a-menu-item @click="router.push('allProducts')"
+                    >All products</a-menu-item
+                  >
+                  <a-menu-item
+                    v-for="(a, b) in picList"
+                    :key="b"
+                    @click="
+                      router.push({
+                        name: 'Products',
+                        query: { id: a.id, name: a.name },
+                      })
+                    "
+                    >{{ a.name }}</a-menu-item
+                  >
+                  <!-- <a-menu-item>Cut flowrs and<br />Branches</a-menu-item>
                   <a-menu-item>Potted plants</a-menu-item>
                   <a-menu-item>Spice</a-menu-item>
                   <a-menu-item>Trees</a-menu-item>
                   <a-menu-item>Seasonal items</a-menu-item>
-                  <a-menu-item>Ornaments</a-menu-item>
+                  <a-menu-item>Ornaments</a-menu-item> -->
                 </a-menu>
               </template>
               <a-button @click.prevent>
@@ -53,9 +70,13 @@
             <a-dropdown class="item_nav">
               <template #overlay>
                 <a-menu>
-                  <a-menu-item>Story</a-menu-item>
-                  <a-menu-item>Inspiration</a-menu-item>
-                  <a-menu-item>Catalogues</a-menu-item>
+                  <a-menu-item @click="router.push('story')">Story</a-menu-item>
+                  <a-menu-item @click="router.push('inspiration')"
+                    >Inspiration</a-menu-item
+                  >
+                  <a-menu-item @click="router.push('catalogue')"
+                    >Catalogues</a-menu-item
+                  >
                 </a-menu>
               </template>
               <a-button @click.prevent> STORY<CaretDownOutlined /> </a-button>
@@ -63,7 +84,7 @@
           </div>
           <div class="item">
             <a-dropdown class="item_nav">
-              <a-button @click.prevent> CONTACT </a-button>
+              <a-button @click="router.push('contact')"> CONTACT </a-button>
             </a-dropdown>
           </div>
         </div>
@@ -85,6 +106,17 @@ import {
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons-vue";
+import { http } from "../http";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+// 产品大类
+const picList: any = ref([]);
+const getPicList = async () => {
+  const data: any = await http.get("/api/front/product/allonelist");
+  picList.value = data.data.data;
+};
+getPicList();
 </script>
 
 <style lang="less" scoped>

@@ -14,18 +14,20 @@
   <div class="w-full text-center flex items-center justify-center mt-10">
     <img src="@/assets/img/catalogue/catalogue4.png" alt="" />
   </div>
-  <div class="w-full flex items-center justify-around mt-10 px-10">
+  <div
+    class="w-[70%] flex items-center justify-around mt-10 mx-auto px-10 pb-20"
+  >
     <div class="flex flex-col items-center">
       <img src="@/assets/img/catalogue/catalogue5.png" alt="" />
-      <img src="@/assets/img/catalogue/catalogue8.png" alt="" />
+      <img src="@/assets/img/catalogue/catalogue8.png" alt="" class="pt-5" />
     </div>
     <div class="flex flex-col items-center">
       <img src="@/assets/img/catalogue/catalogue6.png" alt="" />
-      <img src="@/assets/img/catalogue/catalogue8.png" alt="" />
+      <img src="@/assets/img/catalogue/catalogue8.png" alt="" class="pt-5" />
     </div>
-    <div class="flex flex-col items-center pb-20">
+    <div class="flex flex-col items-center">
       <img src="@/assets/img/catalogue/catalogue7.png" alt="" />
-      <img src="@/assets/img/catalogue/catalogue8.png" alt="" />
+      <img src="@/assets/img/catalogue/catalogue8.png" alt="" class="pt-5" />
     </div>
   </div>
   <bottomNav />

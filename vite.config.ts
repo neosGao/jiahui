@@ -6,6 +6,16 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      // 代理
+      "/api": {
+        target: "http://139.9.90.100:8769/api/",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""), // 重写路径
+      },
+    },
+  },
   plugins: [vue()],
   resolve: {
     alias: {

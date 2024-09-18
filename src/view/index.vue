@@ -9,16 +9,28 @@
         <img class="cursor-pointer" :src="url1" />
       </div>
       <div class="mb-20">
-        <img class="cursor-pointer" :src="url2" />
+        <img
+          class="cursor-pointer"
+          @click="router.push('catalogue')"
+          :src="url2"
+        />
       </div>
       <div class="mb-20">
-        <img class="cursor-pointer" :src="url3" />
+        <img
+          class="cursor-pointer"
+          @click="router.push('inspiration')"
+          :src="url3"
+        />
       </div>
       <div class="mb-20">
-        <img class="cursor-pointer" :src="url4" />
+        <img
+          class="cursor-pointer"
+          @click="router.push('contact')"
+          :src="url4"
+        />
       </div>
       <div class="mb-20">
-        <img class="cursor-pointer" :src="url5" />
+        <img class="cursor-pointer" @click="router.push('story')" :src="url5" />
       </div>
       <div class="flex">
         <img class="cursor-pointer" :src="url6" />
@@ -32,6 +44,12 @@
 </template>
 
 <script lang="ts" setup>
+import { useMyStore } from "../store/goodsCount";
+const myStore = useMyStore();
+myStore.fetchData();
+console.log("😅 ~ myStore:", myStore);
+import { useRouter } from "vue-router";
+const router = useRouter();
 const url1 = new URL("@/assets/img/index/index1.png", import.meta.url).href;
 const url2 = new URL("@/assets/img/index/index2.png", import.meta.url).href;
 const url3 = new URL("@/assets/img/index/index3.png", import.meta.url).href;

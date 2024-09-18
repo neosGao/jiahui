@@ -34,7 +34,6 @@ class jobHttp {
       ...param,
       ...axiosConfig,
     } as PureHttpRequestConfig;
-
     // 单独处理自定义请求/响应回调
     return new Promise((resolve, reject) => {
       jobHttp.axiosInstance
