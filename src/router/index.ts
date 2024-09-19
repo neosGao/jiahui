@@ -8,12 +8,12 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/index",
-    },
-    {
-      path: "/index",
       component: () => import("../view/index.vue"),
     },
+    // {
+    //   path: "/index",
+    //   component: () => import("../view/index.vue"),
+    // },
     {
       path: "/catalogue",
       component: () => import("../view/catalogue.vue"),
@@ -134,8 +134,12 @@ const router = createRouter({
       path: "/ourProducts",
       component: () => import("../view/ourProducts.vue"),
     },
+    {
+      path: "/event",
+      component: () => import("../view/event.vue"),
+    },
   ],
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
     } else {

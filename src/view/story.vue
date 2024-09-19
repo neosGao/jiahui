@@ -10,17 +10,40 @@
       <img src="@/assets/img/story/story1.png" alt="" class="mr-[15%]" />
     </div>
     <div class="w-[70%] mx-auto mt-[100px] mb-[100px]">
-      <img src="@/assets/img/story/story2.png" alt="" />
-      <div>视频占位</div>
+      <div class="text-5xl text-[#208d7b]">
+        {{ videoTit.name }}
+      </div>
+      <div class="video-thumbnail w-full my-10" @click="playVideo(videoTit)">
+        <!-- 图片 -->
+        <img :src="picRootPath + videoTit.picUrl" alt="" class="w-full" />
+
+        <!-- 遮罩层 -->
+        <div class="overlay">
+          <!-- 播放图标 -->
+          <PlayCircleOutlined class="play-icon" />
+        </div>
+      </div>
       <div class="flex items-center">
         <img src="@/assets/img/story/story3.png" alt="" />
         <div class="bg-[#aeacac] h-[3px] inline-block flex-1 ml-[30px]"></div>
       </div>
-      <div class="flex items-center justify-between mt-[50px]">
-        <img src="@/assets/img/story/story4.png" alt="" />
-        <img src="@/assets/img/story/story5.png" alt="" />
-        <img src="@/assets/img/story/story6.png" alt="" />
-      </div>
+      <a-row :gutter="20" class="mt-[50px]">
+        <a-col :span="8" v-for="(a, b) in videoList" :key="b">
+          <div class="video-thumbnail w-full" @click="playVideo(videoTit)">
+            <!-- 图片 -->
+            <img :src="picRootPath + a.picUrl" alt="" class="w-full" />
+
+            <!-- 遮罩层 -->
+            <div class="overlay">
+              <!-- 播放图标 -->
+              <PlayCircleOutlined class="play-icon" />
+              <div class="text-[#fff] text-xl absolute bottom-2 left-2">
+                {{ a.name }}
+              </div>
+            </div>
+          </div>
+        </a-col>
+      </a-row>
     </div>
     <div class="bg-[#f8f7f8] pt-[100px]">
       <div class="w-[70%] mx-auto incenter flex-col pb-[100px]">
@@ -42,10 +65,23 @@
       </div>
     </div>
   </div>
+  <a-modal
+    v-model:open="test"
+    title="preview"
+    width="60%"
+    :footer="null"
+    @afterClose="afterClose"
+  >
+    <video width="100%" controls v-if="test">
+      <source :src="picRootPath + mp4Path" type="video/mp4" />
+    </video>
+  </a-modal>
   <bottomNav />
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
+import { http } from "../http";
+import { PlayCircleOutlined } from "@ant-design/icons-vue";
 import story9 from "@/assets/img/story/story9.png";
 import story10 from "@/assets/img/story/story10.png";
 import story11 from "@/assets/img/story/story11.png";
@@ -64,6 +100,36 @@ import story22 from "@/assets/img/story/story22.png";
 import story23 from "@/assets/img/story/story23.png";
 import story24 from "@/assets/img/story/story24.png";
 import story25 from "@/assets/img/story/story25.png";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+
+const test: any = ref(false);
+const mp4Path: any = ref({});
+const videoTit: any = ref({});
+const videoList: any = ref([]);
+// 视频列表
+const getVideoList = async () => {
+  const data: any = await http.get("/api/front/story/list");
+  videoTit.value = data.data.data[0];
+  videoList.value = data.data.data.slice(1);
+};
+
+getVideoList();
+
+const playVideo = async (a: any) => {
+  console.log("😅 ~ openPdf ~ a.id:", a.id);
+  // /api/front/catalog/downloadalbum previewalbum
+  const res: any = await http.get("/api/front/story/video", {
+    params: { id: a.id },
+  });
+  const data = res.data.data;
+  mp4Path.value = data;
+  test.value = true;
+};
+
+const afterClose = () => {
+  test.value = false;
+};
 
 interface picListType {
   a: string;
@@ -274,5 +340,37 @@ const picList = ref<picListType[]>([
     color: #fff;
     cursor: pointer;
   }
+}
+/* 外层容器，设置相对定位 */
+.video-thumbnail {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* 遮罩层样式 */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* 半透明黑色背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s ease; /* 淡入淡出效果 */
+}
+
+/* 鼠标悬停时显示遮罩层和播放图标 */
+// .video-thumbnail:hover .overlay {
+//   opacity: 1;
+// }
+
+/* 播放图标样式 */
+.play-icon {
+  font-size: 48px; /* 图标大小 */
+  color: #ffffff; /* 图标颜色 */
 }
 </style>

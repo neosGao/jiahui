@@ -54,7 +54,7 @@
       </div>
     </div>
   </div>
-  <div class="w-full px-[500px] py-[50px]">
+  <div class="w-full px-80 py-[50px]">
     <div class="bg-slate-200 bg-opacity-50 inline-block w-full p-[100px]">
       <a-form
         :model="formState"
@@ -149,6 +149,7 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue";
+import { http } from "../http";
 interface FormState {
   company: string;
   name: string;
@@ -166,8 +167,14 @@ const formState = reactive<FormState>({
   country: "",
   message: "",
 });
-const onFinish = (values: any) => {
+const onFinish = async (values: any) => {
   console.log("Success:", values);
+  const res: any = await http.post("/api/front/member/feedback/save/", {
+    params: values,
+  });
+  if (res.data.code === 200) {
+    console.log("😅 ~ onFinish ~ data:", res);
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {

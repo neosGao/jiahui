@@ -1,6 +1,6 @@
 <template>
   <topNav />
-  <div class="cut_mian">
+  <div class="cut_mian min-w-[1280px]">
     <div
       class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/inspiration/inspiration.png')] relative"
     >
@@ -56,7 +56,7 @@
         <a-button class="rounded-none ml-[25px]">Primary Button</a-button>
       </div>
     </div>
-    <div class="w-full px-[500px] py-[50px] incenter">
+    <div class="w-full py-[50px] incenter min-w-[1280px]">
       <div
         class="w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration12.png')] relative bg-cover bg-center"
       >
@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full px-[500px] py-[50px] incenter">
+    <div class="w-full py-[50px] incenter min-w-[1280px]">
       <div
         class="w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration14.png')] relative bg-cover bg-center"
       >

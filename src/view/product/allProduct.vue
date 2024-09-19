@@ -22,7 +22,7 @@
           router.push({ name: 'Products', query: { id: a.id, name: a.name } })
         "
       >
-        <img :src="picRootPath + a.picUrl" />
+        <img :src="picRootPath + a.picUrl" class="w-full" />
         <div class="title">{{ a.name }}</div>
       </div>
     </div>

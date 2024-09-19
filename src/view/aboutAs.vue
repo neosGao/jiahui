@@ -15,87 +15,113 @@
     >
       <img src="@/assets/img/aboutAs/aboutAs2.png" alt="" class="mr-[15%]" />
     </div>
-    <div class="w-[70%] mx-auto mt-[100px] mb-[100px]">
-      <div class="incenter">
-        <img src="@/assets/img/inspiration/inspiration3.png" alt="" />
-      </div>
-      <div class="incenter mt-[50px]">
-        <div class="container">
-          <!-- Left side large image -->
-          <div class="left-image">
-            <img src="@/assets/img/inspiration/inspiration4.png" />
+    <div class="w-[70%] mx-auto mt-[100px]">
+      <a-row>
+        <a-col :span="8" class="incenter flex-col">
+          <img src="@/assets/img/aboutAs/aboutUs3.png" alt="" />
+          <img src="@/assets/img/aboutAs/aboutUs6.png" alt="" class="my-10" />
+          <div class="w-[300px] text-slate-500">
+            From life, serve life. Life-oriented brand values orientation, Is
+            the most intuitive interpretation of brand extension.
           </div>
-
-          <!-- Right side grid of 4 smaller images -->
-          <div class="right-images">
-            <img src="@/assets/img/inspiration/inspiration5.png" />
-            <img src="@/assets/img/inspiration/inspiration6.png" />
-            <img src="@/assets/img/inspiration/inspiration7.png" />
-            <img src="@/assets/img/inspiration/inspiration8.png" />
+        </a-col>
+        <a-col :span="8" class="incenter flex-col">
+          <img src="@/assets/img/aboutAs/aboutUs4.png" alt="" />
+          <img src="@/assets/img/aboutAs/aboutUs7.png" alt="" class="my-10" />
+          <div class="w-[300px] text-slate-500">
+            From life and above life Art is the distillation of creativity, It
+            is also the creative concept that HACCLE always adheres to.
           </div>
+        </a-col>
+        <a-col :span="8" class="incenter flex-col">
+          <img src="@/assets/img/aboutAs/aboutUs5.png" alt="" />
+          <img src="@/assets/img/aboutAs/aboutUs8.png" alt="" class="my-10" />
+          <div class="w-[300px] text-slate-500">
+            Home is the harbor of life and the carrier of love. The focal points
+            of life and art finally converge at the node of the home.
+          </div>
+        </a-col>
+      </a-row>
+      <div class="mt-40 text-right relative">
+        <img
+          src="@/assets/img/aboutAs/aboutUs9.png"
+          alt=""
+          class="absolute top-20"
+        />
+        <div class="bg-slate-100 inline-block w-[70%] p-[150px] pl-[20%]">
+          <img src="@/assets/img/aboutAs/aboutUs10.png" alt="" /><img
+            src="@/assets/img/aboutAs/aboutUs11.png"
+            alt=""
+            class="mt-10"
+          />
         </div>
+      </div>
+    </div>
+    <img src="@/assets/img/aboutAs/aboutUs12.png" alt="" class="w-full" />
+    <div class="w-[70%] mx-auto">
+      <div class="incenter flex-col">
+        <img
+          src="@/assets/img/aboutAs/aboutUs13.png"
+          alt=""
+          class="mt-[160px] mb-[80px]"
+        />
+        <img
+          src="@/assets/img/aboutAs/aboutUs14.png"
+          alt=""
+          class="mb-[120px]"
+        />
+      </div>
+      <img src="@/assets/img/aboutAs/aboutUs15.png" alt="" class="w-full" />
+      <div
+        class="w-full bg-cover bg-center bg-[url('@/assets/img/aboutAs/aboutUs16.png')] p-[90px] incenter flex-col"
+      >
+        <img src="@/assets/img/aboutAs/aboutUs18.png" alt="" />
+        <img src="@/assets/img/aboutAs/aboutUs17.png" alt="" class="mt-10" />
       </div>
     </div>
     <div
-      class="w-full h-[400px] bg-cover bg-center bg-[url('@/assets/img/inspiration/inspiration9.png')] relative"
+      class="bg-[url('@/assets/img/aboutAs/aboutUs19.png')] bg-cover bg-center py-[120px]"
     >
-      <div class="incenter flex-col pt-[120px]">
-        <img src="@/assets/img/inspiration/inspiration10.png" alt="" />
-        <img
-          src="@/assets/img/inspiration/inspiration11.png"
-          alt=""
-          class="mt-[25px]"
-        />
+      <div class="text-[#fff] text-3xl text-center">
+        Qualification Certification
       </div>
-      <div class="incenter mt-[60px]">
-        <a-button type="primary" class="rounded-none">Primary Button</a-button>
-        <a-button class="rounded-none ml-[25px]">Primary Button</a-button>
-      </div>
-    </div>
-    <div class="w-full px-[500px] py-[50px] incenter">
-      <div
-        class="w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration12.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration16.png" alt="" />
+      <div class="flex text-[#fff] border w-[70%] mx-auto mt-[50px]">
+        <div class="flex-1 border text-center py-[2%]">
+          Social responsibility<br />BSCI
+        </div>
+        <div class="flex-1 border text-center py-[2%]">
+          Quality system<br />FCCA
+        </div>
+        <div class="flex-1 border text-center py-[2%]">
+          Environmental<br />ICS
+        </div>
+        <div class="flex-1 border text-center py-[2%]">C-TPAT<br />SCS</div>
+        <div class="flex-1 border text-center py-[2%]">
+          National Credit Certification<br />AAA
         </div>
       </div>
       <div
-        class="ml-[70px] w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration13.png')] relative bg-cover bg-center"
+        class="flex text-[#fff] w-[70%] mx-auto mt-[50px] justify-between relative"
       >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration17.png" alt="" />
+        <div class="custom-slick-arrow" style="transform: translateY(50%)">
+          <left-circle-outlined class="text-3xl" />
         </div>
-      </div>
-    </div>
-    <div class="w-full px-[500px] py-[50px] incenter">
-      <div
-        class="w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration14.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration18.png" alt="" />
-        </div>
-      </div>
-      <div
-        class="ml-[70px] w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration15.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration19.png" alt="" />
+        <img src="@/assets/img/aboutAs/aboutUs20.png" alt="" />
+        <img src="@/assets/img/aboutAs/aboutUs21.png" alt="" />
+        <img src="@/assets/img/aboutAs/aboutUs22.png" alt="" />
+        <img src="@/assets/img/aboutAs/aboutUs23.png" alt="" />
+        <img src="@/assets/img/aboutAs/aboutUs24.png" alt="" />
+        <div class="custom-slick-arrow" style="transform: translateY(50%)">
+          <right-circle-outlined class="text-3xl" />
         </div>
       </div>
     </div>
   </div>
   <bottomNav />
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons-vue";
+</script>
 <style lang="less" scoped>
 .container {
   display: flex;

@@ -1,7 +1,7 @@
 <template>
   <topNav />
 
-  <div class="w-full px-[500px] py-[50px]">
+  <div class="w-full px-[30%] py-[50px] min-w-[1280px]">
     <div
       class="bg-[#f8f7f8] bg-opacity-50 inline-block w-full p-[50px] incenter"
     >

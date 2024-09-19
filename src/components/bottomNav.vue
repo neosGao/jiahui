@@ -8,13 +8,13 @@
             <div class="content_item" @click="router.push('ourProducts')">
               OUR PRODUCTS
             </div>
-            <div class="content_item" @click="router.push('ourProducts')">
+            <div class="content_item" @click="router.push('home')">
               HOW TO SHOP
             </div>
-            <div class="content_item" @click="router.push('ourProducts')">
+            <div class="content_item" @click="router.push('aboutUs')">
               COMPANY INFO
             </div>
-            <div class="content_item">EVENT</div>
+            <div class="content_item" @click="router.push('event')">EVENT</div>
             <div class="content_item">HISTORY OF DEVELOPMENT</div>
           </div>
         </div>
@@ -79,12 +79,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { http } from "../http";
+// import { http } from "../http";
+import { useMyStore } from "../store/goodsCount";
+const myStore = useMyStore();
 const router = useRouter(); // 产品大类
 const picList: any = ref([]);
 const getPicList = async () => {
-  const data: any = await http.get("/api/front/product/allonelist");
-  picList.value = data.data.data;
+  // const data: any = await http.get("/api/front/product/allonelist");
+  await myStore.fetchDataPro();
+  picList.value = myStore.dataPro;
 };
 getPicList();
 </script>

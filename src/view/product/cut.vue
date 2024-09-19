@@ -26,30 +26,60 @@
     </div>
     <div class="select_box">
       <div class="left">
-        <a-select v-model="price" placeholder="Price Group">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Price Group"
+          @change="(val: any) => selectChange(val, 'Price Group')"
+        >
+          <a-select-option
+            v-for="item in selectList.priceList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Colours">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Colours"
+          @change="(val: any) => selectChange(val, 'Colours')"
+        >
+          <a-select-option
+            v-for="item in selectList.colorList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Height">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Height"
+          @change="(val: any) => selectChange(val, 'Height')"
+        >
+          <a-select-option
+            v-for="item in selectList.heightList"
+            :value="item.name"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Material">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Material"
+          @change="(val: any) => selectChange(val, 'Material')"
+        >
+          <a-select-option
+            v-for="item in selectList.materialList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Placement">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Placement"
+          @change="(val: any) => selectChange(val, 'Placement')"
+        >
+          <a-select-option
+            v-for="item in selectList.palceList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
       </div>
       <div class="right">
@@ -66,7 +96,7 @@
           <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone twoToneColor="#eb2f96" />
+            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
           </div>
         </div>
         <div class="title_box">
@@ -99,15 +129,17 @@ const route = useRoute();
 const ProData: any = ref({});
 const typeId = ref("");
 
-interface Objtype {
-  label: string;
-  value: string;
-}
+const selectList: any = ref({
+  colorList: [],
+  heightList: [],
+  materialList: [],
+  palceList: [],
+  priceList: [],
+});
 
-const priceList = ref<Objtype[]>([
-  { label: "1000", value: "1000" },
-  { label: "2000", value: "2000" },
-]);
+const selectChange = (val: any, name: any) => {
+  console.log("😅 ~ selectChange ~ val, name:", val, name);
+};
 
 const price = ref<string>("");
 
@@ -121,6 +153,9 @@ const getPicList = async () => {
       tid: route.query.id,
     },
   });
+  const res: any = await http.get("/api/front/product/selectcriteria");
+  console.log("😅 ~ getPicList ~ res:", res.data.data);
+  selectList.value = res.data.data;
   console.log("😅 ~ getPicList ~ data:", data.data.data);
   ProData.value = data.data.data;
   typeId.value = ProData.value.typePicList[0].id;

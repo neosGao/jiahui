@@ -23,7 +23,7 @@
                     >About us</a-menu-item
                   >
                   <a-menu-item @click="router.push('FAQ')">F.A.Q</a-menu-item>
-                  <a-menu-item>Event</a-menu-item>
+                  <a-menu-item @click="router.push('event')">Event</a-menu-item>
                   <a-menu-item>History of</a-menu-item>
                   <a-menu-item @click="router.push('ourProducts')"
                     >developemnt<br />Our products</a-menu-item
@@ -106,16 +106,23 @@ import {
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons-vue";
-import { http } from "../http";
+// import { http } from "../http";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useMyStore } from "../store/goodsCount";
+const myStore = useMyStore();
 const router = useRouter();
 // 产品大类
 const picList: any = ref([]);
 const getPicList = async () => {
-  const data: any = await http.get("/api/front/product/allonelist");
-  picList.value = data.data.data;
+  // const data: any = await http.get("/api/front/product/allonelist");
+  await myStore.fetchDataPro();
+  picList.value = myStore.dataPro;
 };
+// const getPicList = async () => {
+//   const data: any = await http.get("/api/front/product/allonelist");
+//   picList.value = data.data.data;
+// };
 getPicList();
 </script>
 

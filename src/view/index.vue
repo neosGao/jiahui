@@ -9,11 +9,7 @@
         <img class="cursor-pointer" :src="url1" />
       </div>
       <div class="mb-20">
-        <img
-          class="cursor-pointer"
-          @click="router.push('catalogue')"
-          :src="url2"
-        />
+        <img class="cursor-pointer" @click="router.push('home')" :src="url2" />
       </div>
       <div class="mb-20">
         <img
