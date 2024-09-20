@@ -90,9 +90,22 @@
         <div class="btn"><SwapOutlined /></div>
       </div>
     </div>
+    <a-empty v-if="datalist.length === 0" />
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div class="img_box">
+        <div
+          class="img_box cursor-pointer"
+          @click="
+            router.push({
+              path: '/detail',
+              query: {
+                name: route.query.name,
+                id: item.id,
+                tid: route.query.id,
+              },
+            })
+          "
+        >
           <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
@@ -121,10 +134,11 @@
 import { ref, onMounted, watch } from "vue";
 import { SwapOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
 import { http } from "../../http";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 const route = useRoute();
+const router = useRouter();
 
 const ProData: any = ref({});
 const typeId: any = ref("");

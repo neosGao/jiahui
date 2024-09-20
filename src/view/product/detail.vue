@@ -7,7 +7,7 @@
         <div class="name">/</div>
         <div class="name">ALL PRODUCTS</div>
         <div class="name">/</div>
-        <div class="name">Cut flowrs and branches</div>
+        <div class="name">{{ route.query.name }}</div>
       </div>
     </div>
     <div class="buy_main">
@@ -39,27 +39,27 @@
         <div class="form_box">
           <div class="label_item">
             <div class="label">Colours</div>
-            <div class="value">All</div>
+            <div class="value">{{ infoObj.colorName }}</div>
           </div>
           <div class="label_item">
             <div class="label">Height</div>
-            <div class="value">45 in</div>
+            <div class="value">{{ infoObj.height }}</div>
           </div>
           <div class="label_item">
             <div class="label">Price Group</div>
-            <div class="value">25</div>
+            <div class="value">{{ infoObj.price }}</div>
           </div>
           <div class="label_item">
             <div class="label">Packing</div>
-            <div class="value">6st</div>
+            <div class="value">{{ infoObj.weight }}</div>
           </div>
           <div class="label_item">
             <div class="label">Material</div>
-            <div class="value">Features</div>
+            <div class="value">{{ infoObj.materialName }}</div>
           </div>
           <div class="label_item">
             <div class="label">Case Size</div>
-            <div class="value">56×55×45 in</div>
+            <div class="value">{{ infoObj.sizeInfo }}</div>
           </div>
           <div class="btns">
             <div class="add_btns">
@@ -73,26 +73,39 @@
       </div>
     </div>
     <a-divider>Related products</a-divider>
+    <a-empty v-if="datalist.length === 0" />
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div class="img_box">
-          <img src="@/assets/img/product/cut/cut.png" />
+        <div
+          class="img_box cursor-pointer"
+          @click="
+            router.push({
+              path: '/detail',
+              query: {
+                name: route.query.name,
+                id: item.id,
+                tid: route.query.id,
+              },
+            })
+          "
+        >
+          <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone twoToneColor="#eb2f96" />
+            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
           </div>
         </div>
         <div class="title_box">
-          <div class="title">Kentia Palm</div>
+          <div class="title">{{ item.name }}</div>
           <div class="look">
             <EyeOutlined />
-            <span>55</span>
+            <span>{{ item.clickNum }}</span>
           </div>
         </div>
         <div class="tips_box">
-          <div class="tips">HA4LT19680</div>
-          <div class="tips">Items packed: {{ item }}st</div>
-          <div class="tips">PG: {{ item }}</div>
+          <div class="tips">{{ item.hhNo }}</div>
+          <div class="tips">Items packed: {{ item.weight }}st</div>
+          <div class="tips">PG: {{ item.sizeInfo }}</div>
         </div>
       </div>
     </div>
@@ -102,18 +115,45 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
+import { useRoute, useRouter } from "vue-router";
+import { http } from "../../http";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+const route = useRoute();
+const router = useRouter();
 
-const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
+const datalist: any = ref([]);
 
-const imgLst = ref<string[]>([
-  "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-  "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-  "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-  "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-  "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-]);
+const infoObj: any = ref({});
+
+const imgLst = ref<string[]>([]);
 
 const count = ref<number>(1);
+
+const search = async () => {
+  const data: any = await http.get(
+    "/api/front/product/detail/" + route.query.id
+  );
+  console.log("😅 ~ search ~ data:", data.data.data);
+  infoObj.value = data.data.data;
+  const picList = JSON.parse(data.data.data.picMoreUrl);
+  imgLst.value = picList.map((item: any) => picRootPath + item);
+  // datalist.value = data.data.data.list;
+};
+
+const searchAbout = async () => {
+  const searchParams = {
+    tid: route.query.tid,
+  };
+  const data: any = await http.get("/api/front/product/page", {
+    params: searchParams,
+  });
+  console.log("😅 ~ search ~ data:", data.data.data.list);
+  datalist.value = data.data.data.list;
+};
+
+search();
+searchAbout();
 
 const getImgUrl = (i: number) => {
   // i 为图片下标，对应数组图片切换然后返回对应图片

@@ -43,7 +43,6 @@ export const useMyStore = defineStore("myStore", {
         const response: any = await http.get("/api/front/product/allonelist"); // 替换成真实的 API 地址
         this.dataPro = response.data.data;
         localStorage.setItem("ProData", JSON.stringify(response.data.data)); // 缓存数据
-        console.log("😅 ~ fetchDataPro ~ this.dataPro:", this.dataPro);
       } catch (error: any) {
         this.error = error.message || "Failed to fetch data";
       } finally {

@@ -1,7 +1,8 @@
 <template>
   <topNav />
   <div
-    class="w-full h-[880px] bg-cover bg-center bg-[url('@/assets/img/contact/contact1.png')]"
+    class="w-full h-[880px] bg-cover bg-center"
+    :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
   ></div>
   <div
     class="bg-slate-200 bg-opacity-50 w-full h-[450px] flex flex-col items-center justify-center"
@@ -171,6 +172,23 @@ import { http } from "../http";
 import country from "../country.json";
 import { useRouter } from "vue-router";
 import { CheckCircleFilled } from "@ant-design/icons-vue";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+// 图片地址
+const picLastPath = ref("");
+const getPic = async () => {
+  const data: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "contactus_banner",
+      },
+    }
+  );
+  picLastPath.value = data.data.data[0].picUrl;
+};
+getPic();
 const router = useRouter();
 const countryList = country;
 const openTips = ref(false);

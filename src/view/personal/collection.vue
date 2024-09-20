@@ -49,6 +49,7 @@
         </div>
         <div class="btn"><SwapOutlined /></div>
       </div>
+      <a-empty v-if="datalist.length === 0" />
       <div class="content_box">
         <div class="item" v-for="(item, index) in datalist" :key="index">
           <div class="img_box">

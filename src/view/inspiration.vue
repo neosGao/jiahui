@@ -25,20 +25,23 @@
         <img src="@/assets/img/inspiration/inspiration3.png" alt="" />
       </div>
       <div class="incenter mt-[50px]">
-        <div class="container">
-          <!-- Left side large image -->
+        <!-- <div class="container">
           <div class="left-image">
             <img src="@/assets/img/inspiration/inspiration4.png" />
           </div>
 
-          <!-- Right side grid of 4 smaller images -->
           <div class="right-images">
             <img src="@/assets/img/inspiration/inspiration5.png" />
             <img src="@/assets/img/inspiration/inspiration6.png" />
             <img src="@/assets/img/inspiration/inspiration7.png" />
             <img src="@/assets/img/inspiration/inspiration8.png" />
           </div>
-        </div>
+        </div> -->
+        <a-row :gutter="20">
+          <a-col :span="8" v-for="(a, b) in midPics" :key="b">
+            <img :src="picRootPath + a.picUrl" />
+          </a-col>
+        </a-row>
       </div>
     </div>
     <div
@@ -53,49 +56,31 @@
         />
       </div>
       <div class="incenter mt-[60px]">
-        <a-button type="primary" class="rounded-none">Primary Button</a-button>
-        <a-button class="rounded-none ml-[25px]">Primary Button</a-button>
+        <a-button type="primary" class="rounded-none">Explore</a-button>
+        <a-button class="rounded-none ml-[25px]">Contact Us</a-button>
       </div>
     </div>
-    <div class="w-full py-[50px] incenter min-w-[1280px]">
-      <div
-        class="w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration12.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration16.png" alt="" />
-        </div>
-      </div>
-      <div
-        class="ml-[70px] w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration13.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration17.png" alt="" />
-        </div>
-      </div>
-    </div>
-    <div class="w-full py-[50px] incenter min-w-[1280px]">
-      <div
-        class="w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration14.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration18.png" alt="" />
-        </div>
-      </div>
-      <div
-        class="ml-[70px] w-[750px] h-[560px] bg-[url('@/assets/img/inspiration/inspiration15.png')] relative bg-cover bg-center"
-      >
-        <div
-          class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover"
-        >
-          <img src="@/assets/img/inspiration/inspiration19.png" alt="" />
-        </div>
-      </div>
+    <div class="w-[70%] py-[50px] min-w-[1280px] mx-auto">
+      <a-row :gutter="20">
+        <a-col :span="12" v-for="(a, b) in typeList" :key="b" class="mb-5">
+          <div
+            class="w-full h-[560px] relative bg-cover bg-center cursor-pointer"
+            :style="{ backgroundImage: `url(${picRootPath + a.picUrl})` }"
+            @click="
+              router.push({
+                path: '/seasons',
+                query: { name: a.name, id: a.id },
+              })
+            "
+          >
+            <div
+              class="bg-slate-200 opacity-80 incenter py-[40px] absolute bottom-0 w-full bg-cover text-[#000] text-3xl"
+            >
+              {{ a.name }}
+            </div>
+          </div>
+        </a-col>
+      </a-row>
     </div>
   </div>
   <bottomNav />
@@ -103,22 +88,23 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
+import { useRouter } from "vue-router";
+const router = useRouter();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址
 const picLastPath = ref("");
+const midPics: any = ref([]);
+const typeList: any = ref([]);
 const getPic = async () => {
   const data: any = await http.get(
     // 获取banner接口
-    "/api/front/advert/limitlist",
-    {
-      params: {
-        code: "insp_home_banner",
-      },
-    }
+    "/api/front/inpiration/homeunify"
   );
-  console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
-  picLastPath.value = data.data.data[0].picUrl;
+  console.log("😅 ~ getPic ~ data:", data.data.data);
+  picLastPath.value = data.data.data.bannerPic;
+  midPics.value = data.data.data.midPics;
+  typeList.value = data.data.data.typeList;
 };
 getPic();
 </script>

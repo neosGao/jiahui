@@ -2,47 +2,92 @@
   <topNav />
   <div class="cut_mian">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/spring/spring.png')]"
+      class="w-full h-[633px] bg-cover bg-center"
+      :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
     ></div>
-    <div
+    <!-- <div
       class="bg-slate-200 bg-opacity-50 w-full h-[50px] flex items-center justify-end"
     >
       <img src="@/assets/img/spring/spring1.png" alt="" class="mr-[15%]" />
+    </div> -->
+    <div class="nav">
+      <div class="item">
+        <div class="name">HOME</div>
+        <div class="name">/</div>
+        <div class="name">PRODUCTS</div>
+        <div class="name">/</div>
+        <div class="name">{{ route.query.name }}</div>
+      </div>
     </div>
     <div class="incenter flex-col mt-[60px]">
       <img src="@/assets/img/spring/spring2.png" alt="" />
       <img src="@/assets/img/spring/spring3.png" alt="" class="mt-2" />
     </div>
-    <div class="incenter mt-[50px] mb-[90px]">
-      <img src="@/assets/img/spring/spring4.png" alt="" />
-      <img src="@/assets/img/spring/spring5.png" alt="" class="ml-20" />
+    <div class="w-[70%] mt-[50px] mb-[90px] mx-auto">
+      <a-row :gutter="20" class="">
+        <a-col :span="12" v-for="(a, b) in picList" :key="b">
+          <img :src="picRootPath + a" />
+        </a-col>
+      </a-row>
+      <!-- <img src="@/assets/img/spring/spring4.png" alt="" />
+      <img src="@/assets/img/spring/spring5.png" alt="" class="ml-20" /> -->
     </div>
     <div class="select_box">
       <div class="left">
-        <a-select v-model="price" placeholder="Price Group">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Price Group"
+          @change="(val: any) => selectChange(val, 'Price Group')"
+        >
+          <a-select-option
+            v-for="item in selectList.priceList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Colours">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Colours"
+          @change="(val: any) => selectChange(val, 'Colours')"
+        >
+          <a-select-option
+            v-for="item in selectList.colorList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Height">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Height"
+          @change="(val: any) => selectChange(val, 'Height')"
+        >
+          <a-select-option
+            v-for="item in selectList.heightList"
+            :value="item.name"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Material">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Material"
+          @change="(val: any) => selectChange(val, 'Material')"
+        >
+          <a-select-option
+            v-for="item in selectList.materialList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
-        <a-select v-model="price" placeholder="Placement">
-          <a-select-option v-for="item in priceList" :value="item.value">{{
-            item.label
-          }}</a-select-option>
+        <a-select
+          v-model="price"
+          placeholder="Placement"
+          @change="(val: any) => selectChange(val, 'Placement')"
+        >
+          <a-select-option
+            v-for="item in selectList.palceList"
+            :value="item.id"
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
       </div>
       <div class="right">
@@ -53,26 +98,39 @@
         <div class="btn"><SwapOutlined /></div>
       </div>
     </div>
+    <a-empty v-if="datalist.length === 0" />
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div class="img_box">
-          <img src="@/assets/img/product/cut/cut.png" />
+        <div
+          class="img_box cursor-pointer"
+          @click="
+            router.push({
+              path: '/detail',
+              query: {
+                name: route.query.name,
+                id: item.id,
+                tid: route.query.id,
+              },
+            })
+          "
+        >
+          <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone twoToneColor="#eb2f96" />
+            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
           </div>
         </div>
         <div class="title_box">
-          <div class="title">Kentia Palm</div>
+          <div class="title">{{ item.name }}</div>
           <div class="look">
             <EyeOutlined />
-            <span>55</span>
+            <span>{{ item.clickNum }}</span>
           </div>
         </div>
         <div class="tips_box">
-          <div class="tips">HA4LT19680</div>
-          <div class="tips">Items packed: {{ item }}st</div>
-          <div class="tips">PG: {{ item }}</div>
+          <div class="tips">{{ item.hhNo }}</div>
+          <div class="tips">Items packed: {{ item.weight }}st</div>
+          <div class="tips">PG: {{ item.sizeInfo }}</div>
         </div>
       </div>
     </div>
@@ -83,22 +141,58 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { SwapOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
+import { useRoute, useRouter } from "vue-router";
+import { http } from "../../http";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+const route = useRoute();
+const router = useRouter();
+const picLastPath = ref("");
+const picList: any = ref([]);
 
-interface Objtype {
-  label: string;
-  value: string;
-}
+const selectList: any = ref({
+  colorList: [],
+  heightList: [],
+  materialList: [],
+  palceList: [],
+  priceList: [],
+});
 
-const priceList = ref<Objtype[]>([
-  { label: "1000", value: "1000" },
-  { label: "2000", value: "2000" },
-]);
+const selectChange = (val: any, name: any) => {
+  console.log("😅 ~ selectChange ~ val, name:", val, name);
+};
+
+// 产品大类
+const getPicList = async () => {
+  const res: any = await http.get(
+    "/api/front/inpiration/type/" + route.query.id
+  );
+  console.log("😅 ~ getPicList ~ res:", res.data.data);
+  const res2: any = await http.get("/api/front/product/selectcriteria");
+  selectList.value = res2.data.data;
+  picLastPath.value = res.data.data.picUrl;
+  picList.value = res.data.data.picList;
+  search();
+};
+const search = async () => {
+  const searchParams = {
+    tid: route.query.id,
+  };
+  const data: any = await http.get("/api/front/inpiration/page", {
+    params: searchParams,
+  });
+  console.log("😅 ~ search ~ data:", data.data.data.list);
+  datalist.value = data.data.data.list;
+  total.value = data.data.data.total;
+};
+
+getPicList();
 
 const price = ref<string>("");
 
 const total = ref<number>(0);
 
-const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
+const datalist: any = ref();
 </script>
 <style lang="less" scoped>
 .cut_mian {
@@ -269,6 +363,27 @@ const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
     background-color: #208d7b;
     color: #fff;
     cursor: pointer;
+  }
+}
+.nav {
+  width: 100%;
+  background-color: #f8f7f8;
+  min-width: 1280px;
+  display: flex;
+  justify-content: center;
+
+  .item {
+    width: 70%;
+    min-width: 1280px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .name {
+      margin: 20px 3px;
+      cursor: pointer;
+      color: #474443;
+    }
   }
 }
 </style>

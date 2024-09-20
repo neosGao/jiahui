@@ -72,6 +72,7 @@
     <div class="absolute left-[10%] top-[40%]">
       <left-circle-outlined class="text-3xl cursor-pointer" />
     </div>
+    <a-empty v-if="datalist.length === 0" />
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
         <div class="img_box">

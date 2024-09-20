@@ -98,21 +98,25 @@ const router = createRouter({
     },
     // seasons
     {
-      path: "/spring",
+      path: "/seasons",
       component: () => import("../view/seasons/spring.vue"),
     },
-    {
-      path: "/summer",
-      component: () => import("../view/seasons/summer.vue"),
-    },
-    {
-      path: "/autumn",
-      component: () => import("../view/seasons/autumn.vue"),
-    },
-    {
-      path: "/winter",
-      component: () => import("../view/seasons/winter.vue"),
-    },
+    // {
+    //   path: "/spring",
+    //   component: () => import("../view/seasons/spring.vue"),
+    // },
+    // {
+    //   path: "/summer",
+    //   component: () => import("../view/seasons/summer.vue"),
+    // },
+    // {
+    //   path: "/autumn",
+    //   component: () => import("../view/seasons/autumn.vue"),
+    // },
+    // {
+    //   path: "/winter",
+    //   component: () => import("../view/seasons/winter.vue"),
+    // },
     // story
     {
       path: "/story",
@@ -141,6 +145,10 @@ const router = createRouter({
     {
       path: "/history",
       component: () => import("../view/history.vue"),
+    },
+    {
+      path: "/searchPage",
+      component: () => import("../view/searchPage.vue"),
     },
   ],
   scrollBehavior(_to, _from, savedPosition) {

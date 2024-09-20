@@ -47,14 +47,21 @@
         <img
           src="@/assets/img/aboutAs/aboutUs9.png"
           alt=""
-          class="absolute top-20"
+          class="absolute top-20 w-[40%]"
         />
         <div class="bg-slate-100 inline-block w-[70%] p-[150px] pl-[20%]">
-          <img src="@/assets/img/aboutAs/aboutUs10.png" alt="" /><img
-            src="@/assets/img/aboutAs/aboutUs11.png"
-            alt=""
-            class="mt-10"
-          />
+          <img src="@/assets/img/aboutAs/aboutUs10.png" alt="" />
+          <div class="text-left text-slate-500">
+            Guangdong Jiahui Home Accessories Co., LTD., founded in 2020, was
+            formerly known as Dongguan Jiahui Crafts Co., LTD., founded in 2008,
+            headquartered in Dongguan City, Guangdong Province. There are three
+            branches of Hong Kong Jiahui Crafts Co., LTD., Dongguan Hershey
+            Crafts Co., LTD., Dongguan Huili Crafts Co., LTD. The business scope
+            includes household accessories, artificial plants, artificial
+            flowers, glass products, metal products, ceramic products, wood
+            products, woven goods, handicrafts (except ivory and its products),
+            toys, gifts (excluding food).
+          </div>
         </div>
       </div>
     </div>
@@ -66,17 +73,39 @@
           alt=""
           class="mt-[160px] mb-[80px]"
         />
-        <img
+        <!-- <img
           src="@/assets/img/aboutAs/aboutUs14.png"
           alt=""
           class="mb-[120px]"
-        />
+        /> -->
+        <div class="text-left text-slate-500 my-10">
+          With a team that is keen on art and engaged in sales and innovation of
+          home accessories, we have a wealth of innovative ideasand a broad
+          international vision.The company has complete qualification
+          certification, the plant size of more than 10,000 square meters,
+          equipped with advanced equipment and efficient production lines,
+          strong quality management system, has a number of large-scale product
+          exhibition halls, and the total number of products exceeds 30,000. The
+          company has always adhered to the principle of quality management,
+          strictly controlled every finished product, and won the praise and
+          trust of our customers. With enthusiasm, dedication and innovative
+          work spirit, we continue to meet the needs of customers in different
+          countries and regions around the world.
+        </div>
       </div>
       <img src="@/assets/img/aboutAs/aboutUs15.png" alt="" class="w-full" />
       <div
         class="w-full bg-cover bg-center bg-[url('@/assets/img/aboutAs/aboutUs16.png')] p-[90px] incenter flex-col"
       >
-        <img src="@/assets/img/aboutAs/aboutUs18.png" alt="" />
+        <!-- <img src="@/assets/img/aboutAs/aboutUs18.png" alt="" /> -->
+        <div class="text-3xl text-slate-500">
+          To access our product information, you need to obtain permission,
+          register, and have an account. If you want to obtain permission,
+          please register here.
+          <br />
+          >If you are already a distributor of our products but need an account,
+          please contact us.
+        </div>
         <img src="@/assets/img/aboutAs/aboutUs17.png" alt="" class="mt-10" />
       </div>
     </div>

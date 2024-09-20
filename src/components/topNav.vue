@@ -91,7 +91,11 @@
           </div>
         </div>
         <div class="btns">
-          <div class="item" style="margin-right: 15px">
+          <div
+            class="item"
+            style="margin-right: 15px"
+            @click="router.push('searchPage')"
+          >
             <SearchOutlined />
           </div>
           <div class="item" @click="router.push('personal')">

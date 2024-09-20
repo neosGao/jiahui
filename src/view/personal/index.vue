@@ -196,6 +196,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { http } from "../../http";
 import {
   EditOutlined,
   UserOutlined,
@@ -231,6 +232,17 @@ const formState = reactive<FormState>({
   address: "",
   agree: false,
 });
+
+const getInfo = async () => {
+  const token = localStorage.getItem("authToken");
+  if (!token) return;
+  const id = JSON.parse(token).id;
+  const data: any = await http.post("/api/front/member/myinfo", {
+    params: { id },
+  });
+  console.log("😅 ~ getInfo ~ data:", data);
+};
+getInfo();
 const onFinish = (values: any) => {
   console.log("Success:", values);
 };
