@@ -117,8 +117,12 @@
                 v-model:value="formState.country"
                 placeholder="please select your country"
               >
-                <a-select-option value="zhongguo">china</a-select-option>
-                <a-select-option value="meiguo">amlk</a-select-option>
+                <a-select-option
+                  :value="a.country"
+                  :key="b"
+                  v-for="(a, b) in countryList"
+                  >{{ a.country }}</a-select-option
+                >
               </a-select>
             </a-form-item>
           </a-col>
@@ -144,12 +148,32 @@
       </a-form>
     </div>
   </div>
+  <a-modal v-model:open="openTips" :footer="null" style="top: 30%">
+    <div class="pt-[50px] text-center px-[50px]">
+      <CheckCircleFilled class="text-8xl text-[#208d7b]" />
+      <div class="text-3xl mt-[20px] mb-[60px]">Submitted Successfully</div>
+      <a-button
+        class="rounded-full"
+        block
+        type="primary"
+        html-type="submit"
+        @click="router.push('home')"
+        >CONFIRM</a-button
+      >
+    </div>
+  </a-modal>
   <bottomNav />
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
 import { http } from "../http";
+import country from "../country.json";
+import { useRouter } from "vue-router";
+import { CheckCircleFilled } from "@ant-design/icons-vue";
+const router = useRouter();
+const countryList = country;
+const openTips = ref(false);
 interface FormState {
   company: string;
   name: string;
@@ -173,10 +197,9 @@ const onFinish = async (values: any) => {
     params: values,
   });
   if (res.data.code === 200) {
-    console.log("😅 ~ onFinish ~ data:", res);
+    openTips.value = true;
   }
 };
-
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };

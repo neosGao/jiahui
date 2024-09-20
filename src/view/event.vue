@@ -2,7 +2,8 @@
   <topNav />
   <div class="cut_mian">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/event/event.png')] relative"
+      class="w-full h-[633px] bg-cover bg-center relative"
+      :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
     >
       <img
         src="@/assets/img/event/event1.png"
@@ -21,35 +22,31 @@
         centered
         size="large"
         :tabBarGutter="100"
+        @change="tabsChange"
       >
-        <a-tab-pane key="1" tab="ALL"></a-tab-pane>
-        <a-tab-pane key="2" tab="EVENTS"
-          ><a-row :gutter="50">
-            <a-col :span="8" v-for="(a, b) in eventList" :key="b" class="mb-10">
-              <div>
-                <img
-                  src="@/assets/img/event/event3.png"
-                  alt=""
-                  class="w-full"
-                />
-              </div>
-              <div class="flex justify-between my-5">
-                <span>EVENTS</span><span>20 MARCH 2024</span>
-              </div>
-              <div class="text-3xl font-semibold">
-                Seize the opportunity and develop the market
-              </div>
-              <div>
-                Guangdong jiahui home accessories co., ltd., founded in 2020,
-                was formerly known as dongguan jiahuiGuangdong jiahui home
-                accessories co., ltd., founded in 2020, was formerly known as
-                dongguan jiahui {{ a }}
-              </div>
-            </a-col></a-row
-          ></a-tab-pane
-        >
-        <a-tab-pane key="3" tab="NEWS"></a-tab-pane>
+        <a-tab-pane
+          :key="b"
+          :tab="a.name"
+          v-for="(a, b) in eventList"
+        ></a-tab-pane>
       </a-tabs>
+      <a-row :gutter="50">
+        <a-col :span="8" v-for="(a, b) in eventList2" :key="b" class="mb-10">
+          <div>
+            <img :src="picRootPath + a.picUrl" alt="" class="w-full" />
+          </div>
+          <div class="flex justify-between my-5">
+            <span>{{ a.typeName }}</span
+            ><span>{{ a.date }}</span>
+          </div>
+          <div class="text-3xl font-semibold">
+            {{ a.name }}
+          </div>
+          <div>
+            {{ a.remark }}
+          </div>
+        </a-col></a-row
+      >
     </div>
   </div>
   <bottomNav />
@@ -57,15 +54,40 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
-const activeKey = ref("2");
-const FAQList: any = ref([]);
-// 获取faq
-const getFAQList = async () => {
-  const data: any = await http.get("/api/front/article/faqenlist");
-  FAQList.value = data.data.data;
+const activeKey = ref(1);
+const eventList: any = ref([]);
+const eventList2: any = ref([1, 2, 3, 4]);
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+// 图片地址
+const picLastPath = ref("");
+const getPic = async () => {
+  const data: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "news_banner",
+      },
+    }
+  );
+  console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
+  picLastPath.value = data.data.data[0].picUrl;
 };
-getFAQList();
-const eventList = ref<number[]>([1, 2, 3, 4]);
+// 获取event
+const geteventList = async () => {
+  const data: any = await http.get("/api/front/article/newstypelist");
+  eventList.value = data.data.data;
+  tabsChange(1);
+};
+geteventList();
+getPic();
+const tabsChange = async (a: any) => {
+  const res: any = await http.get("/api/front/article/page", {
+    params: { tid: eventList.value[a].id },
+  });
+  eventList2.value = res.data.data.list;
+};
 </script>
 <style lang="less" scoped>
 .container {

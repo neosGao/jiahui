@@ -55,10 +55,12 @@
         <a-row :gutter="24">
           <a-col :span="24">
             <a-form-item
-              name="email"
-              :rules="[{ required: true, message: 'Please input your email!' }]"
+              name="account"
+              :rules="[
+                { required: true, message: 'Please input your account!' },
+              ]"
             >
-              <a-input v-model:value="formState.email" placeholder="Email">
+              <a-input v-model:value="formState.account" placeholder="account">
                 <template #prefix>
                   <UserOutlined />
                 </template>
@@ -117,16 +119,34 @@
           ghost
           type="primary"
           html-type="submit"
+          @click="router.push('signup')"
           >SIGN UP</a-button
         >
       </div>
     </div>
   </div>
+  <a-modal v-model:open="openTips" :footer="null" style="top: 30%">
+    <div class="pt-[50px] text-center px-[50px]">
+      <CheckCircleFilled class="text-8xl text-[#208d7b]" />
+      <div class="text-3xl mt-[20px] mb-[60px]">
+        Congratulations, Login Successful<br />
+        <span class="text-sm">Automatically jump to home in 3 seconds</span>
+      </div>
+      <a-button
+        class="rounded-full"
+        block
+        type="primary"
+        html-type="submit"
+        @click="router.push('login')"
+        >JUMP IMMEDIATE</a-button
+      >
+    </div>
+  </a-modal>
   <bottomNav />
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
 import {
   DownloadOutlined,
   HeartOutlined,
@@ -134,19 +154,35 @@ import {
   UserOutlined,
   LockOutlined,
 } from "@ant-design/icons-vue";
+import router from "../router";
+import { http } from "../http";
+import { CheckCircleFilled } from "@ant-design/icons-vue";
+const openTips = ref(false);
 interface FormState {
-  email: string;
+  account: string;
   password: string;
   checkbox: boolean;
 }
 
 const formState = reactive<FormState>({
-  email: "",
+  account: "",
   password: "",
   checkbox: false,
 });
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+const onFinish = async (values: any) => {
+  const res: any = await http.post("/api/front/member/login", {
+    params: values,
+  });
+  if (res.data.code === 200) {
+    // 储存登录信息
+    const token = res.data.data;
+    // 将 token 存储到 localStorage
+    const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 一周的毫秒数
+    const expiresAt = Date.now() + oneWeekInMilliseconds; // 当前时间 + 一周
+    localStorage.setItem("authToken", JSON.stringify(token)); // 缓存数据
+    localStorage.setItem("expiresAt", expiresAt.toString());
+    openTips.value = true;
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {

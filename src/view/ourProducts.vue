@@ -2,7 +2,8 @@
   <topNav />
   <div class="cut_mian">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/ourProducts/ourProducts.png')] relative"
+      class="w-full h-[633px] bg-cover bg-center] relative"
+      :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
     >
       <img
         src="@/assets/img/ourProducts/ourProducts1.png"
@@ -40,13 +41,24 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
-const FAQList: any = ref([]);
-// 获取faq
-const getFAQList = async () => {
-  const data: any = await http.get("/api/front/article/faqenlist");
-  FAQList.value = data.data.data;
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+// 图片地址
+const picLastPath = ref("");
+const getPic = async () => {
+  const data: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "ourproduct_banner",
+      },
+    }
+  );
+  console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
+  picLastPath.value = data.data.data[0].picUrl;
 };
-getFAQList();
+getPic();
 </script>
 <style lang="less" scoped>
 .container {

@@ -7,7 +7,10 @@
         <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
         <div class="text-sm mt-2">ID: 321321321321</div>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('personal')"
+      >
         <div class="mx-[50px]">
           <UserOutlined class="text-3xl text-[#208d7b]" />
         </div>
@@ -19,13 +22,19 @@
         </div>
         <span class="text-xl text-white">Shopping Bag [0]</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('order')"
+      >
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-[#208d7b]" />
         </div>
         <span class="text-xl">My Order [0]</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('collection')"
+      >
         <div class="mx-[50px]">
           <HeartOutlined class="text-3xl text-[#208d7b]" />
         </div>
@@ -90,6 +99,8 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { http } from "../../http";
 import {
   EditOutlined,
   UserOutlined,
@@ -110,6 +121,7 @@ interface FormState {
   address: string;
   agree: boolean;
 }
+const router = useRouter();
 
 const formState = reactive<FormState>({
   email: "",
@@ -124,6 +136,11 @@ const formState = reactive<FormState>({
   address: "",
   agree: false,
 });
+const search = async () => {
+  const data: any = await http.get("/api/front/member/shop/mycartlist");
+  console.log("😅 ~ search ~ data:", data);
+};
+search();
 // const onFinish = (values: any) => {
 //   console.log("Success:", values);
 // };

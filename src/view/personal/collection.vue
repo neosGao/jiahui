@@ -7,29 +7,38 @@
         <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
         <div class="text-sm mt-2">ID: 321321321321</div>
       </div>
-      <div class="mt-10 bg-[#57b8a8] h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('personal')"
+      >
         <div class="mx-[50px]">
-          <UserOutlined class="text-3xl text-white" />
+          <UserOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl text-white">My Account</span>
+        <span class="text-xl">My Account</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('shoppingBag')"
+      >
         <div class="mx-[50px]">
           <ShoppingOutlined class="text-3xl text-[#208d7b]" />
         </div>
         <span class="text-xl">Shopping Bag [0]</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('order')"
+      >
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-[#208d7b]" />
         </div>
         <span class="text-xl">My Order [0]</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div class="mt-10 h-[60px] flex items-center cursor-pointer bg-[#57b8a8]">
         <div class="mx-[50px]">
-          <HeartOutlined class="text-3xl text-[#208d7b]" />
+          <HeartOutlined class="text-3xl text-white" />
         </div>
-        <span class="text-xl">Favorite</span>
+        <span class="text-xl text-white">Favorite</span>
       </div>
     </div>
     <div style="width: 70%" class="ml-[100px]">
@@ -43,28 +52,32 @@
       <div class="content_box">
         <div class="item" v-for="(item, index) in datalist" :key="index">
           <div class="img_box">
-            <img src="@/assets/img/product/cut/cut.png" />
+            <img :src="picRootPath + item.picUrl" />
             <div class="like">
               <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-              <HeartTwoTone twoToneColor="#eb2f96" />
+              <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
             </div>
           </div>
           <div class="title_box">
-            <div class="title">Kentia Palm</div>
+            <div class="title">{{ item.name }}</div>
             <div class="look">
               <EyeOutlined />
-              <span>55</span>
+              <span>{{ item.clickNum }}</span>
             </div>
           </div>
           <div class="tips_box">
-            <div class="tips">HA4LT19680</div>
-            <div class="tips">Items packed: {{ item }}st</div>
-            <div class="tips">PG: {{ item }}</div>
+            <div class="tips">{{ item.hhNo }}</div>
+            <div class="tips">Items packed: {{ item.weight }}st</div>
+            <div class="tips">PG: {{ item.sizeInfo }}</div>
           </div>
         </div>
       </div>
       <div class="incenter">
-        <a-pagination v-model:current="current" :total="50" show-less-items />
+        <a-pagination
+          v-model:current="current"
+          :total="total"
+          show-less-items
+        />
       </div>
     </div>
   </div>
@@ -81,12 +94,31 @@ import {
   ShoppingCartOutlined,
   HeartOutlined,
 } from "@ant-design/icons-vue";
+import { http } from "../../http";
+import { useRouter } from "vue-router";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+const router = useRouter();
 
-const datalist = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
+const datalist: any = ref<number[]>([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
+
+const search = async () => {
+  const searchParams = {
+    page: current.value,
+    size: 10,
+  };
+  const data: any = await http.get("/api/front/member/shop/favorproduct/page", {
+    params: searchParams,
+  });
+  datalist.value = data.data.data.list;
+  total.value = data.data.data.total;
+};
 
 const total = ref<number>(0);
 
 const current = ref<number>(1);
+
+search();
 </script>
 
 <style scoped>

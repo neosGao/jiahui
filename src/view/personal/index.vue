@@ -13,19 +13,28 @@
         </div>
         <span class="text-xl text-white">My Account</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('shoppingBag')"
+      >
         <div class="mx-[50px]">
           <ShoppingOutlined class="text-3xl text-[#208d7b]" />
         </div>
         <span class="text-xl">Shopping Bag [0]</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('order')"
+      >
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-[#208d7b]" />
         </div>
         <span class="text-xl">My Order [0]</span>
       </div>
-      <div class="mt-10 h-[60px] flex items-center cursor-pointer">
+      <div
+        class="mt-10 h-[60px] flex items-center cursor-pointer"
+        @click="router.push('collection')"
+      >
         <div class="mx-[50px]">
           <HeartOutlined class="text-3xl text-[#208d7b]" />
         </div>
@@ -186,6 +195,7 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
 import {
   EditOutlined,
   UserOutlined,
@@ -206,6 +216,7 @@ interface FormState {
   address: string;
   agree: boolean;
 }
+const router = useRouter();
 
 const formState = reactive<FormState>({
   email: "",

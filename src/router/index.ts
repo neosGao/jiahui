@@ -138,6 +138,10 @@ const router = createRouter({
       path: "/event",
       component: () => import("../view/event.vue"),
     },
+    {
+      path: "/history",
+      component: () => import("../view/history.vue"),
+    },
   ],
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {

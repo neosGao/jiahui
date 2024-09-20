@@ -24,9 +24,11 @@
                   >
                   <a-menu-item @click="router.push('FAQ')">F.A.Q</a-menu-item>
                   <a-menu-item @click="router.push('event')">Event</a-menu-item>
-                  <a-menu-item>History of</a-menu-item>
+                  <a-menu-item @click="router.push('history')"
+                    >History of<br />developemnt</a-menu-item
+                  >
                   <a-menu-item @click="router.push('ourProducts')"
-                    >developemnt<br />Our products</a-menu-item
+                    >Our products</a-menu-item
                   >
                 </a-menu>
               </template>
@@ -92,7 +94,7 @@
           <div class="item" style="margin-right: 15px">
             <SearchOutlined />
           </div>
-          <div class="item">
+          <div class="item" @click="router.push('personal')">
             <UserOutlined />
           </div>
         </div>

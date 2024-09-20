@@ -12,17 +12,54 @@ const defaultConfig: AxiosRequestConfig = {
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "APP-ID": env.VITE_APP_ID,
-    Authorization:
-      "eyJraWQiOiJrMiIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJoYWNkZXNpZ24iLCJhdWQiOiJoYWNjbGUiLCJleHAiOjE3Mjc2Nzk3MzgsImp0aSI6IkpBSk9DTkZ3eDVnY01GZFNBOFdkVlEiLCJpYXQiOjE3MjY2NDI5MzgsInN1YiI6IntcImZyb21cIjpcIk1FTUJFUlBDXCIsXCJpZFwiOjUxNjg5ODU1NDkwNDY0MCxcImlkZW50aXR5XCI6XCJNRU1CRVJcIixcImxhbmd1YWdlXCI6XCJlblwiLFwibWVtYmVySWRcIjo1MTY4OTg1NTQ5MDQ2MDgsXCJ0eXBlXCI6XCJNRU1CRVJQQ1wifSJ9.tM7tI7nnAhgM8_Jk6_O2twu-eK5siAZVF8BUT_DTU_gk78k4KGDdI3xFfwpCeoE5zcfHoJ2uSfm3ocz8rkv9fWsSHgxCj7APMl4xNEx438_6ADNFHjb7jcDhKRC2Gb7dSJr3Irojh-ffftyqm5L1pG6AvVPTZrekCrKJTVAFAtyYERfBCJaDomC6sD-E710UtLwte779z6Q9uvD0-DBOf1Mk07agf3zA7EsMrsZX-5nxKuweB-f-Tt0PsUmwxAVtvEHQsLVC5t_sJeiukD0oFNzGT_Yyqgxo9p7a6da_DuLhlObl2uiLk09nIeqJZOKWAjkVoYRDlqx_rqPknkTnfA",
   },
   // responseType: "blob",
 };
 
+// 获取本地存储的 token 和过期时间
+function getAuthToken() {
+  const token = localStorage.getItem("authToken");
+  const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+  // 判断 token 是否存在且未过期
+  if (token && Date.now() < expiresAt) {
+    return token;
+  } else {
+    // 如果 token 过期或不存在，移除本地存储的 token 信息
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("expiresAt");
+    return null;
+  }
+}
 class jobHttp {
+  constructor() {
+    this.httpInterceptorsRequest();
+  }
+
   /** 保存当前Axios实例对象 */
   private static axiosInstance: AxiosInstance = Axios.create(defaultConfig);
 
   /** 请求拦截 */
+  private httpInterceptorsRequest(): void {
+    jobHttp.axiosInstance.interceptors.request.use(
+      (config) => {
+        const user: any = getAuthToken();
+        if (user) {
+          const token = JSON.parse(user).token;
+          // 如果 token 存在，将其添加到请求头
+          if (token) {
+            config.headers["Authorization"] = `${token}`;
+          }
+          return config;
+        }
+        return config;
+      },
+      (error) => {
+        // 处理请求错误
+        return Promise.reject(error);
+      }
+    );
+  }
   /** 响应拦截 */
   /** 通用请求工具函数 */
   public request<T>(

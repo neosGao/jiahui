@@ -2,7 +2,8 @@
   <topNav />
   <div class="cut_mian min-w-[1280px]">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/inspiration/inspiration.png')] relative"
+      class="w-full h-[633px] bg-cover bg-center relative"
+      :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
     >
       <img
         src="@/assets/img/inspiration/inspiration1.png"
@@ -99,7 +100,28 @@
   </div>
   <bottomNav />
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from "vue";
+import { http } from "../http";
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
+// 图片地址
+const picLastPath = ref("");
+const getPic = async () => {
+  const data: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "insp_home_banner",
+      },
+    }
+  );
+  console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
+  picLastPath.value = data.data.data[0].picUrl;
+};
+getPic();
+</script>
 <style lang="less" scoped>
 .container {
   display: flex;

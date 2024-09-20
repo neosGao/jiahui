@@ -2,7 +2,7 @@
   <topNav />
   <div class="cut_mian">
     <div class="top_img">
-      <img :src="picRootPath + ProData.picUrl" class="big_img" />
+      <img :src="picRootPath + ProData.picUrl" class="w-full" />
     </div>
     <div class="title_switch">
       <div class="left">
@@ -127,7 +127,7 @@ const picRootPath = import.meta.env.VITE_PIC_URL;
 const route = useRoute();
 
 const ProData: any = ref({});
-const typeId = ref("");
+const typeId: any = ref("");
 
 const selectList: any = ref({
   colorList: [],
@@ -158,7 +158,7 @@ const getPicList = async () => {
   selectList.value = res.data.data;
   console.log("😅 ~ getPicList ~ data:", data.data.data);
   ProData.value = data.data.data;
-  typeId.value = ProData.value.typePicList[0].id;
+  typeId.value = route.query.id;
   search();
 };
 

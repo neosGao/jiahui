@@ -57,13 +57,13 @@
         </a-col>
         <a-col :span="8">
           <a-form-item
-            label="Telphone"
-            name="telphone"
+            label="telephone"
+            name="telephone"
             :rules="[
-              { required: true, message: 'Please input your telphone!' },
+              { required: true, message: 'Please input your telephone!' },
             ]"
           >
-            <a-input v-model:value="formState.telphone" />
+            <a-input v-model:value="formState.telephone" />
           </a-form-item>
         </a-col>
 
@@ -81,12 +81,12 @@
         <a-col :span="8">
           <a-form-item
             label="VAT/Org.no"
-            name="org"
+            name="vatOrg"
             :rules="[
               { required: true, message: 'Please input your VAT/Org.no!' },
             ]"
           >
-            <a-input v-model:value="formState.org" />
+            <a-input v-model:value="formState.vatOrg" />
           </a-form-item>
         </a-col>
 
@@ -94,14 +94,20 @@
           <a-form-item
             label="Country"
             name="country"
-            :rules="[{ required: true, message: 'Please input your country!' }]"
+            :rules="[
+              { required: true, message: 'Please select your country!' },
+            ]"
           >
             <a-select
               v-model:value="formState.country"
               placeholder="please select your country"
             >
-              <a-select-option value="zhongguo">china</a-select-option>
-              <a-select-option value="meiguo">amlk</a-select-option>
+              <a-select-option
+                :value="a.country"
+                :key="b"
+                v-for="(a, b) in countryList"
+                >{{ a.country }}</a-select-option
+              >
             </a-select>
           </a-form-item>
         </a-col>
@@ -141,19 +147,42 @@
       </a-row>
     </a-form>
   </div>
+  <a-modal v-model:open="openTips" :footer="null" style="top: 30%">
+    <div class="pt-[50px] text-center px-[50px]">
+      <CheckCircleFilled class="text-8xl text-[#208d7b]" />
+      <div class="text-3xl mt-[20px] mb-[60px]">
+        Registration Completed<br />Please Log In !
+      </div>
+      <a-button
+        class="rounded-full"
+        block
+        type="primary"
+        html-type="submit"
+        @click="router.push('login')"
+        >LOG IN</a-button
+      >
+    </div>
+  </a-modal>
   <bottomNav />
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
+import { http } from "../http";
+import country from "../country.json";
+import { useRouter } from "vue-router";
+import { CheckCircleFilled } from "@ant-design/icons-vue";
+const router = useRouter();
+const countryList = country;
+const openTips = ref(false);
 interface FormState {
   email: string;
-  telphone: string;
+  telephone: string;
   firstName: string;
   lastName: string;
   password: string;
   company: string;
-  org: string;
+  vatOrg: string;
   country: string;
   website: string;
   address: string;
@@ -162,19 +191,24 @@ interface FormState {
 
 const formState = reactive<FormState>({
   email: "",
-  telphone: "",
+  telephone: "",
   firstName: "",
   lastName: "",
   password: "",
   company: "",
-  org: "",
+  vatOrg: "",
   country: "",
   website: "",
   address: "",
   agree: false,
 });
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+const onFinish = async (values: any) => {
+  const res: any = await http.post("/api/front/member/register", {
+    params: values,
+  });
+  if (res.data.code === 200) {
+    openTips.value = true;
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
