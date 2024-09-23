@@ -8,7 +8,7 @@
             <div class="content_item" @click="router.push('ourProducts')">
               OUR PRODUCTS
             </div>
-            <div class="content_item" @click="router.push('home')">
+            <div class="content_item" @click="router.push('howtoshop')">
               HOW TO SHOP
             </div>
             <div class="content_item" @click="router.push('aboutUs')">
@@ -51,7 +51,12 @@
               CONTACT US
             </div>
             <div class="content_item" @click="router.push('FAQ')">F.A.Q</div>
-            <div class="content_item">REGISTER A ACCOUNT</div>
+            <div class="content_item" @click="router.push('signup')">
+              REGISTER A ACCOUNT
+            </div>
+            <div class="content_item" @click="router.push('afterSale')">
+              After-sales Service
+            </div>
           </div>
         </div>
         <div class="item">

@@ -4,8 +4,10 @@
     <div class="bg-[#f8f7f8] w-[450px] h-[850px]">
       <div class="incenter pt-[85px] flex-col">
         <img src="@/assets/img/personal/personal.png" alt="" />
-        <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
-        <div class="text-sm mt-2">ID: 321321321321</div>
+        <div class="mt-[30px] font-semibold">
+          {{ isLogin().name }} <EditOutlined />
+        </div>
+        <div class="text-sm mt-2">ID: {{ isLogin().id }}</div>
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -68,8 +70,8 @@
           </div>
           <div class="tips_box">
             <div class="tips">{{ item.hhNo }}</div>
-            <div class="tips">Items packed: {{ item.weight }}st</div>
-            <div class="tips">PG: {{ item.sizeInfo }}</div>
+            <div class="tips">Weight: {{ item.weight }}g</div>
+            <div class="tips">Size: {{ item.sizeInfo }}</div>
           </div>
         </div>
       </div>
@@ -120,6 +122,30 @@ const total = ref<number>(0);
 const current = ref<number>(1);
 
 search();
+const isLogin = () => {
+  // 获取本地存储的 token 和过期时间
+  function getAuthToken() {
+    const token = localStorage.getItem("authToken");
+    const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+    // 判断 token 是否存在且未过期
+    if (token && Date.now() < expiresAt) {
+      return token;
+    } else {
+      // 如果 token 过期或不存在，移除本地存储的 token 信息
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("expiresAt");
+      return null;
+    }
+  }
+  const token: any = getAuthToken();
+  if (!token) {
+    return "Name";
+  } else {
+    const name = JSON.parse(token);
+    return name;
+  }
+};
 </script>
 
 <style scoped>

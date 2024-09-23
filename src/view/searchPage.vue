@@ -41,105 +41,122 @@
         </a-col>
       </a-row>
     </div>
-    <div class="select_box">
-      <div class="left">
-        <a-select
-          v-model="price"
-          placeholder="Price Group"
-          @change="(val: any) => selectChange(val, 'Price Group')"
-        >
-          <a-select-option
-            v-for="item in selectList.priceList"
-            :value="item.id"
-            >{{ item.name }}</a-select-option
+    <div class="w-full flex px-[100px] mt-[30px]">
+      <div class="flex-1 pr-[10%]">
+        <div class="text-2xl">All Products</div>
+        <div v-for="(a, b) in leftList" :key="b" class="pb-5 border-b-2">
+          <div class="text-xl flex justify-between mt-2">
+            <span>{{ a.name }}</span
+            ><span>{{ a.amount }}</span>
+          </div>
+          <div
+            class="flex justify-between mt-[10px]"
+            v-for="(c, d) in a.childs"
+            :key="d"
           >
-        </a-select>
-        <a-select
-          v-model="price"
-          placeholder="Colours"
-          @change="(val: any) => selectChange(val, 'Colours')"
-        >
-          <a-select-option
-            v-for="item in selectList.colorList"
-            :value="item.id"
-            >{{ item.name }}</a-select-option
-          >
-        </a-select>
-        <a-select
-          v-model="price"
-          placeholder="Height"
-          @change="(val: any) => selectChange(val, 'Height')"
-        >
-          <a-select-option
-            v-for="item in selectList.heightList"
-            :value="item.name"
-            >{{ item.name }}</a-select-option
-          >
-        </a-select>
-        <a-select
-          v-model="price"
-          placeholder="Material"
-          @change="(val: any) => selectChange(val, 'Material')"
-        >
-          <a-select-option
-            v-for="item in selectList.materialList"
-            :value="item.id"
-            >{{ item.name }}</a-select-option
-          >
-        </a-select>
-        <a-select
-          v-model="price"
-          placeholder="Placement"
-          @change="(val: any) => selectChange(val, 'Placement')"
-        >
-          <a-select-option
-            v-for="item in selectList.palceList"
-            :value="item.id"
-            >{{ item.name }}</a-select-option
-          >
-        </a-select>
-      </div>
-      <div class="right">
-        <div class="total">
-          <span>{{ total }}</span
-          >Products Found
-        </div>
-        <div class="btn"><SwapOutlined /></div>
-      </div>
-    </div>
-    <a-empty v-if="datalist.length === 0" />
-    <div class="content_box">
-      <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div
-          class="img_box cursor-pointer"
-          @click="
-            router.push({
-              path: '/detail',
-              query: {
-                name: route.query.name,
-                id: item.id,
-                tid: route.query.id,
-              },
-            })
-          "
-        >
-          <img :src="picRootPath + item.picUrl" />
-          <div class="like">
-            <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+            <a-checkbox v-model:checked="checkedList[c.id]">{{
+              c.name
+            }}</a-checkbox
+            ><span>{{ c.amount }}</span>
+          </div>
+          <div class="text-[#208d7b] cursor-pointer mt-2" @click="selectAll(a)">
+            + See all
           </div>
         </div>
-        <div class="title_box">
-          <div class="title">{{ item.name }}</div>
-          <div class="look">
-            <EyeOutlined />
-            <span>{{ item.clickNum }}</span>
+        <div class="text-2xl mt-5">Filter By</div>
+        <div class="font-bold mt-2">Price</div>
+        <a-slider v-model:value="filterArr" range max="60" />
+        <div>RANGE ${{ filterArr[0] || 0 }} - ${{ filterArr[1] || 0 }}</div>
+        <div class="text-2xl mt-5">Colours</div>
+        <a-row :gutter="10" class="mt-2">
+          <a-col :span="4" v-for="(a, b) in selectList.colorList" :key="b"
+            ><div
+              class="w-[30px] h-[30px] rounded-full mt-2"
+              :style="{ backgroundColor: a.remark }"
+            ></div
+          ></a-col>
+        </a-row>
+      </div>
+      <div class="w-[70%]">
+        <div class="select_box">
+          <div class="left">
+            <a-select
+              v-model="price"
+              placeholder="Height"
+              @change="(val: any) => selectChange(val, 'Height')"
+            >
+              <a-select-option
+                v-for="item in selectList.heightList"
+                :value="item.name"
+                >{{ item.name }}</a-select-option
+              >
+            </a-select>
+            <a-select
+              v-model="price"
+              placeholder="Material"
+              @change="(val: any) => selectChange(val, 'Material')"
+            >
+              <a-select-option
+                v-for="item in selectList.materialList"
+                :value="item.id"
+                >{{ item.name }}</a-select-option
+              >
+            </a-select>
+            <a-select
+              v-model="price"
+              placeholder="Placement"
+              @change="(val: any) => selectChange(val, 'Placement')"
+            >
+              <a-select-option
+                v-for="item in selectList.palceList"
+                :value="item.id"
+                >{{ item.name }}</a-select-option
+              >
+            </a-select>
+          </div>
+          <div class="right">
+            <div class="total">
+              <span>{{ total }}</span
+              >Products Found
+            </div>
+            <div class="btn"><SwapOutlined /></div>
           </div>
         </div>
-        <div class="tips_box">
-          <div class="tips">{{ item.hhNo }}</div>
-          <div class="tips">Items packed: {{ item.weight }}st</div>
-          <div class="tips">PG: {{ item.sizeInfo }}</div>
+        <a-empty v-if="datalist.length === 0" />
+        <div class="content_box">
+          <div class="item" v-for="(item, index) in datalist" :key="index">
+            <div
+              class="img_box cursor-pointer"
+              @click="
+                router.push({
+                  path: '/detail',
+                  query: {
+                    name: route.query.name,
+                    id: item.id,
+                    tid: route.query.id,
+                  },
+                })
+              "
+            >
+              <img :src="picRootPath + item.picUrl" />
+              <div class="like">
+                <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
+                <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+              </div>
+            </div>
+            <div class="title_box">
+              <div class="title">{{ item.name }}</div>
+              <div class="look">
+                <EyeOutlined />
+                <span>{{ item.clickNum }}</span>
+              </div>
+            </div>
+            <div class="tips_box">
+              <div class="tips">{{ item.hhNo }}</div>
+              <div class="tips">Weight: {{ item.weight }}g</div>
+              <div class="tips">Size: {{ item.sizeInfo }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -163,7 +180,11 @@ const router = useRouter();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 
+const checkedList: any = ref([]);
+
 const searchText = ref("");
+const leftList: any = ref([]);
+const filterArr: any = ref([]);
 const price = ref("");
 
 const total = ref(0);
@@ -182,6 +203,11 @@ const selectList: any = ref({
 
 const selectChange = (val: any, name: any) => {
   console.log("😅 ~ selectChange ~ val, name:", val, name);
+};
+
+const getPicList = async () => {
+  const res2: any = await http.get("/api/front/product/selectcriteria");
+  selectList.value = res2.data.data;
 };
 
 const search = async () => {
@@ -209,13 +235,30 @@ const getPic = async () => {
   console.log("😅 ~ getPic ~ data:", data.data.data);
   picList.value = data.data.data;
 };
+const getLeft = async () => {
+  const data: any = await http.get(
+    // 获取左侧接口
+    "/api/front/product/search/typelist"
+  );
+  console.log("😅 ~ getLeft ~ data:", data.data.data);
+  leftList.value = data.data.data;
+};
+const selectAll = (a: any) => {
+  console.log("😅 ~ selectAll ~ a:", a);
+  const idList = a.childs.map((item: any) => item.id);
+  console.log("😅 ~ selectAll ~ idList:", idList);
+  idList.forEach((item: any) => {
+    checkedList.value[item] = true;
+  });
+};
 getPic();
 search();
+getPicList();
+getLeft();
 </script>
 
 <style lang="less" scoped>
 .select_box {
-  width: 70%;
   min-width: 1280px;
   margin: 0 auto;
   display: flex;
@@ -247,7 +290,6 @@ search();
   }
 }
 .content_box {
-  width: 70%;
   min-width: 1280px;
   margin: 0 auto;
   display: grid;

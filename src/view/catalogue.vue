@@ -18,7 +18,7 @@
   <div
     class="w-[70%] flex items-center justify-around mt-10 mx-auto px-10 pb-20"
   >
-    <div
+    <!-- <div
       class="flex flex-col items-center cursor-pointer"
       v-for="(a, b) in picList"
       :key="b"
@@ -26,7 +26,19 @@
     >
       <img :src="picRootPath + a.picUrl" alt="" />
       <div class="pt-5 text-2xl">{{ a.name }}</div>
-    </div>
+    </div> -->
+    <a-row :gutter="100">
+      <a-col
+        :span="8"
+        class="flex flex-col items-center cursor-pointer"
+        v-for="(a, b) in picList"
+        :key="b"
+        @click="openPdf(a)"
+      >
+        <img :src="picRootPath + a.picUrl" alt="" />
+        <div class="pt-5 text-2xl">{{ a.name }}</div></a-col
+      >
+    </a-row>
     <a-modal v-model:open="test" title="preview" width="70%" :footer="null">
       <div class="h-[80vh]" v-if="test">
         <PDF :src="pdfPath" />

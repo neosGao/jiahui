@@ -4,8 +4,10 @@
     <div class="bg-[#f8f7f8] w-[450px] h-[850px]">
       <div class="incenter pt-[85px] flex-col">
         <img src="@/assets/img/personal/personal.png" alt="" />
-        <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
-        <div class="text-sm mt-2">ID: 321321321321</div>
+        <div class="mt-[30px] font-semibold">
+          {{ isLogin().name }} <EditOutlined />
+        </div>
+        <div class="text-sm mt-2">ID: {{ isLogin().id }}</div>
       </div>
       <div class="mt-10 bg-[#57b8a8] h-[60px] flex items-center cursor-pointer">
         <div class="mx-[50px]">
@@ -42,7 +44,7 @@
       </div>
     </div>
     <div class="ml-[100px] flex-1">
-      <div class="text-3xl border-b-4 border-b-slate-500 border-dotted pb-5">
+      <div class="text-3xl border-b border-b-slate-500 pb-5">
         Personal Information
       </div>
 
@@ -118,12 +120,12 @@
           <a-col :span="12">
             <a-form-item
               label="VAT/Org.no"
-              name="org"
+              name="vatOrg"
               :rules="[
                 { required: true, message: 'Please input your VAT/Org.no!' },
               ]"
             >
-              <a-input v-model:value="formState.org" />
+              <a-input v-model:value="formState.vatOrg" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -151,12 +153,12 @@
           <a-col :span="12">
             <a-form-item
               label="Telphone"
-              name="telphone"
+              name="telephone"
               :rules="[
-                { required: true, message: 'Please input your telphone!' },
+                { required: true, message: 'Please input your telephone!' },
               ]"
             >
-              <a-input v-model:value="formState.telphone" />
+              <a-input v-model:value="formState.telephone" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -194,9 +196,10 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { http } from "../../http";
+import { message } from "ant-design-vue";
 import {
   EditOutlined,
   UserOutlined,
@@ -206,12 +209,12 @@ import {
 } from "@ant-design/icons-vue";
 interface FormState {
   email: string;
-  telphone: string;
+  telephone: string;
   firstName: string;
   lastName: string;
   password: string;
   company: string;
-  org: string;
+  vatOrg: string;
   country: string;
   website: string;
   address: string;
@@ -219,20 +222,20 @@ interface FormState {
 }
 const router = useRouter();
 
-const formState = reactive<FormState>({
+const formState = ref<FormState>({
   email: "",
-  telphone: "",
+  telephone: "",
   firstName: "",
   lastName: "",
   password: "",
   company: "",
-  org: "",
+  vatOrg: "",
   country: "",
   website: "",
   address: "",
   agree: false,
 });
-
+// /api/front/member/editinfo
 const getInfo = async () => {
   const token = localStorage.getItem("authToken");
   if (!token) return;
@@ -241,13 +244,43 @@ const getInfo = async () => {
     params: { id },
   });
   console.log("😅 ~ getInfo ~ data:", data);
+  formState.value = data.data.data;
 };
 getInfo();
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+const onFinish = async (values: any) => {
+  const res: any = await http.post("/api/front/member/register", {
+    params: values,
+  });
+  if (res.data.code === 200) {
+    message.success("Change success");
+  }
 };
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = async (errorInfo: any) => {
   console.log("Failed:", errorInfo);
+};
+const isLogin = () => {
+  // 获取本地存储的 token 和过期时间
+  function getAuthToken() {
+    const token = localStorage.getItem("authToken");
+    const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+    // 判断 token 是否存在且未过期
+    if (token && Date.now() < expiresAt) {
+      return token;
+    } else {
+      // 如果 token 过期或不存在，移除本地存储的 token 信息
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("expiresAt");
+      return null;
+    }
+  }
+  const token: any = getAuthToken();
+  if (!token) {
+    return "Name";
+  } else {
+    const name = JSON.parse(token);
+    return name;
+  }
 };
 </script>

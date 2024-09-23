@@ -150,7 +150,16 @@ const router = createRouter({
       path: "/searchPage",
       component: () => import("../view/searchPage.vue"),
     },
+    {
+      path: "/howtoshop",
+      component: () => import("../view/howtoshop.vue"),
+    },
+    {
+      path: "/afterSale",
+      component: () => import("../view/afterSale.vue"),
+    },
   ],
+  // 设置全局前置守卫
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
@@ -160,5 +169,40 @@ const router = createRouter({
     }
   },
 });
+
+router.beforeEach((to, _from, next) => {
+  const isAuthenticated = getAuthToken(); // 检查登录状态
+
+  const routeList = [
+    "/personal",
+    "/shoppingBag",
+    "/order",
+    "/collection",
+    "/detail",
+  ];
+
+  if (routeList.includes(to.path || "") && !isAuthenticated) {
+    // 如果没有登录并且目标路由是列表页
+    next({ path: "/login" }); // 跳转到登录页面
+  } else {
+    next(); // 继续导航
+  }
+});
+
+// 获取本地存储的 token 和过期时间
+function getAuthToken() {
+  const token = localStorage.getItem("authToken");
+  const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+  // 判断 token 是否存在且未过期
+  if (token && Date.now() < expiresAt) {
+    return token;
+  } else {
+    // 如果 token 过期或不存在，移除本地存储的 token 信息
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("expiresAt");
+    return null;
+  }
+}
 
 export default router;

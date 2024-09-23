@@ -16,14 +16,167 @@
       </div>
       <div class="mt-10">
         <a-row :gutter="50">
-          <a-col :span="8" v-for="(a, b) in ListData" :key="b"
-            ><div class="border-t-4 border-t-slate-500 py-[92px]">
+          <a-col :span="8" v-for="(a, b) in ListData" :key="b">
+            <!-- 动态类名绑定，根据条件添加/移除类名 -->
+            <div
+              :class="[
+                'py-[45px]', // 公共类名
+                { 'border-b-4 border-b-slate-500': b < ListData.length - 3 }, // 条件类名
+              ]"
+            >
               <div class="text-5xl">{{ a.name }}</div>
               <div class="mt-5 text-base">{{ a.remark }}</div>
-            </div></a-col
-          >
+            </div>
+          </a-col>
         </a-row>
+        <img
+          src="@/assets/img/history/history2.png"
+          alt=""
+          class="w-full mt-20"
+        />
+        <div class="incenter">
+          <img src="@/assets/img/history/history3.png" alt="" class="mt-20" />
+        </div>
+        <div class="text-center text-3xl font-bold">why choose us</div>
+        <div class="incenter mt-[60px] border">
+          <img src="@/assets/img/history/history4.png" alt="" class="w-[50%]" />
+          <div class="w-[50%] p-[150px]">
+            <div class="text-5xl">Comprehensive Strength Of The Enterprise</div>
+            <div class="mt-10">
+              Possess a forward-looking vision, perfect management system,
+              suficient talent reserve, and rising asset scale.driving the
+              sustainable and healthy development of the enterprise.
+            </div>
+          </div>
+        </div>
+        <div class="incenter mt-[60px] border">
+          <div class="w-[50%] p-[150px]">
+            <div class="text-5xl">Professional Manufacturing Capabilities</div>
+            <div class="mt-10">
+              We have a sales team, design team, production team, quality
+              inspection team, warehousing and logistics team that adapt to
+              market development in an all-round way, as well as a plan for
+              technology and material research and development.
+            </div>
+          </div>
+          <img src="@/assets/img/history/history5.png" alt="" class="w-[50%]" />
+        </div>
+        <div class="incenter mt-[60px] border">
+          <img src="@/assets/img/history/history6.png" alt="" class="w-[50%]" />
+          <div class="w-[50%] p-[150px]">
+            <div class="text-5xl">Rich And Diverse Products</div>
+            <div class="mt-10">
+              Possess a forward-looking vision, perfect management system,
+              suficient talent reserve, and rising asset scale.driving the
+              sustainable and healthy development of the enterprise.
+            </div>
+          </div>
+        </div>
+        <div class="mt-[60px]">
+          <div class="text-5xl mb-2">Steady Increase In Market Share</div>
+          <div>
+            Products are exported to all over the world, and we have reached
+            parnerships with many well-known brands
+          </div>
+          <img
+            src="@/assets/img/history/history7.png"
+            alt=""
+            class="w-[100%] mt-10"
+          />
+        </div>
+        <div class="incenter mt-[60px] border">
+          <div class="w-[50%] incenter gap-5">
+            <img
+              src="@/assets/img/history/history8.png"
+              alt=""
+              class="w-[64%] h-[500px]"
+            />
+            <img
+              src="@/assets/img/history/history9.png"
+              alt=""
+              class="w-[45%] h-[500px]"
+            />
+          </div>
+          <div class="w-[50%] p-[150px]">
+            <div class="text-5xl">
+              High-quality Ecological Supply Chain System
+            </div>
+            <div class="mt-10">
+              Strive to become a intelligent enterprise in the new era.
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="incenter">
+      <img src="@/assets/img/history/history10.png" alt="" class="mt-40" />
+    </div>
+    <div class="bg-[#f8f7f8] p-[100px] mt-[50px]">
+      <div class="text-3xl text-center">Market Distribution:</div>
+      <div class="text-center">
+        Multiple countries in Europe, Australia, North America, South America,
+        Southeast Asia, Oceania, and Africa
+      </div>
+      <div class="incenter mt-20">
+        <img src="@/assets/img/history/history11.png" alt="" />
+      </div>
+    </div>
+    <div class="w-[70%] mx-auto mt-[120px]">
+      <a-row>
+        <a-col :span="12" class="text-5xl">Exhibiting experience</a-col>
+        <a-col :span="12" class="text-xl"
+          >Canton Fair, Lahore Exhibition, Dubai Exhibition, Birmingham
+          Exhibition, Moscow Exhibition, Germany Frankfurt Exhibition, Shanghai
+          Department Store Exhibition, Guangdong Expo;</a-col
+        >
+      </a-row>
+      <a-row :gutter="20" class="mt-[120px]">
+        <a-col :span="8" class="relative" @click="router.push('event')">
+          <!-- 添加 relative 类 -->
+          <img :src="picBottomPath[0]" alt="" class="w-full h-[700px]" />
+          <!-- 遮罩层 -->
+          <div class="absolute inset-0 bg-[#1a8e7d] opacity-50 mx-[10px]"></div>
+
+          <!-- 文本居中显示 -->
+          <div
+            class="absolute inset-0 flex justify-center items-center text-white border border-white"
+          >
+            <div class="border border-white p-[20px] py-[10px] cursor-pointer">
+              More Of Our Events
+            </div>
+          </div>
+        </a-col>
+        <a-col :span="16">
+          <a-row :gutter="20">
+            <a-col :span="8">
+              <img
+                :src="picBottomPath[1]"
+                alt=""
+                class="w-full h-[340px]"
+              /> </a-col
+            ><a-col :span="8">
+              <img
+                :src="picBottomPath[2]"
+                alt=""
+                class="w-full h-[340px]"
+              /> </a-col
+            ><a-col :span="8">
+              <img :src="picBottomPath[3]" alt="" class="w-full h-[340px]" />
+            </a-col>
+          </a-row>
+          <a-row :gutter="20" class="mt-[20px]"
+            ><a-col :span="12">
+              <img
+                :src="picBottomPath[4]"
+                alt=""
+                class="w-full h-[340px]"
+              /> </a-col
+            ><a-col :span="12">
+              <img :src="picBottomPath[5]" alt="" class="w-full h-[340px]" />
+            </a-col>
+          </a-row>
+        </a-col>
+      </a-row>
     </div>
   </div>
   <bottomNav />
@@ -31,10 +184,13 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
+import { useRouter } from "vue-router";
+const router = useRouter();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址
 const picLastPath = ref("");
+const picBottomPath: any = ref([]);
 const ListData: any = ref([]);
 const getPic = async () => {
   const data: any = await http.get(
@@ -49,6 +205,22 @@ const getPic = async () => {
   console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
   picLastPath.value = data.data.data[0].picUrl;
 };
+const getPicBottom = async () => {
+  const data: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "devleop_exhibiting",
+        size: 6,
+      },
+    }
+  );
+  console.log("😅 ~ getPic ~ data:", data.data.data);
+  picBottomPath.value = data.data.data.map(
+    (item: any) => picRootPath + item.picUrl
+  );
+};
 const getPicList = async () => {
   const data: any = await http.get(
     // 获取banner接口
@@ -59,6 +231,7 @@ const getPicList = async () => {
 };
 getPic();
 getPicList();
+getPicBottom();
 </script>
 <style lang="less" scoped>
 .container {

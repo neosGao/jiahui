@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'hmosFont'; /* 自定义字体名称 */
+  src: url('@/assets/font/HARMONYOS_SANS_SC_LIGHT.TTF') format('truetype');
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -32,6 +37,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* 使用字体 */
+  font-family: 'hmosFont', sans-serif;
 }
 
 h1 {

@@ -18,7 +18,7 @@
           })
         "
       >
-        <img :src="picRootPath + a.picUrl" alt="" class="w-[50px]" />
+        <img :src="picRootPath + a.picUrl" alt="" class="w-[50px] h-[100px]" />
         <div class="ml-5">
           <div class="mt-[25px] text-[#208d7b]">{{ a.enName }}</div>
           <div class="mt-[10px]">{{ a.name }}</div>
@@ -91,8 +91,8 @@
         </div>
         <div class="tips_box">
           <div class="tips">{{ item.hhNo }}</div>
-          <div class="tips">Items packed: {{ item.weight }}st</div>
-          <div class="tips">PG: {{ item.sizeInfo }}</div>
+          <div class="tips">Weight: {{ item.weight }}g</div>
+          <div class="tips">Size: {{ item.sizeInfo }}</div>
         </div>
       </div>
     </div>

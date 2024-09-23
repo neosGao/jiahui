@@ -56,8 +56,15 @@
         />
       </div>
       <div class="incenter mt-[60px]">
-        <a-button type="primary" class="rounded-none">Explore</a-button>
-        <a-button class="rounded-none ml-[25px]">Contact Us</a-button>
+        <a-button
+          type="primary"
+          class="rounded-none"
+          @click="router.push('searchPage')"
+          >Explore</a-button
+        >
+        <a-button class="rounded-none ml-[25px]" @click="router.push('contact')"
+          >Contact Us</a-button
+        >
       </div>
     </div>
     <div class="w-[70%] py-[50px] min-w-[1280px] mx-auto">

@@ -50,7 +50,7 @@
             <div class="value">{{ infoObj.price }}</div>
           </div>
           <div class="label_item">
-            <div class="label">Packing</div>
+            <div class="label">Weight</div>
             <div class="value">{{ infoObj.weight }}</div>
           </div>
           <div class="label_item">
@@ -104,8 +104,8 @@
         </div>
         <div class="tips_box">
           <div class="tips">{{ item.hhNo }}</div>
-          <div class="tips">Items packed: {{ item.weight }}st</div>
-          <div class="tips">PG: {{ item.sizeInfo }}</div>
+          <div class="tips">Weight: {{ item.weight }}g</div>
+          <div class="tips">Size: {{ item.sizeInfo }}</div>
         </div>
       </div>
     </div>

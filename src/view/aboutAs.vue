@@ -130,19 +130,18 @@
           National Credit Certification<br />AAA
         </div>
       </div>
-      <div
-        class="flex text-[#fff] w-[70%] mx-auto mt-[50px] justify-between relative"
-      >
-        <div class="custom-slick-arrow" style="transform: translateY(50%)">
-          <left-circle-outlined class="text-3xl" />
-        </div>
-        <img src="@/assets/img/aboutAs/aboutUs20.png" alt="" />
-        <img src="@/assets/img/aboutAs/aboutUs21.png" alt="" />
-        <img src="@/assets/img/aboutAs/aboutUs22.png" alt="" />
-        <img src="@/assets/img/aboutAs/aboutUs23.png" alt="" />
-        <img src="@/assets/img/aboutAs/aboutUs24.png" alt="" />
-        <div class="custom-slick-arrow" style="transform: translateY(50%)">
-          <right-circle-outlined class="text-3xl" />
+      <div class="text-[#fff] w-[70%] mx-auto mt-[50px]">
+        <div>
+          <swiper
+            :slides-per-view="5"
+            :space-between="20"
+            :modules="[Navigation]"
+            navigation
+          >
+            <swiper-slide v-for="(a, b) in bookList" :key="b"
+              ><img :src="picRootPath + a" alt=""
+            /></swiper-slide>
+          </swiper>
         </div>
       </div>
     </div>
@@ -152,11 +151,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
-import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons-vue";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css/navigation";
+import "swiper/css";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址
 const picLastPath = ref("");
+const bookList: any = ref([]);
 const getPic = async () => {
   const data: any = await http.get(
     // 获取banner接口
@@ -167,8 +170,18 @@ const getPic = async () => {
       },
     }
   );
-  console.log("😅 ~ getPic ~ data:", data.data.data[0].picUrl);
   picLastPath.value = data.data.data[0].picUrl;
+  const res2: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "aboutus_cert",
+        size: 50,
+      },
+    }
+  );
+  bookList.value = res2.data.data.map((item: any) => item.picUrl);
 };
 getPic();
 </script>

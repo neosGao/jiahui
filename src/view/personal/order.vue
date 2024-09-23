@@ -4,8 +4,10 @@
     <div class="bg-[#f8f7f8] w-[450px] h-[850px]">
       <div class="incenter pt-[85px] flex-col">
         <img src="@/assets/img/personal/personal.png" alt="" />
-        <div class="mt-[30px] font-semibold">Name <EditOutlined /></div>
-        <div class="text-sm mt-2">ID: 321321321321</div>
+        <div class="mt-[30px] font-semibold">
+          {{ isLogin().name }} <EditOutlined />
+        </div>
+        <div class="text-sm mt-2">ID: {{ isLogin().id }}</div>
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -50,13 +52,13 @@
           Transaction completed
         </div>
       </div>
-      <div class="mt-5 flex border-b-4 border-b-slate-500 border-dotted pb-5">
+      <div class="mt-5 flex border-b-2 pb-5">
         <div class="basis-7/12">ltem(s) Ordered</div>
         <div class="basis-2/12">Price</div>
         <div class="basis-2/12">Qty</div>
         <div class="basis-1/12">Total</div>
       </div>
-      <div class="mt-5 flex border-b-4 border-b-slate-500 border-dotted pb-5">
+      <div class="mt-5 flex border-b-2 pb-5">
         <div class="basis-7/12 flex items-center">
           <img src="@/assets/img/personal/personal.png" alt="" />
           <div class="ml-5">
@@ -134,4 +136,28 @@ const formState = reactive<FormState>({
 // const onFinishFailed = (errorInfo: any) => {
 //   console.log("Failed:", errorInfo);
 // };
+const isLogin = () => {
+  // 获取本地存储的 token 和过期时间
+  function getAuthToken() {
+    const token = localStorage.getItem("authToken");
+    const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+    // 判断 token 是否存在且未过期
+    if (token && Date.now() < expiresAt) {
+      return token;
+    } else {
+      // 如果 token 过期或不存在，移除本地存储的 token 信息
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("expiresAt");
+      return null;
+    }
+  }
+  const token: any = getAuthToken();
+  if (!token) {
+    return "Name";
+  } else {
+    const name = JSON.parse(token);
+    return name;
+  }
+};
 </script>

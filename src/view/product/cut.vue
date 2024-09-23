@@ -42,10 +42,12 @@
           placeholder="Colours"
           @change="(val: any) => selectChange(val, 'Colours')"
         >
-          <a-select-option
-            v-for="item in selectList.colorList"
-            :value="item.id"
-            >{{ item.name }}</a-select-option
+          <a-select-option v-for="item in selectList.colorList" :value="item.id"
+            ><div
+              class="w-[10px] h-[10px] rounded-full inline-block"
+              :style="{ backgroundColor: item.remark }"
+            ></div>
+            {{ item.name }}</a-select-option
           >
         </a-select>
         <a-select
@@ -121,8 +123,8 @@
         </div>
         <div class="tips_box">
           <div class="tips">{{ item.hhNo }}</div>
-          <div class="tips">Items packed: {{ item.weight }}st</div>
-          <div class="tips">PG: {{ item.sizeInfo }}</div>
+          <div class="tips">Weight: {{ item.weight }}g</div>
+          <div class="tips">Size: {{ item.sizeInfo }}</div>
         </div>
       </div>
     </div>

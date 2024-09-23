@@ -20,6 +20,7 @@
     "pdf-vue3": "^1.0.12",
     "pinia": "^2.2.2",
     "postcss": "^8.4.44",
+    "swiper": "^11.1.14",
     "tailwindcss": "^3.4.10",
     "vue": "^3.4.37",
     "vue-router": "4.0.3"

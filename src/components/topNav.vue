@@ -2,7 +2,9 @@
   <div class="top_nav_main">
     <div class="top_login">
       <div class="top_left">GUANGDONG JIAHUI HOME DESIGN CO., LTD</div>
-      <div class="top_right">Log In / Sign Up</div>
+      <div class="top_right cursor-pointer" @click="router.push('personal')">
+        {{ isLogin() }}
+      </div>
     </div>
     <div class="bottom_bg">
       <div class="bottom_main">
@@ -130,6 +132,31 @@ const getPicList = async () => {
 //   picList.value = data.data.data;
 // };
 getPicList();
+// const isLogin = ref('Log In / Sign Up')
+const isLogin = () => {
+  // 获取本地存储的 token 和过期时间
+  function getAuthToken() {
+    const token = localStorage.getItem("authToken");
+    const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+    // 判断 token 是否存在且未过期
+    if (token && Date.now() < expiresAt) {
+      return token;
+    } else {
+      // 如果 token 过期或不存在，移除本地存储的 token 信息
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("expiresAt");
+      return null;
+    }
+  }
+  const token: any = getAuthToken();
+  if (!token) {
+    return "Log In / Sign Up";
+  } else {
+    const name = JSON.parse(token).name;
+    return name;
+  }
+};
 </script>
 
 <style lang="less" scoped>
