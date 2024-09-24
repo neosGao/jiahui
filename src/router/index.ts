@@ -123,6 +123,10 @@ const router = createRouter({
       component: () => import("../view/story.vue"),
     },
     {
+      path: "/newsPage",
+      component: () => import("../view/newsPage.vue"),
+    },
+    {
       path: "/inspiration",
       component: () => import("../view/inspiration.vue"),
     },
@@ -157,6 +161,10 @@ const router = createRouter({
     {
       path: "/afterSale",
       component: () => import("../view/afterSale.vue"),
+    },
+    {
+      path: "/storyMp4",
+      component: () => import("../view/storyMp4.vue"),
     },
   ],
   // 设置全局前置守卫

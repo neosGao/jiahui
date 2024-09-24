@@ -1,10 +1,11 @@
 <template>
   <topNav />
   <div
-    class="w-full h-[880px] bg-cover bg-center bg-[url('@/assets/img/home/home.png')]"
+    class="w-full h-[600px] bg-cover bg-center bg-[url('@/assets/img/home/home.png')]"
+    :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
   ></div>
   <div
-    class="bg-[#f8f7f8] w-full h-[200px] flex flex-col items-center justify-center"
+    class="bg-[#f8f7f8] w-full h-[160px] flex flex-col items-center justify-center"
   >
     <div class="flex flex-row items-center justify-center">
       <div
@@ -72,14 +73,30 @@
     <div class="absolute left-[10%] top-[40%]">
       <left-circle-outlined class="text-3xl cursor-pointer" />
     </div>
+
     <a-empty v-if="datalist.length === 0" />
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div class="img_box">
+        <div
+          class="img_box cursor-pointer"
+          @click="
+            router.push({
+              path: '/detail',
+              query: {
+                name: route.query.name,
+                id: item.id,
+                tid: route.query.id,
+              },
+            })
+          "
+        >
           <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+            <HeartTwoTone
+              @click.stop="loveClick(item)"
+              :twoToneColor="item.favor ? '#eb2f96' : ''"
+            />
           </div>
         </div>
         <div class="title_box">
@@ -106,7 +123,7 @@
 <script lang="ts" setup>
 import { http } from "../http";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import {
   HeartTwoTone,
   EyeOutlined,
@@ -116,22 +133,18 @@ import {
 
 const datalist: any = ref([1, 2, 3, 4, 6, 7, 8, 9, 11, 2]);
 const datalist2: any = ref([]);
+const picLastPath: any = ref("");
 const router = useRouter();
+const route = useRoute();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址
 const picList: any = ref([]);
 const getPicList = async () => {
-  const data: any = await http.get("/api/front/home/homeadsamlllist");
-  picList.value = data.data.data;
-  const data2: any = await http.get("/api/front/advert/limitrelationlist", {
-    params: {
-      code: "home_middle",
-      size: 2,
-    },
-  });
-  console.log("😅 ~ getPicList ~ data2:", data2);
-  datalist2.value = data2.data.data;
+  const data: any = await http.get("/api/front/home/homeunifyinfo");
+  picLastPath.value = data.data.data.bannerUrl;
+  picList.value = data.data.data.adSmallList;
+  datalist2.value = data.data.data.midList;
 };
 const search = async () => {
   const data: any = await http.get("/api/front/home/productpage");
@@ -140,6 +153,19 @@ const search = async () => {
 
 getPicList();
 search();
+const loveClick = async (love: any) => {
+  const favor = !Boolean(love.favor);
+  const data: any = await http.post("/api/front/member/favorproduct", {
+    params: {
+      favor,
+      id: love.id,
+    },
+  });
+  if (data.data.code == 200) {
+    love.favor = favor;
+  }
+  console.log("😅 ~ loveClick ~ data:", data);
+};
 </script>
 
 <style scoped>

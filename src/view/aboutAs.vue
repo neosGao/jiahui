@@ -106,7 +106,12 @@
           >If you are already a distributor of our products but need an account,
           please contact us.
         </div>
-        <img src="@/assets/img/aboutAs/aboutUs17.png" alt="" class="mt-10" />
+        <img
+          src="@/assets/img/aboutAs/aboutUs17.png"
+          alt=""
+          class="mt-10 cursor-pointer"
+          @click="router.push('howtoshop')"
+        />
       </div>
     </div>
     <div
@@ -155,6 +160,8 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css/navigation";
 import "swiper/css";
+import { useRouter } from "vue-router";
+const router = useRouter();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址

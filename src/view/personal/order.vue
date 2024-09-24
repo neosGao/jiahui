@@ -25,13 +25,16 @@
         <div class="mx-[50px]">
           <ShoppingOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl">Shopping Bag [0]</span>
+        <span class="text-xl">Shopping Bag</span>
       </div>
       <div class="mt-10 bg-[#57b8a8] h-[60px] flex items-center cursor-pointer">
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-white" />
         </div>
-        <span class="text-xl text-white">My Order [0]</span>
+        <span class="text-xl text-white"
+          >My Order
+          <span v-if="orderList.total != 0">[{{ orderList.total }}]</span></span
+        >
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -46,8 +49,12 @@
     <div class="ml-[100px] flex-1">
       <div class="text-3xl pb-5">My Order</div>
       <div class="bg-[#f8f7f8] flex px-[20px] py-[30px]">
-        <div class="font-semibold basis-3/12">Order #:209255334</div>
-        <div class="font-semibold basis-3/12">Date: July 30,2024</div>
+        <div class="font-semibold basis-3/12">
+          Order #:{{ orderList.orderNo }}
+        </div>
+        <div class="font-semibold basis-3/12">
+          Date: {{ orderList.orderTime }}
+        </div>
         <div class="font-semibold basis-5/12 text-right">
           Transaction completed
         </div>
@@ -58,32 +65,33 @@
         <div class="basis-2/12">Qty</div>
         <div class="basis-1/12">Total</div>
       </div>
-      <div class="mt-5 flex border-b-2 pb-5">
+      <div
+        class="mt-5 flex border-b-2 pb-5"
+        v-for="(a, b) in orderList.list"
+        :key="b"
+      >
         <div class="basis-7/12 flex items-center">
-          <img src="@/assets/img/personal/personal.png" alt="" />
+          <img
+            :src="picRootPath + a.picUrl"
+            alt=""
+            class="w-[150px] h-[150px]"
+          />
           <div class="ml-5">
-            <div>Big Banyan Tree</div>
-            <div class="mt-2 text-slate-400">HA4LY19680</div>
+            <div>{{ a.name }}</div>
+            <div class="mt-2 text-slate-400">{{ a.hhNo }}</div>
             <div class="mt-4 text-slate-400 text-sm">
-              Color: Black Items packed : 2st
+              Color: {{ a.colorName }} Weight : {{ a.weight }}g
             </div>
           </div>
         </div>
-        <div class="basis-2/12 flex items-center">$50</div>
-        <div class="basis-2/12 flex items-center">
-          <a-input-number
-            id="inputNumber"
-            v-model:value="formState.email"
-            :min="1"
-            :max="10"
-          />
-        </div>
-        <div class="basis-1/12 flex items-center">$50</div>
+        <div class="basis-2/12 flex items-center">{{ a.price }}</div>
+        <div class="basis-2/12 flex items-center">{{ a.amount }}</div>
+        <div class="basis-2/12 flex items-center">{{ a.totalPrice }}</div>
       </div>
       <div class="mt-5 flex items-center justify-between h-[60px]">
         <div class="basis-2/12"></div>
         <div class="basis-2/12 text-center">
-          <div class="text-xl font-semibold">Total: $500</div>
+          <div class="text-xl font-semibold">Total: ${{ orderList.total }}</div>
         </div>
       </div>
     </div>
@@ -92,7 +100,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import {
   EditOutlined,
@@ -101,34 +109,10 @@ import {
   ShoppingCartOutlined,
   HeartOutlined,
 } from "@ant-design/icons-vue";
-interface FormState {
-  email: string;
-  telphone: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  company: string;
-  org: string;
-  country: string;
-  website: string;
-  address: string;
-  agree: boolean;
-}
+import { http } from "../../http";
 const router = useRouter();
-
-const formState = reactive<FormState>({
-  email: "",
-  telphone: "",
-  firstName: "",
-  lastName: "",
-  password: "",
-  company: "",
-  org: "",
-  country: "",
-  website: "",
-  address: "",
-  agree: false,
-});
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
 // const onFinish = (values: any) => {
 //   console.log("Success:", values);
 // };
@@ -136,6 +120,13 @@ const formState = reactive<FormState>({
 // const onFinishFailed = (errorInfo: any) => {
 //   console.log("Failed:", errorInfo);
 // };
+const orderList: any = ref({});
+const search = async () => {
+  const data: any = await http.get("/api/front/member/shop/order/page");
+  console.log("😅 ~ search ~ data:", data);
+  orderList.value = data.data.data;
+};
+search();
 const isLogin = () => {
   // 获取本地存储的 token 和过期时间
   function getAuthToken() {
@@ -160,4 +151,10 @@ const isLogin = () => {
     return name;
   }
 };
+// const totalPrice = computed(() => {
+//   return orderList?.value?.list.reduce(
+//     (sum: any, item: any) => sum + item.totalPrice,
+//     0
+//   );
+// });
 </script>

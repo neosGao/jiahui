@@ -96,10 +96,37 @@ const getPicList = async () => {
   picList.value = data.data.data;
 };
 
+const isLogin = () => {
+  // 获取本地存储的 token 和过期时间
+  function getAuthToken() {
+    const token = localStorage.getItem("authToken");
+    const expiresAt = parseInt(localStorage.getItem("expiresAt") || "0", 10);
+
+    // 判断 token 是否存在且未过期
+    if (token && Date.now() < expiresAt) {
+      return token;
+    } else {
+      // 如果 token 过期或不存在，移除本地存储的 token 信息
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("expiresAt");
+      return null;
+    }
+  }
+  const token: any = getAuthToken();
+  if (!token) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const openPdf = async (a: any) => {
   console.log("😅 ~ openPdf ~ a.id:", a.id);
-  openTips.value = true;
-  return;
+  const login: boolean = isLogin();
+  if (!login) {
+    openTips.value = true;
+    return;
+  }
   // /api/front/catalog/downloadalbum previewalbum
   const res: any = await http.get(
     "/api/front/catalog/downloadalbum",

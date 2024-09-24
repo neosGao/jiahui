@@ -22,7 +22,10 @@
         <div class="mx-[50px]">
           <ShoppingOutlined class="text-3xl text-white" />
         </div>
-        <span class="text-xl text-white">Shopping Bag [0]</span>
+        <span class="text-xl text-white"
+          >Shopping Bag
+          <span v-if="shopList.length != 0">[{{ shopList.length }}]</span></span
+        >
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -31,7 +34,7 @@
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl">My Order [0]</span>
+        <span class="text-xl">My Order</span>
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -52,30 +55,41 @@
         <div class="basis-2/12">Quantity</div>
         <div class="basis-1/12">Total</div>
       </div>
-      <div class="mt-5 flex border-b-2 pb-5">
+      <div
+        class="mt-5 flex border-b-2 pb-5"
+        v-for="(a, b) in shopList"
+        :key="b"
+      >
         <div class="basis-5/12 flex items-center">
-          <img src="@/assets/img/personal/personal.png" alt="" />
+          <img
+            :src="picRootPath + a.picUrl"
+            alt=""
+            class="w-[150px] h-[150px]"
+          />
           <div class="ml-5">
-            <div>Big Banyan Tree</div>
-            <div class="mt-2 text-slate-400">HA4LY19680</div>
+            <div>{{ a.name }}</div>
+            <div class="mt-2 text-slate-400">{{ a.hhNo }}</div>
           </div>
         </div>
-        <div class="basis-2/12 flex items-center">$50</div>
+        <div class="basis-2/12 flex items-center">${{ a.price }}</div>
         <div class="basis-2/12 flex items-center">
           <div>
-            <div>Color: Black</div>
-            <div>Items packed : 2st</div>
+            <div>Color: {{ a.colorName }}</div>
+            <!-- <div>Items packed : 2st</div> -->
+            <div>Weight : {{ a.weight }}g</div>
           </div>
         </div>
         <div class="basis-2/12 flex items-center">
           <a-input-number
             id="inputNumber"
-            v-model:value="formState.email"
-            :min="1"
-            :max="10"
+            v-model:value="a.amount"
+            :min="a.moq"
+            :max="999"
+            :precision="0"
+            @change="(val:any) => numberChange(a, val)"
           />
         </div>
-        <div class="basis-1/12 flex items-center">$50</div>
+        <div class="basis-1/12 flex items-center">${{ a.totalPrice }}</div>
       </div>
       <div class="mt-5 flex items-center justify-between h-[60px]">
         <div class="basis-2/12">
@@ -85,11 +99,12 @@
             html-type="submit"
             size="large"
             class="!rounded-full"
+            @click="checkoutBtn"
             >Checkout</a-button
           >
         </div>
         <div class="basis-2/12 text-center">
-          <div class="text-xl font-semibold">Total: $500</div>
+          <div class="text-xl font-semibold">Total: ${{ totalPrice }}</div>
         </div>
       </div>
     </div>
@@ -98,7 +113,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { http } from "../../http";
 import {
@@ -108,37 +123,15 @@ import {
   ShoppingCartOutlined,
   HeartOutlined,
 } from "@ant-design/icons-vue";
-interface FormState {
-  email: string;
-  telphone: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  company: string;
-  org: string;
-  country: string;
-  website: string;
-  address: string;
-  agree: boolean;
-}
+// 图片根目录
+const picRootPath = import.meta.env.VITE_PIC_URL;
 const router = useRouter();
 
-const formState = reactive<FormState>({
-  email: "",
-  telphone: "",
-  firstName: "",
-  lastName: "",
-  password: "",
-  company: "",
-  org: "",
-  country: "",
-  website: "",
-  address: "",
-  agree: false,
-});
+const shopList: any = ref({});
 const search = async () => {
   const data: any = await http.get("/api/front/member/shop/mycartlist");
   console.log("😅 ~ search ~ data:", data);
+  shopList.value = data.data.data;
 };
 search();
 // const onFinish = (values: any) => {
@@ -170,6 +163,27 @@ const isLogin = () => {
   } else {
     const name = JSON.parse(token);
     return name;
+  }
+};
+const numberChange = (a: any, val: any) => {
+  console.log("😅 ~ numberChange ~ a, val:", a, val);
+  a.totalPrice = (a.price * 100 * val) / 100;
+};
+const totalPrice = computed(() => {
+  return shopList?.value?.reduce(
+    (sum: any, item: any) => sum + item.totalPrice,
+    0
+  );
+});
+const checkoutBtn = async () => {
+  const carts = shopList.value.map((a: any) => {
+    return { amount: a.amount, id: a.id };
+  });
+  const data: any = await http.post("/api/front/member/shop/order/savemore/", {
+    data: { carts },
+  });
+  if (data.data.code == 200) {
+    console.log("成功占位");
   }
 };
 </script>

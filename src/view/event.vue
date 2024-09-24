@@ -31,7 +31,13 @@
         ></a-tab-pane>
       </a-tabs>
       <a-row :gutter="50">
-        <a-col :span="8" v-for="(a, b) in eventList2" :key="b" class="mb-10">
+        <a-col
+          :span="8"
+          v-for="(a, b) in eventList2"
+          :key="b"
+          class="mb-10 cursor-pointer"
+          @click="router.push({ path: '/newsPage', query: { id: a.id } })"
+        >
           <div>
             <img :src="picRootPath + a.picUrl" alt="" class="w-full" />
           </div>
@@ -57,6 +63,8 @@ import { http } from "../http";
 const activeKey = ref(1);
 const eventList: any = ref([]);
 const eventList2: any = ref([1, 2, 3, 4]);
+import { useRouter } from "vue-router";
+const router = useRouter();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址

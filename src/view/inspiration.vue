@@ -25,23 +25,23 @@
         <img src="@/assets/img/inspiration/inspiration3.png" alt="" />
       </div>
       <div class="incenter mt-[50px]">
-        <!-- <div class="container">
+        <div class="container">
           <div class="left-image">
-            <img src="@/assets/img/inspiration/inspiration4.png" />
+            <img :src="picRootPath + midPics[0].picUrl" />
           </div>
 
           <div class="right-images">
-            <img src="@/assets/img/inspiration/inspiration5.png" />
-            <img src="@/assets/img/inspiration/inspiration6.png" />
-            <img src="@/assets/img/inspiration/inspiration7.png" />
-            <img src="@/assets/img/inspiration/inspiration8.png" />
+            <img :src="picRootPath + midPics[1].picUrl" />
+            <img :src="picRootPath + midPics[2].picUrl" />
+            <img :src="picRootPath + midPics[3].picUrl" />
+            <img :src="picRootPath + midPics[4].picUrl" />
           </div>
-        </div> -->
-        <a-row :gutter="20">
+        </div>
+        <!-- <a-row :gutter="20">
           <a-col :span="8" v-for="(a, b) in midPics" :key="b">
             <img :src="picRootPath + a.picUrl" />
           </a-col>
-        </a-row>
+        </a-row> -->
       </div>
     </div>
     <div
@@ -93,7 +93,7 @@
   <bottomNav />
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { http } from "../http";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -113,7 +113,9 @@ const getPic = async () => {
   midPics.value = data.data.data.midPics;
   typeList.value = data.data.data.typeList;
 };
-getPic();
+onMounted(() => {
+  getPic();
+});
 </script>
 <style lang="less" scoped>
 .container {

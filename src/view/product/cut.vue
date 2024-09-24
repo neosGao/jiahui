@@ -111,7 +111,10 @@
           <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+            <HeartTwoTone
+              @click.stop="loveClick(item)"
+              :twoToneColor="item.favor ? '#eb2f96' : ''"
+            />
           </div>
         </div>
         <div class="title_box">
@@ -205,6 +208,19 @@ watch(
     getPicList();
   }
 );
+const loveClick = async (love: any) => {
+  const favor = !Boolean(love.favor);
+  const data: any = await http.post("/api/front/member/favorproduct", {
+    params: {
+      favor,
+      id: love.id,
+    },
+  });
+  if (data.data.code == 200) {
+    love.favor = favor;
+  }
+  console.log("😅 ~ loveClick ~ data:", data);
+};
 </script>
 <style lang="less" scoped>
 .cut_mian {

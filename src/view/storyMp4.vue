@@ -15,66 +15,13 @@
     >
       <img src="@/assets/img/story/story1.png" alt="" class="mr-[15%]" />
     </div>
-    <div class="w-[70%] mx-auto mt-[100px] mb-[100px]">
-      <div class="text-5xl text-[#208d7b]">
-        {{ videoTit.name }}
-      </div>
-      <div class="video-thumbnail w-full my-10" @click="playVideo(videoTit)">
-        <!-- 图片 -->
-        <img :src="picRootPath + videoTit.picUrl" alt="" class="w-full" />
-
-        <!-- 遮罩层 -->
-        <div class="overlay">
-          <!-- 播放图标 -->
-          <PlayCircleOutlined class="play-icon" />
-        </div>
-      </div>
-      <div class="flex items-center">
-        <img src="@/assets/img/story/story3.png" alt="" />
-        <div class="bg-[#aeacac] h-[3px] inline-block flex-1 ml-[30px]"></div>
-      </div>
-      <a-row :gutter="20" class="mt-[50px]">
-        <a-col :span="8" v-for="(a, b) in videoList" :key="b">
-          <div
-            class="video-thumbnail w-full"
-            @click="router.push({ path: '/storyMp4', query: { id: a.id } })"
-          >
-            <!-- 图片 -->
-            <img :src="picRootPath + a.picUrl" alt="" class="w-full" />
-
-            <!-- 遮罩层 -->
-            <div class="overlay">
-              <!-- 播放图标 -->
-              <PlayCircleOutlined class="play-icon" />
-              <div class="text-[#fff] text-xl absolute bottom-2 left-2">
-                {{ a.name }}
-              </div>
-            </div>
-          </div>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="bg-[#f8f7f8] pt-[100px]">
-      <div class="w-[70%] mx-auto incenter flex-col pb-[100px]">
-        <img
-          src="@/assets/img/story/story8.png"
-          alt=""
-          class="transform -translate-x-[500px]"
-        />
-        <img src="@/assets/img/story/story7.png" alt="" />
-        <a-row :gutter="18" class="mt-[100px]">
-          <a-col :span="8" v-for="(a, b) in picList" :key="b" class="mt-[50px]">
-            <img :src="a.a" alt="" />
-            <div class="flex items-end mt-2">
-              <img :src="a.b" alt="" />
-              <img :src="a.c" alt="" class="ml-2" />
-            </div>
-          </a-col>
-        </a-row>
-      </div>
+    <div class="mx-auto pt-[230px] pb-[260px] px-[20%] bg-[#cccccc]">
+      <video width="100%" controls v-if="test">
+        <source :src="picRootPath + mp4Path" type="video/mp4" />
+      </video>
     </div>
   </div>
-  <a-modal
+  <!-- <a-modal
     v-model:open="test"
     title="preview"
     width="60%"
@@ -84,33 +31,14 @@
     <video width="100%" controls v-if="test">
       <source :src="picRootPath + mp4Path" type="video/mp4" />
     </video>
-  </a-modal>
+  </a-modal> -->
   <bottomNav />
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
-import { PlayCircleOutlined } from "@ant-design/icons-vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
-import story9 from "@/assets/img/story/story9.png";
-import story10 from "@/assets/img/story/story10.png";
-import story11 from "@/assets/img/story/story11.png";
-import story12 from "@/assets/img/story/story12.png";
-import story13 from "@/assets/img/story/story13.png";
-import story14 from "@/assets/img/story/story14.png";
-import story15 from "@/assets/img/story/story15.png";
-import story16 from "@/assets/img/story/story16.png";
-import story17 from "@/assets/img/story/story17.png";
-import story18 from "@/assets/img/story/story18.png";
-import story26 from "@/assets/img/story/story26.png";
-import story19 from "@/assets/img/story/story19.png";
-import story20 from "@/assets/img/story/story20.png";
-import story21 from "@/assets/img/story/story21.png";
-import story22 from "@/assets/img/story/story22.png";
-import story23 from "@/assets/img/story/story23.png";
-import story24 from "@/assets/img/story/story24.png";
-import story25 from "@/assets/img/story/story25.png";
+import { useRoute } from "vue-router";
+const route = useRoute();
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 
@@ -127,57 +55,15 @@ const getVideoList = async () => {
 
 getVideoList();
 
-const playVideo = async (a: any) => {
-  console.log("😅 ~ openPdf ~ a.id:", a.id);
+const playVideo = async () => {
+  console.log("😅 ~ openPdf ~ a.id:");
   // /api/front/catalog/downloadalbum previewalbum
-  const res: any = await http.get("/api/front/story/video/" + a.id);
+  const res: any = await http.get("/api/front/story/video/" + route.query.id);
   const data = res.data.data;
   mp4Path.value = data;
   test.value = true;
 };
-
-const afterClose = () => {
-  test.value = false;
-};
-
-interface picListType {
-  a: string;
-  b: string;
-  c: string;
-}
-
-const picList = ref<picListType[]>([
-  {
-    a: story9,
-    b: story10,
-    c: story11,
-  },
-  {
-    a: story12,
-    b: story13,
-    c: story14,
-  },
-  {
-    a: story15,
-    b: story16,
-    c: story17,
-  },
-  {
-    a: story18,
-    b: story26,
-    c: story19,
-  },
-  {
-    a: story20,
-    b: story21,
-    c: story22,
-  },
-  {
-    a: story23,
-    b: story24,
-    c: story25,
-  },
-]);
+playVideo();
 </script>
 <style lang="less" scoped>
 .cut_mian {

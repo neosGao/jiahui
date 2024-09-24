@@ -22,7 +22,7 @@
         <div class="mx-[50px]">
           <ShoppingOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl">Shopping Bag [0]</span>
+        <span class="text-xl">Shopping Bag</span>
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -31,7 +31,7 @@
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl">My Order [0]</span>
+        <span class="text-xl">My Order</span>
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -79,13 +79,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item
-              label="Password"
-              name="password"
-              :rules="[
-                { required: true, message: 'Please input your password!' },
-              ]"
-            >
+            <a-form-item label="Password" name="password">
               <a-input v-model:value="formState.password" />
             </a-form-item>
           </a-col>

@@ -15,28 +15,45 @@
         <a-carousel arrows dots-class="slick-dots slick-thumb">
           <template #customPaging="props">
             <a>
-              <img :src="getImgUrl(props.i)" />
+              <img :src="getImgUrl(props.i)" class="h-[50px] w-[50px]" />
             </a>
           </template>
           <div v-for="(item, index) in imgLst" :key="index">
-            <img :src="item" />
+            <img :src="item" class="h-[600px]" />
           </div>
         </a-carousel>
       </div>
       <div class="right">
         <div class="top_title">
           <div class="left">
-            <div class="title">Black Leaves</div>
-            <div class="tips">HA4LY19680</div>
+            <div class="title">{{ infoObj.name }}</div>
+            <div class="tips">{{ infoObj.hhNo }}</div>
           </div>
           <div class="right">
             <div class="like">
               <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-              <HeartTwoTone twoToneColor="#eb2f96" />
+              <HeartTwoTone
+                @click.stop="loveClick(infoObj)"
+                :twoToneColor="infoObj.favor ? '#eb2f96' : ''"
+              />
             </div>
           </div>
         </div>
         <div class="form_box">
+          <div class="label_item" v-if="infoObj.prolis.length != 0">
+            <div class="label">Related</div>
+            <!-- <div class="value">{{ infoObj.prolis }}</div> -->
+            <div v-for="(a, b) in infoObj.prolis" :key="b">
+              <div class="incenter mb-5 p-2 border rounded">
+                <img
+                  :src="picRootPath + a.picUrl"
+                  alt=""
+                  class="w-[60px] h-[60px]"
+                />
+                <span>{{ a.name }}</span>
+              </div>
+            </div>
+          </div>
           <div class="label_item">
             <div class="label">Colours</div>
             <div class="value">{{ infoObj.colorName }}</div>
@@ -67,7 +84,7 @@
               <div>{{ count }}</div>
               <div class="btn" @click="handleCount('+')">+</div>
             </div>
-            <div class="confirm_btn">Add To Bag</div>
+            <div class="confirm_btn" @click="addBag">Add To Bag</div>
           </div>
         </div>
       </div>
@@ -92,7 +109,10 @@
           <img :src="picRootPath + item.picUrl" />
           <div class="like">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+            <HeartTwoTone
+              @click.stop="loveClick(item)"
+              :twoToneColor="item.favor ? '#eb2f96' : ''"
+            />
           </div>
         </div>
         <div class="title_box">
@@ -167,6 +187,29 @@ const handleCount = (type: string) => {
   } else {
     count.value++;
   }
+};
+const loveClick = async (love: any) => {
+  const favor = !Boolean(love.favor);
+  const data: any = await http.post("/api/front/member/favorproduct", {
+    params: {
+      favor,
+      id: love.id,
+    },
+  });
+  if (data.data.code == 200) {
+    love.favor = favor;
+  }
+  console.log("😅 ~ loveClick ~ data:", data);
+};
+
+const addBag = async () => {
+  const data: any = await http.post("/api/front/member/shop/cart/", {
+    params: {
+      amount: count.value,
+      productId: infoObj.value.id,
+    },
+  });
+  console.log("😅 ~ loveClick ~ data:", data);
 };
 </script>
 <style lang="less" scoped>

@@ -25,7 +25,7 @@
         <div class="mx-[50px]">
           <ShoppingOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl">Shopping Bag [0]</span>
+        <span class="text-xl">Shopping Bag</span>
       </div>
       <div
         class="mt-10 h-[60px] flex items-center cursor-pointer"
@@ -34,7 +34,7 @@
         <div class="mx-[50px]">
           <ShoppingCartOutlined class="text-3xl text-[#208d7b]" />
         </div>
-        <span class="text-xl">My Order [0]</span>
+        <span class="text-xl">My Order</span>
       </div>
       <div class="mt-10 h-[60px] flex items-center cursor-pointer bg-[#57b8a8]">
         <div class="mx-[50px]">
@@ -58,7 +58,10 @@
             <img :src="picRootPath + item.picUrl" />
             <div class="like">
               <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-              <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+              <HeartTwoTone
+                @click.stop="loveClick(item)"
+                :twoToneColor="item.favor ? '#eb2f96' : ''"
+              />
             </div>
           </div>
           <div class="title_box">
@@ -145,6 +148,19 @@ const isLogin = () => {
     const name = JSON.parse(token);
     return name;
   }
+};
+const loveClick = async (love: any) => {
+  const favor = !Boolean(love.favor);
+  const data: any = await http.post("/api/front/member/favorproduct", {
+    params: {
+      favor,
+      id: love.id,
+    },
+  });
+  if (data.data.code == 200) {
+    love.favor = favor;
+  }
+  console.log("😅 ~ loveClick ~ data:", data);
 };
 </script>
 

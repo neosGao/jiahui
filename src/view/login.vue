@@ -137,7 +137,7 @@
         block
         type="primary"
         html-type="submit"
-        @click="router.push('login')"
+        @click="router.go(-1)"
         >JUMP IMMEDIATE</a-button
       >
     </div>
@@ -146,7 +146,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onUnmounted } from "vue";
 import {
   DownloadOutlined,
   HeartOutlined,
@@ -169,6 +169,7 @@ const formState = reactive<FormState>({
   password: "",
   checkbox: false,
 });
+let timer: any;
 const onFinish = async (values: any) => {
   const res: any = await http.post("/api/front/member/login", {
     params: values,
@@ -182,8 +183,14 @@ const onFinish = async (values: any) => {
     localStorage.setItem("authToken", JSON.stringify(token)); // 缓存数据
     localStorage.setItem("expiresAt", expiresAt.toString());
     openTips.value = true;
+    timer = setTimeout(() => {
+      router.go(-1);
+    }, 3000);
   }
 };
+onUnmounted(() => {
+  clearInterval(timer);
+});
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);

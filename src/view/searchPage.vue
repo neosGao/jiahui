@@ -33,10 +33,19 @@
     </div>
     <div class="w-[70%] mx-auto">
       <a-row :gutter="20">
-        <a-col :span="4" v-for="(a, b) in picList" :key="b">
+        <a-col
+          :span="4"
+          v-for="(a, b) in picList"
+          :key="b"
+          @click="searchPageForTid(a.id)"
+        >
           <div>
-            <img :src="picRootPath + a.picUrl" alt="" />
-            <div class="text-center text-base">{{ a.name }}</div>
+            <img
+              :src="picRootPath + a.picUrl"
+              alt=""
+              class="w-[150px] h-[150px] mx-auto cursor-pointer"
+            />
+            <div class="text-center text-base cursor-pointer">{{ a.name }}</div>
           </div>
         </a-col>
       </a-row>
@@ -54,9 +63,10 @@
             v-for="(c, d) in a.childs"
             :key="d"
           >
-            <a-checkbox v-model:checked="checkedList[c.id]">{{
-              c.name
-            }}</a-checkbox
+            <a-checkbox
+              v-model:checked="checkedList[c.id]"
+              :disabled="c.amount == 0"
+              >{{ c.name }}</a-checkbox
             ><span>{{ c.amount }}</span>
           </div>
           <div class="text-[#208d7b] cursor-pointer mt-2" @click="selectAll(a)">
@@ -73,16 +83,21 @@
             ><div
               class="w-[30px] h-[30px] rounded-full mt-2"
               :style="{ backgroundColor: a.remark }"
+              @click="colorOne = a.id"
             ></div
           ></a-col>
         </a-row>
+        <a-button type="primary" class="rounded-none mt-10" @click="searchLeft"
+          >Search</a-button
+        >
       </div>
       <div class="w-[70%]">
         <div class="select_box">
           <div class="left">
             <a-select
-              v-model="price"
+              v-model:value="selectItem.Height"
               placeholder="Height"
+              style="width: 120px"
               @change="(val: any) => selectChange(val, 'Height')"
             >
               <a-select-option
@@ -92,8 +107,9 @@
               >
             </a-select>
             <a-select
-              v-model="price"
+              v-model:value="selectItem.Material"
               placeholder="Material"
+              style="width: 120px"
               @change="(val: any) => selectChange(val, 'Material')"
             >
               <a-select-option
@@ -103,8 +119,9 @@
               >
             </a-select>
             <a-select
-              v-model="price"
+              v-model:value="selectItem.Placement"
               placeholder="Placement"
+              style="width: 120px"
               @change="(val: any) => selectChange(val, 'Placement')"
             >
               <a-select-option
@@ -141,7 +158,10 @@
               <img :src="picRootPath + item.picUrl" />
               <div class="like">
                 <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-                <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+                <HeartTwoTone
+                  @click.stop="loveClick(item)"
+                  :twoToneColor="item.favor ? '#eb2f96' : ''"
+                />
               </div>
             </div>
             <div class="title_box">
@@ -185,7 +205,12 @@ const checkedList: any = ref([]);
 const searchText = ref("");
 const leftList: any = ref([]);
 const filterArr: any = ref([]);
-const price = ref("");
+const colorOne = ref("");
+const selectItem: any = ref({
+  Height: undefined,
+  Material: undefined,
+  Placement: undefined,
+});
 
 const total = ref(0);
 
@@ -201,18 +226,35 @@ const selectList: any = ref({
   priceList: [],
 });
 
-const selectChange = (val: any, name: any) => {
-  console.log("😅 ~ selectChange ~ val, name:", val, name);
+const selectChange = (_val: any, _name: any) => {
+  const height = selectList.value.heightList.filter(
+    (item: any) => item.name == selectItem.value.Height
+  )[0];
+  const material = selectList.value.materialList.filter(
+    (item: any) => item.id == selectItem.value.Material
+  )[0];
+  const placement = selectList.value.palceList.filter(
+    (item: any) => item.id == selectItem.value.Placement
+  )[0];
+  const params = {
+    hs: height?.start ?? null,
+    he: height?.end ?? null,
+    mid: material?.id ?? null,
+    pid: placement?.id ?? null,
+  };
+  searchLeft(params);
 };
 
 const getPicList = async () => {
   const res2: any = await http.get("/api/front/product/selectcriteria");
   selectList.value = res2.data.data;
+  picList.value = res2.data.data.adtypeList;
 };
 
-const search = async () => {
+const search = async (params: any = {}) => {
   const searchParams = {
     word: searchText.value,
+    ...params,
   };
   const data: any = await http.get("/api/front/product/page", {
     params: searchParams,
@@ -220,20 +262,6 @@ const search = async () => {
   console.log("😅 ~ search ~ data:", data.data.data.list);
   datalist.value = data.data.data.list;
   total.value = data.data.data.total;
-};
-
-const getPic = async () => {
-  const data: any = await http.get(
-    // 获取banner接口
-    "/api/front/advert/limitlist",
-    {
-      params: {
-        code: "search_typepic",
-      },
-    }
-  );
-  console.log("😅 ~ getPic ~ data:", data.data.data);
-  picList.value = data.data.data;
 };
 const getLeft = async () => {
   const data: any = await http.get(
@@ -244,17 +272,53 @@ const getLeft = async () => {
   leftList.value = data.data.data;
 };
 const selectAll = (a: any) => {
-  console.log("😅 ~ selectAll ~ a:", a);
-  const idList = a.childs.map((item: any) => item.id);
-  console.log("😅 ~ selectAll ~ idList:", idList);
+  const idList = a.childs
+    .map((item: any) => {
+      if (item.amount != 0) {
+        return item.id;
+      }
+    })
+    .filter((a: any) => !!a);
   idList.forEach((item: any) => {
     checkedList.value[item] = true;
   });
 };
-getPic();
 search();
 getPicList();
 getLeft();
+const loveClick = async (love: any) => {
+  const favor = !Boolean(love.favor);
+  const data: any = await http.post("/api/front/member/favorproduct", {
+    params: {
+      favor,
+      id: love.id,
+    },
+  });
+  if (data.data.code == 200) {
+    love.favor = favor;
+  }
+  console.log("😅 ~ loveClick ~ data:", data);
+};
+const searchPageForTid = (tid: any) => {
+  searchText.value = "";
+  checkedList.value = {};
+  selectItem.value = {
+    Height: undefined,
+    Material: undefined,
+    Placement: undefined,
+  };
+  search({ tid });
+};
+const searchLeft = (select: any = {}) => {
+  const params = {
+    tids: Object.keys(checkedList.value).join(","),
+    ps: filterArr.value[0] ?? null,
+    pe: filterArr.value[1] ?? null,
+    cid: colorOne.value,
+    ...select,
+  };
+  search(params);
+};
 </script>
 
 <style lang="less" scoped>

@@ -15,7 +15,9 @@
               COMPANY INFO
             </div>
             <div class="content_item" @click="router.push('event')">EVENT</div>
-            <div class="content_item">HISTORY OF DEVELOPMENT</div>
+            <div class="content_item" @click="router.push('history')">
+              HISTORY OF DEVELOPMENT
+            </div>
           </div>
         </div>
         <div class="item">
@@ -71,13 +73,18 @@
           </div>
           <div class="title">HACCLE</div>
           <div class="content">
-            <div class="content_item">STORY</div>
+            <div class="content_item" @click="router.push('story')">STORY</div>
           </div>
         </div>
       </div>
     </div>
     <div class="bottom">
-      <div class="tips">Copyright ◎ 2024 HACCLE</div>
+      <div class="tips">
+        Copyright ◎ 2024 HACCLE
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"
+          >粤ICP备2021168135号</a
+        >
+      </div>
     </div>
   </div>
 </template>
