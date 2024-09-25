@@ -32,9 +32,6 @@ importers:
       path:
         specifier: ^0.12.7
         version: 0.12.7
-      pdf-vue3:
-        specifier: ^1.0.12
-        version: 1.0.12
       pinia:
         specifier: ^2.2.2
         version: 2.2.2(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4))
@@ -53,6 +50,9 @@ importers:
       vue-router:
         specifier: 4.0.3
         version: 4.0.3(vue@3.4.38(typescript@5.5.4))
+      vue3-pdf-app:
+        specifier: ^1.0.3
+        version: 1.0.3(vue@3.4.38(typescript@5.5.4))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.1.2
@@ -950,9 +950,6 @@ packages:
   pathe@1.1.2:
     resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
 
-  pdf-vue3@1.0.12:
-    resolution: {integrity: sha512-7SMTx1RfRwdc+2WPniDzqM8MxJLqTNNzdyV0SeQTxeRLJGndb5Wv/fz5afO13oBSIvvaqcbZ/S3gF+XjqkSb9g==}
-
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
@@ -1293,6 +1290,11 @@ packages:
   vue-types@3.0.2:
     resolution: {integrity: sha512-IwUC0Aq2zwaXqy74h4WCvFCUtoV0iSWr0snWnE9TnU18S66GAQyqQbRf2qfJtUuiFsBf6qp0MEwdonlwznlcrw==}
     engines: {node: '>=10.15.0'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  vue3-pdf-app@1.0.3:
+    resolution: {integrity: sha512-qegWTIF4wYKiocZ3KreB70wRXhqSdXWbdERDyyKzT7d5PbjKbS9tD6vaKkCqh3PzTM84NyKPYrQ3iuwJb60YPQ==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -2114,8 +2116,6 @@ snapshots:
 
   pathe@1.1.2: {}
 
-  pdf-vue3@1.0.12: {}
-
   picocolors@1.0.1: {}
 
   picomatch@2.3.1: {}
@@ -2458,6 +2458,10 @@ snapshots:
   vue-types@3.0.2(vue@3.4.38(typescript@5.5.4)):
     dependencies:
       is-plain-object: 3.0.1
+      vue: 3.4.38(typescript@5.5.4)
+
+  vue3-pdf-app@1.0.3(vue@3.4.38(typescript@5.5.4)):
+    dependencies:
       vue: 3.4.38(typescript@5.5.4)
 
   vue@3.4.38(typescript@5.5.4):

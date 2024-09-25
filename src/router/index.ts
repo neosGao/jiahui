@@ -166,6 +166,10 @@ const router = createRouter({
       path: "/storyMp4",
       component: () => import("../view/storyMp4.vue"),
     },
+    {
+      path: "/pdfPage",
+      component: () => import("../view/pdfPage.vue"),
+    },
   ],
   // 设置全局前置守卫
   scrollBehavior(_to, _from, savedPosition) {

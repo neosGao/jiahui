@@ -41,7 +41,20 @@
     </a-row>
     <a-modal v-model:open="test" title="preview" width="70%" :footer="null">
       <div class="h-[80vh]" v-if="test">
-        <PDF :src="pdfPath" />
+        <!-- <PDF :src="pdfPath" /> -->
+        <!-- <iframe
+          id="iframe"
+          v-if="test"
+          class="w-full h-full"
+          :src="pdfPath"
+        ></iframe> -->
+        <pdf-app
+          v-if="test"
+          :pdf="pdfPath"
+          class="w-full h-full"
+          theme="dark"
+          :config="config"
+        />
       </div>
     </a-modal>
   </div>
@@ -56,12 +69,64 @@
   </a-modal>
   <bottomNav />
 </template>
-
 <script lang="ts" setup>
 import { http } from "../http";
 import { ref } from "vue";
-import PDF from "pdf-vue3";
+import PdfApp from "vue3-pdf-app";
 import { CheckCircleFilled } from "@ant-design/icons-vue";
+// import { nextTick } from "vue";
+import "vue3-pdf-app/dist/icons/main.css";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const config: any = {
+  sidebar: {
+    viewThumbnail: true,
+    viewOutline: true,
+    viewAttachments: true,
+  },
+  secondaryToolbar: {
+    secondaryPresentationMode: true,
+    secondaryOpenFile: true,
+    secondaryPrint: true,
+    secondaryDownload: true,
+    secondaryViewBookmark: true,
+    firstPage: true,
+    lastPage: true,
+    pageRotateCw: true,
+    pageRotateCcw: true,
+    cursorSelectTool: true,
+    cursorHandTool: true,
+    scrollVertical: true,
+    scrollHorizontal: true,
+    scrollWrapped: true,
+    spreadNone: true,
+    spreadOdd: true,
+    spreadEven: true,
+    documentProperties: true,
+  },
+  toolbar: {
+    toolbarViewerLeft: {
+      findbar: true,
+      previous: true,
+      next: true,
+      pageNumber: true,
+    },
+    toolbarViewerRight: {
+      presentationMode: true,
+      openFile: false,
+      print: false,
+      download: false,
+      viewBookmark: false,
+    },
+    toolbarViewerMiddle: {
+      zoomOut: true,
+      zoomIn: true,
+      scaleSelectContainer: true,
+    },
+  },
+  errorWrapper: true,
+  // URL.revokeObjectURL(url)
+};
 // import { useRouter } from "vue-router";
 // const router = useRouter();
 // 图片根目录
@@ -127,15 +192,20 @@ const openPdf = async (a: any) => {
     openTips.value = true;
     return;
   }
+  const url: any = router.resolve({
+    path: "/pdfPage",
+    query: { id: a.id },
+  }).href; // 使用路由名称解析 URL
+  window.open(url, "_blank"); // '_blank' 表示在新标签页中打开
   // /api/front/catalog/downloadalbum previewalbum
-  const res: any = await http.get(
-    "/api/front/catalog/downloadalbum",
-    {
-      params: { id: a.id },
-    },
-    { responseType: "blob" }
-  );
-  const data = res.data;
+  // const res: any = await http.get(
+  //   "/api/front/catalog/downloadalbum",
+  //   {
+  //     params: { id: a.id },
+  //   },
+  //   { responseType: "blob" }
+  // );
+  // const data = res.data;
 
   // const blob = res.data;
   // const url = window.URL.createObjectURL(blob);
@@ -153,30 +223,47 @@ const openPdf = async (a: any) => {
   // pdfPath.value = await blobToBase64(data);
   // const blobObj = parsePDFData(data);
   // console.log("😅 ~ openPdf ~ blobObj:", blobObj);
-  pdfPath.value = await blobToBase64(data);
-  test.value = true;
+  // 原方案
+  // pdfPath.value = await blobToBase64(data);
+  // test.value = true;
+
+  // const base64_str = await blobToBase64(data); // 移除可能存在的 'data:application/pdf;base64,' 前缀
+  // const base64Data = base64_str.replace(/^data:[^;]+;base64,/, ""); // 解码Base64数据
+
+  // const binaryData = atob(base64Data); // 创建Blob对象
+
+  // const arrayBuffer = new Uint8Array(binaryData.length);
+  // for (let i = 0; i < binaryData.length; i++) {
+  //   arrayBuffer[i] = binaryData.charCodeAt(i);
+  // }
+  // const blob = new Blob([arrayBuffer], { type: "application/pdf" }); // 创建URL
+  // const url = URL.createObjectURL(blob); // 设置下载链接
+  // // const iframe = document.getElementById("iframe");
+  // // iframe.src = url;
+  // pdfPath.value = url;
+  // test.value = true;
 };
 
 // 将 Blob 转换为 Base64
-const blobToBase64 = (blob: Blob): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+// const blobToBase64 = (blob: Blob): Promise<string> => {
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
 
-    reader.onloadend = () => {
-      if (reader.result) {
-        resolve(reader.result.toString());
-      } else {
-        reject(new Error("转换 Blob 为 Base64 失败"));
-      }
-    };
+//     reader.onloadend = () => {
+//       if (reader.result) {
+//         resolve(reader.result.toString());
+//       } else {
+//         reject(new Error("转换 Blob 为 Base64 失败"));
+//       }
+//     };
 
-    reader.onerror = () => {
-      reject(new Error("读取 Blob 失败"));
-    };
+//     reader.onerror = () => {
+//       reject(new Error("读取 Blob 失败"));
+//     };
 
-    reader.readAsDataURL(blob); // 将 Blob 读取为 Base64 编码的 URL
-  });
-};
+//     reader.readAsDataURL(blob); // 将 Blob 读取为 Base64 编码的 URL
+//   });
+// };
 
 getPic();
 getPicList();
