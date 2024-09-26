@@ -30,12 +30,9 @@
             <div class="tips">{{ infoObj.hhNo }}</div>
           </div>
           <div class="right">
-            <div class="like">
+            <div class="like" @click.stop="loveClick(infoObj)">
               <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-              <HeartTwoTone
-                @click.stop="loveClick(infoObj)"
-                :twoToneColor="infoObj.favor ? '#eb2f96' : ''"
-              />
+              <HeartTwoTone :twoToneColor="infoObj.favor ? '#eb2f96' : ''" />
             </div>
           </div>
         </div>
@@ -109,12 +106,9 @@
           "
         >
           <img :src="picRootPath + item.picUrl" />
-          <div class="like">
+          <div class="like" @click.stop="loveClick(item)">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone
-              @click.stop="loveClick(item)"
-              :twoToneColor="item.favor ? '#eb2f96' : ''"
-            />
+            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
           </div>
         </div>
         <div class="title_box">
