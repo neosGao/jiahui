@@ -6,6 +6,12 @@
     theme="dark"
     :config="config"
   />
+  <div
+    v-else
+    class="bg-slate-400 w-screen h-screen text-center incenter flex-col"
+  >
+    <a-spin size="large" tip="  Loading..." />
+  </div>
 </template>
 <script lang="ts" setup>
 import { http } from "../http";

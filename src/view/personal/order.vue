@@ -48,50 +48,48 @@
     </div>
     <div class="ml-[100px] flex-1">
       <div class="text-3xl pb-5">My Order</div>
-      <div class="bg-[#f8f7f8] flex px-[20px] py-[30px]">
-        <div class="font-semibold basis-3/12">
-          Order #:{{ orderList.orderNo }}
-        </div>
-        <div class="font-semibold basis-3/12">
-          Date: {{ orderList.orderTime }}
-        </div>
-        <div class="font-semibold basis-5/12 text-right">
-          Transaction completed
-        </div>
-      </div>
-      <div class="mt-5 flex border-b-2 pb-5">
-        <div class="basis-7/12">ltem(s) Ordered</div>
-        <div class="basis-2/12">Price</div>
-        <div class="basis-2/12">Qty</div>
-        <div class="basis-1/12">Total</div>
-      </div>
-      <div
-        class="mt-5 flex border-b-2 pb-5"
-        v-for="(a, b) in orderList.list"
-        :key="b"
-      >
-        <div class="basis-7/12 flex items-center">
-          <img
-            :src="picRootPath + a.picUrl"
-            alt=""
-            class="w-[150px] h-[150px]"
-          />
-          <div class="ml-5">
-            <div>{{ a.name }}</div>
-            <div class="mt-2 text-slate-400">{{ a.hhNo }}</div>
-            <div class="mt-4 text-slate-400 text-sm">
-              Color: {{ a.colorName }} Weight : {{ a.weight }}g
-            </div>
+      <div v-for="(c, d) in orderList.list" :key="d">
+        <div class="bg-[#f8f7f8] flex px-[20px] py-[30px]">
+          <div class="font-semibold basis-3/12">Order #:{{ c.orderNo }}</div>
+          <div class="font-semibold basis-3/12">Date: {{ c.orderTime }}</div>
+          <div class="font-semibold basis-5/12 text-right">
+            Transaction completed
           </div>
         </div>
-        <div class="basis-2/12 flex items-center">{{ a.price }}</div>
-        <div class="basis-2/12 flex items-center">{{ a.amount }}</div>
-        <div class="basis-2/12 flex items-center">{{ a.totalPrice }}</div>
-      </div>
-      <div class="mt-5 flex items-center justify-between h-[60px]">
-        <div class="basis-2/12"></div>
-        <div class="basis-2/12 text-center">
-          <div class="text-xl font-semibold">Total: ${{ orderList.total }}</div>
+        <div class="mt-5 flex border-b-2 pb-5">
+          <div class="basis-7/12">ltem(s) Ordered</div>
+          <div class="basis-2/12">Price</div>
+          <div class="basis-2/12">Qty</div>
+          <div class="basis-1/12">Total</div>
+        </div>
+        <div
+          class="mt-5 flex border-b-2 pb-5"
+          v-for="(a, b) in c.list"
+          :key="b"
+        >
+          <div class="basis-7/12 flex items-center">
+            <img
+              :src="picRootPath + a.picUrl"
+              alt=""
+              class="w-[150px] h-[150px]"
+            />
+            <div class="ml-5">
+              <div>{{ a.name }}</div>
+              <div class="mt-2 text-slate-400">{{ a.hhNo }}</div>
+              <div class="mt-4 text-slate-400 text-sm">
+                Color: {{ a.colorName }} Weight : {{ a.weight }}g
+              </div>
+            </div>
+          </div>
+          <div class="basis-2/12 flex items-center">{{ a.price }}</div>
+          <div class="basis-2/12 flex items-center">{{ a.amount }}</div>
+          <div class="basis-1/12 flex items-center">{{ a.totalPrice }}</div>
+        </div>
+        <div class="mt-5 flex items-center justify-between h-[60px]">
+          <div class="basis-2/12"></div>
+          <div class="basis-2/12 text-center">
+            <div class="text-xl font-semibold">Total: ${{ c.total }}</div>
+          </div>
         </div>
       </div>
     </div>

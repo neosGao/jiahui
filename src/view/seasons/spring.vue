@@ -35,7 +35,7 @@
     <div class="select_box">
       <div class="left">
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Price"
           placeholder="Price Group"
           @change="(val: any) => selectChange(val, 'Price Group')"
         >
@@ -46,7 +46,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Colours"
           placeholder="Colours"
           @change="(val: any) => selectChange(val, 'Colours')"
         >
@@ -59,7 +59,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Height"
           placeholder="Height"
           @change="(val: any) => selectChange(val, 'Height')"
         >
@@ -70,7 +70,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Material"
           placeholder="Material"
           @change="(val: any) => selectChange(val, 'Material')"
         >
@@ -81,7 +81,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Placement"
           placeholder="Placement"
           @change="(val: any) => selectChange(val, 'Placement')"
         >
@@ -148,6 +148,7 @@ import { ref } from "vue";
 import { SwapOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 import { http } from "../../http";
+import { message } from "ant-design-vue";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 const route = useRoute();
@@ -162,9 +163,40 @@ const selectList: any = ref({
   palceList: [],
   priceList: [],
 });
+const selectItem: any = ref({
+  Price: undefined,
+  Colours: undefined,
+  Height: undefined,
+  Material: undefined,
+  Placement: undefined,
+});
 
-const selectChange = (val: any, name: any) => {
-  console.log("😅 ~ selectChange ~ val, name:", val, name);
+const selectChange = (_val: any, _name: any) => {
+  const height = selectList.value.heightList.filter(
+    (item: any) => item.name == selectItem.value.Height
+  )[0];
+  const material = selectList.value.materialList.filter(
+    (item: any) => item.id == selectItem.value.Material
+  )[0];
+  const placement = selectList.value.palceList.filter(
+    (item: any) => item.id == selectItem.value.Placement
+  )[0];
+  const price = selectList.value.priceList.filter(
+    (item: any) => item.name == selectItem.value.Price
+  )[0];
+  const colours = selectList.value.colorList.filter(
+    (item: any) => item.id == selectItem.value.Colours
+  )[0];
+  const params = {
+    hs: height?.start ?? null,
+    he: height?.end ?? null,
+    mid: material?.id ?? null,
+    pid: placement?.id ?? null,
+    ps: price?.start ?? null,
+    pe: price?.end ?? null,
+    cid: colours?.id ?? null,
+  };
+  search(params);
 };
 
 // 产品大类
@@ -179,9 +211,10 @@ const getPicList = async () => {
   picList.value = res.data.data.picList;
   search();
 };
-const search = async () => {
+const search = async (params: any = {}) => {
   const searchParams = {
     tid: route.query.id,
+    ...params,
   };
   const data: any = await http.get("/api/front/inpiration/page", {
     params: searchParams,
@@ -192,8 +225,6 @@ const search = async () => {
 };
 
 getPicList();
-
-const price = ref<string>("");
 
 const total = ref<number>(0);
 
@@ -208,6 +239,7 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
+    message.success("Favor success");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };

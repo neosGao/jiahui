@@ -123,6 +123,7 @@ import {
   ShoppingCartOutlined,
   HeartOutlined,
 } from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 const router = useRouter();
@@ -176,6 +177,9 @@ const totalPrice = computed(() => {
   );
 });
 const checkoutBtn = async () => {
+  if (shopList.value.length === 0) {
+    message.error("shopping bag is empty!");
+  }
   const carts = shopList.value.map((a: any) => {
     return { amount: a.amount, id: a.id };
   });
@@ -183,7 +187,8 @@ const checkoutBtn = async () => {
     data: { carts },
   });
   if (data.data.code == 200) {
-    console.log("成功占位");
+    message.success("checkout success!");
+    shopList.value = [];
   }
 };
 </script>

@@ -124,6 +124,7 @@
 import { http } from "../http";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 import {
   HeartTwoTone,
   EyeOutlined,
@@ -163,6 +164,7 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
+    message.success("Favor success");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };

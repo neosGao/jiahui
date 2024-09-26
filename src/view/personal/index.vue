@@ -229,7 +229,6 @@ const formState = ref<FormState>({
   address: "",
   agree: false,
 });
-// /api/front/member/editinfo
 const getInfo = async () => {
   const token = localStorage.getItem("authToken");
   if (!token) return;
@@ -242,7 +241,7 @@ const getInfo = async () => {
 };
 getInfo();
 const onFinish = async (values: any) => {
-  const res: any = await http.post("/api/front/member/register", {
+  const res: any = await http.post("/api/front/member/editinfo", {
     params: values,
   });
   if (res.data.code === 200) {

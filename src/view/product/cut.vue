@@ -27,7 +27,7 @@
     <div class="select_box">
       <div class="left">
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Price"
           placeholder="Price Group"
           @change="(val: any) => selectChange(val, 'Price Group')"
         >
@@ -38,7 +38,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Colours"
           placeholder="Colours"
           @change="(val: any) => selectChange(val, 'Colours')"
         >
@@ -51,7 +51,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Height"
           placeholder="Height"
           @change="(val: any) => selectChange(val, 'Height')"
         >
@@ -62,7 +62,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Material"
           placeholder="Material"
           @change="(val: any) => selectChange(val, 'Material')"
         >
@@ -73,7 +73,7 @@
           >
         </a-select>
         <a-select
-          v-model="price"
+          v-model:value="selectItem.Placement"
           placeholder="Placement"
           @change="(val: any) => selectChange(val, 'Placement')"
         >
@@ -92,7 +92,6 @@
         <div class="btn"><SwapOutlined /></div>
       </div>
     </div>
-    <a-empty v-if="datalist.length === 0" />
     <div class="content_box">
       <div class="item" v-for="(item, index) in datalist" :key="index">
         <div
@@ -131,15 +130,17 @@
         </div>
       </div>
     </div>
-    <div class="more_btn">VIEW MORE</div>
+    <a-empty v-if="datalist.length === 0" />
+    <div class="more_btn" v-else>VIEW MORE</div>
   </div>
   <bottomNav />
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 import { SwapOutlined, HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
 import { http } from "../../http";
 import { useRoute, useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 const route = useRoute();
@@ -155,12 +156,42 @@ const selectList: any = ref({
   palceList: [],
   priceList: [],
 });
+const selectItem: any = ref({
+  Price: undefined,
+  Colours: undefined,
+  Height: undefined,
+  Material: undefined,
+  Placement: undefined,
+});
 
-const selectChange = (val: any, name: any) => {
-  console.log("😅 ~ selectChange ~ val, name:", val, name);
+const selectChange = (_val: any, _name: any) => {
+  const height = selectList.value.heightList.filter(
+    (item: any) => item.name == selectItem.value.Height
+  )[0];
+  const material = selectList.value.materialList.filter(
+    (item: any) => item.id == selectItem.value.Material
+  )[0];
+  const placement = selectList.value.palceList.filter(
+    (item: any) => item.id == selectItem.value.Placement
+  )[0];
+  const price = selectList.value.priceList.filter(
+    (item: any) => item.name == selectItem.value.Price
+  )[0];
+  const colours = selectList.value.colorList.filter(
+    (item: any) => item.id == selectItem.value.Colours
+  )[0];
+  const params = {
+    hs: height?.start ?? null,
+    he: height?.end ?? null,
+    mid: material?.id ?? null,
+    pid: placement?.id ?? null,
+    ps: price?.start ?? null,
+    pe: price?.end ?? null,
+    cid: colours?.id ?? null,
+  };
+  console.log("😅 ~ selectChange ~ params:", params);
+  search(params);
 };
-
-const price = ref<string>("");
 
 const total = ref<number>(0);
 
@@ -181,9 +212,10 @@ const getPicList = async () => {
   search();
 };
 
-const search = async () => {
+const search = async (params: any = {}) => {
   const searchParams = {
     tid: typeId.value,
+    ...params,
   };
   const data: any = await http.get("/api/front/product/page", {
     params: searchParams,
@@ -197,9 +229,9 @@ const changeTypeId = (a: any) => {
   typeId.value = a.id;
   search();
 };
-onMounted(() => {
-  getPicList();
-});
+// onMounted(() => {
+// });
+getPicList();
 // 监听路由参数的变化
 watch(
   () => route.query.id,
@@ -218,6 +250,7 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
+    message.success("Favor success");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };

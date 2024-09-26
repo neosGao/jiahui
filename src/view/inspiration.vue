@@ -93,7 +93,7 @@
   <bottomNav />
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { http } from "../http";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -113,9 +113,7 @@ const getPic = async () => {
   midPics.value = data.data.data.midPics;
   typeList.value = data.data.data.typeList;
 };
-onMounted(() => {
-  getPic();
-});
+getPic();
 </script>
 <style lang="less" scoped>
 .container {

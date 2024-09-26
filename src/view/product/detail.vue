@@ -44,13 +44,15 @@
             <div class="label">Related</div>
             <!-- <div class="value">{{ infoObj.prolis }}</div> -->
             <div v-for="(a, b) in infoObj.prolis" :key="b">
-              <div class="incenter mb-5 p-2 border rounded">
+              <div
+                class="incenter mb-5 p-2 border rounded cursor-pointer"
+                @click="clickProlis(a)"
+              >
                 <img
                   :src="picRootPath + a.picUrl"
                   alt=""
                   class="w-[60px] h-[60px]"
                 />
-                <span>{{ a.name }}</span>
               </div>
             </div>
           </div>
@@ -210,6 +212,12 @@ const addBag = async () => {
     },
   });
   console.log("😅 ~ loveClick ~ data:", data);
+};
+const clickProlis = (a: any) => {
+  console.log("😅 ~ clickProlis ~ a:", a);
+  infoObj.value = a;
+  const picList = JSON.parse(a.picMoreUrl);
+  imgLst.value = picList.map((item: any) => picRootPath + item);
 };
 </script>
 <style lang="less" scoped>

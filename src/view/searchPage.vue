@@ -81,7 +81,8 @@
         <a-row :gutter="10" class="mt-2">
           <a-col :span="4" v-for="(a, b) in selectList.colorList" :key="b"
             ><div
-              class="w-[30px] h-[30px] rounded-full mt-2"
+              class="w-[30px] h-[30px] rounded-full mt-2 shadow-slate-400"
+              :class="colorOne === a.id ? 'shadow-lg' : ''"
               :style="{ backgroundColor: a.remark }"
               @click="colorOne = a.id"
             ></div

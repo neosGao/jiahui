@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-cover bg-center bg-[url('@/assets/img/index/bg.jpg')]"
+    class="w-full h-full bg-cover bg-center bg-[url('@/assets/img/index/bg.jpg')] min-h-[1000px]"
   >
     <div
       class="bg-slate-600 bg-opacity-50 w-1/4 h-full p-4 pl-[5%] pt-60 relative"

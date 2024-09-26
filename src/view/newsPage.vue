@@ -92,13 +92,13 @@ const geteventList = async () => {
     "/api/front/article/detail/" + route.query.id
   );
   eventList.value = data.data.data;
-  console.log("😅 ~ geteventList ~ eventList.value:", eventList.value);
 };
 geteventList();
 getPic();
-const lastNews = (a: any) => {
+const lastNews = async (a: any) => {
+  const data: any = await http.get("/api/front/article/detail/" + a.id);
+  eventList.value = data.data.data;
   router.push({ path: "/newsPage", query: { id: a.id } });
-  geteventList();
 };
 const likeThis = async () => {
   const data: any = await http.get("/api/front/member/favornews", {

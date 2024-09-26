@@ -102,6 +102,7 @@ import {
 } from "@ant-design/icons-vue";
 import { http } from "../../http";
 import { useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 const router = useRouter();
@@ -159,6 +160,7 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
+    message.success("Favor success");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };

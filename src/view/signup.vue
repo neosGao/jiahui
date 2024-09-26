@@ -17,9 +17,33 @@
           <a-form-item
             label="Email"
             name="email"
-            :rules="[{ required: true, message: 'Please input your email!' }]"
+            :rules="[
+              { required: true, message: 'Please input your email!' },
+              { type: 'email', message: 'Please enter a valid email!' },
+            ]"
           >
-            <a-input v-model:value="formState.email" />
+            <a-input v-model:value="formState.email">
+              <template #suffix>
+                <a-popover>
+                  <template #content>
+                    <p>get code</p>
+                  </template>
+                  <UnorderedListOutlined
+                    class="cursor-pointer"
+                    @click="getCode"
+                  />
+                </a-popover>
+              </template>
+            </a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item
+            label="code"
+            name="code"
+            :rules="[{ required: true, message: 'Please input your code!' }]"
+          >
+            <a-input v-model:value="formState.code" />
           </a-form-item>
         </a-col>
         <a-col :span="8">
@@ -171,7 +195,11 @@ import { ref, reactive } from "vue";
 import { http } from "../http";
 import country from "../country.json";
 import { useRouter } from "vue-router";
-import { CheckCircleFilled } from "@ant-design/icons-vue";
+import {
+  CheckCircleFilled,
+  UnorderedListOutlined,
+} from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
 const router = useRouter();
 const countryList = country;
 const openTips = ref(false);
@@ -186,6 +214,7 @@ interface FormState {
   country: string;
   website: string;
   address: string;
+  code: string;
   agree: boolean;
 }
 
@@ -200,6 +229,7 @@ const formState = reactive<FormState>({
   country: "",
   website: "",
   address: "",
+  code: "",
   agree: false,
 });
 const onFinish = async (values: any) => {
@@ -213,5 +243,15 @@ const onFinish = async (values: any) => {
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
+};
+const getCode = async () => {
+  const res: any = await http.post("/api/front/member/validate/sendcode", {
+    params: { email: formState.email },
+  });
+  if (res.data.code == 200) {
+    message.success("send code success!");
+  } else {
+    message.error("send code error!");
+  }
 };
 </script>

@@ -2,7 +2,8 @@
   <topNav />
   <div class="cut_mian">
     <div
-      class="w-full h-[633px] bg-cover bg-center bg-[url('@/assets/img/story/story.png')]"
+      class="w-full h-[633px] bg-cover bg-center relative"
+      :style="{ backgroundImage: `url(${picRootPath + picLastPath})` }"
     >
       <img
         src="@/assets/img/story/name.png"
@@ -113,6 +114,8 @@ import story24 from "@/assets/img/story/story24.png";
 import story25 from "@/assets/img/story/story25.png";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
+// 图片地址
+const picLastPath = ref("");
 
 const test: any = ref(false);
 const mp4Path: any = ref({});
@@ -123,6 +126,16 @@ const getVideoList = async () => {
   const data: any = await http.get("/api/front/story/list");
   videoTit.value = data.data.data[0];
   videoList.value = data.data.data.slice(1);
+  const res: any = await http.get(
+    // 获取banner接口
+    "/api/front/advert/limitlist",
+    {
+      params: {
+        code: "story_banner",
+      },
+    }
+  );
+  picLastPath.value = res.data.data[0].picUrl;
 };
 
 getVideoList();
