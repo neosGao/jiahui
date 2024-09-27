@@ -171,10 +171,12 @@ const numberChange = (a: any, val: any) => {
   a.totalPrice = (a.price * 100 * val) / 100;
 };
 const totalPrice = computed(() => {
-  return shopList?.value?.reduce(
-    (sum: any, item: any) => sum + item.totalPrice,
-    0
-  );
+  return (
+    shopList?.value?.reduce(
+      (sum: number, item: any) => sum + Math.round(item.totalPrice * 100),
+      0
+    ) / 100
+  ); // 最后除以 100 转换回浮点数
 });
 const checkoutBtn = async () => {
   if (shopList.value.length === 0) {

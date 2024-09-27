@@ -62,7 +62,12 @@
     <div class="pt-[50px] text-center px-[50px]">
       <CheckCircleFilled class="text-8xl text-[#208d7b]" />
       <div class="text-3xl mt-[20px] mb-[60px]">Please Log In !</div>
-      <a-button class="rounded-full" block type="primary" html-type="submit"
+      <a-button
+        class="rounded-full"
+        block
+        type="primary"
+        html-type="submit"
+        @click="router.push('login')"
         >LOG IN</a-button
       >
     </div>

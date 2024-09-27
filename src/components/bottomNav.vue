@@ -3,7 +3,7 @@
     <div class="top_bg">
       <div class="top">
         <div class="item">
-          <div class="title">ABOUT US</div>
+          <div class="title boldFont">ABOUT US</div>
           <div class="content">
             <div class="content_item" @click="router.push('ourProducts')">
               OUR PRODUCTS
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="title">ASSORTMENT</div>
+          <div class="title boldFont">ASSORTMENT</div>
           <div class="content">
             <div class="content_item" @click="router.push('allProducts')">
               ALL PRODUCTS
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="title">SUPPORT</div>
+          <div class="title boldFont">SUPPORT</div>
           <div class="content">
             <div class="content_item" @click="router.push('contact')">
               CONTACT US
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="title">COMPANY</div>
+          <div class="title boldFont">COMPANY</div>
           <div class="content" style="margin-bottom: 30px">
             <div class="content_item">WWW.HACDESIGNS.COM</div>
             <div class="content_item">+86 769 22989980</div>
@@ -71,7 +71,7 @@
               City Guang Dong Province,China
             </div>
           </div>
-          <div class="title">HACCLE</div>
+          <div class="title boldFont">HACCLE</div>
           <div class="content">
             <div class="content_item" @click="router.push('story')">STORY</div>
           </div>
@@ -80,9 +80,14 @@
     </div>
     <div class="bottom">
       <div class="tips">
-        Copyright ◎ 2024 HACCLE
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"
-          >粤ICP备2021168135号</a
+        Copyright ◎ 2024 HACCLE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+          ><a
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noopener"
+            style="color: #ffffff; text-decoration: none"
+            >粤ICP备2021168135号</a
+          ></span
         >
       </div>
     </div>

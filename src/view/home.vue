@@ -9,7 +9,7 @@
   >
     <div class="flex flex-row items-center justify-center">
       <div
-        class="flex items-center justify-center p-[50px] px-[100px] cursor-pointer"
+        class="flex items-center justify-center p-[50px] px-[100px] cursor-pointer boldFont"
         v-for="(a, b) in picList"
         :key="b"
         @click="
@@ -22,7 +22,7 @@
         <img :src="picRootPath + a.picUrl" alt="" class="w-[50px] h-[100px]" />
         <div class="ml-5">
           <div class="mt-[25px] text-[#208d7b]">{{ a.enName }}</div>
-          <div class="mt-[10px]">{{ a.name }}</div>
+          <div class="mt-[10px] text-lg">{{ a.name }}</div>
         </div>
       </div>
     </div>
@@ -70,49 +70,62 @@
     </div>
   </div>
   <div class="relative">
-    <div class="absolute left-[10%] top-[40%]">
-      <left-circle-outlined class="text-3xl cursor-pointer" />
-    </div>
+    <a-spin :spinning="loading">
+      <div class="absolute left-[10%] top-[40%]">
+        <left-circle-outlined
+          class="text-3xl cursor-pointer"
+          @click="nextPage(-1)"
+          v-if="page.page !== 1"
+        />
+      </div>
 
-    <a-empty v-if="datalist.length === 0" />
-    <div class="content_box">
-      <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div
-          class="img_box cursor-pointer"
-          @click="
-            router.push({
-              path: '/detail',
-              query: {
-                name: route.query.name,
-                id: item.id,
-                tid: route.query.id,
-              },
-            })
-          "
-        >
-          <img :src="picRootPath + item.picUrl" />
-          <div class="like" @click.stop="loveClick(item)">
-            <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+      <a-empty v-if="datalist.length === 0" />
+      <!-- 其他内容 -->
+      <div class="content_box">
+        <div class="item" v-for="(item, index) in datalist" :key="index">
+          <div
+            class="img_box cursor-pointer"
+            @click="
+              router.push({
+                path: '/detail',
+                query: {
+                  name: route.query.name,
+                  id: item.id,
+                  tid: route.query.id,
+                },
+              })
+            "
+          >
+            <img
+              :src="picRootPath + item.picUrl"
+              style="height: 305px; width: 305px"
+            />
+            <div class="like" @click.stop="loveClick(item)">
+              <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
+              <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+            </div>
           </div>
-        </div>
-        <div class="title_box">
-          <div class="title">{{ item.name }}</div>
-          <div class="look">
-            <EyeOutlined />
-            <span>{{ item.clickNum }}</span>
+          <div class="title_box">
+            <div class="title">{{ item.name }}</div>
+            <div class="look">
+              <EyeOutlined />
+              <span>{{ item.clickNum }}</span>
+            </div>
           </div>
-        </div>
-        <div class="tips_box">
-          <div class="tips">{{ item.hhNo }}</div>
-          <div class="tips">Weight: {{ item.weight }}g</div>
-          <div class="tips">Size: {{ item.sizeInfo }}</div>
+          <div class="tips_box">
+            <div class="tips">{{ item.hhNo }}</div>
+            <div class="tips">Weight: {{ item.weight }}g</div>
+            <div class="tips">Size: {{ item.sizeInfo }}</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="absolute right-[10%] top-[40%]">
-      <right-circle-outlined class="text-3xl cursor-pointer" />
-    </div>
+      <div class="absolute right-[10%] top-[40%]">
+        <right-circle-outlined
+          class="text-3xl cursor-pointer"
+          @click="nextPage(1)"
+        />
+      </div>
+    </a-spin>
   </div>
   <bottomNav />
 </template>
@@ -134,6 +147,7 @@ const datalist2: any = ref([]);
 const picLastPath: any = ref("");
 const router = useRouter();
 const route = useRoute();
+const loading = ref(false);
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 // 图片地址
@@ -145,9 +159,18 @@ const getPicList = async () => {
   datalist2.value = data.data.data.midList;
 };
 const search = async () => {
-  const data: any = await http.get("/api/front/home/productpage");
+  loading.value = true;
+  const data: any = await http.get("/api/front/home/productpage", {
+    params: page.value,
+  });
   datalist.value = data.data.data.list;
+  loading.value = false;
 };
+
+const page = ref({
+  page: 1,
+  size: 12,
+});
 
 getPicList();
 search();
@@ -161,9 +184,19 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
-    message.success("Favor success");
+    if (favor) {
+      message.success("favor success");
+    } else {
+      message.success("cancel success");
+    }
+  } else if (data.data.code == 401) {
+    message.error("Please Log In !");
   }
   console.log("😅 ~ loveClick ~ data:", data);
+};
+const nextPage = (num: number) => {
+  page.value.page += num;
+  search();
 };
 </script>
 

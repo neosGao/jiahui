@@ -17,7 +17,7 @@
       <img src="@/assets/img/story/story1.png" alt="" class="mr-[15%]" />
     </div>
     <div class="w-[70%] mx-auto mt-[100px] mb-[100px]">
-      <div class="text-5xl text-[#208d7b]">
+      <div class="text-5xl text-[#208d7b] boldFont">
         {{ videoTit.name }}
       </div>
       <div class="video-thumbnail w-full my-10" @click="playVideo(videoTit)">
@@ -63,7 +63,7 @@
           class="transform -translate-x-[500px]"
         />
         <img src="@/assets/img/story/story7.png" alt="" />
-        <a-row :gutter="18" class="mt-[100px]">
+        <a-row :gutter="18">
           <a-col :span="8" v-for="(a, b) in picList" :key="b" class="mt-[50px]">
             <img :src="a.a" alt="" />
             <div class="flex items-end mt-2">

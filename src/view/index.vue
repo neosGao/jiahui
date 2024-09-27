@@ -1,38 +1,38 @@
 <template>
   <div
-    class="w-full h-full bg-cover bg-center bg-[url('@/assets/img/index/bg.jpg')] min-h-[1000px]"
+    class="w-full h-full bg-cover bg-center bg-[url('@/assets/img/index/bg.jpg')]"
   >
     <div
-      class="bg-slate-600 bg-opacity-50 w-1/4 h-full p-4 pl-[5%] pt-60 relative"
+      class="bg-slate-600 bg-opacity-50 w-1/4 h-full p-4 pl-[10vh] pt-[20vh] relative"
     >
-      <div class="mb-[30%]">
+      <div class="mb-[15vh]">
         <img class="cursor-pointer" :src="url1" />
       </div>
-      <div class="mb-[20%]">
+      <div class="mb-[7vh]">
         <img class="cursor-pointer" @click="router.push('home')" :src="url2" />
       </div>
-      <div class="mb-[20%]">
+      <div class="mb-[7vh]">
         <img
           class="cursor-pointer"
           @click="router.push('inspiration')"
           :src="url3"
         />
       </div>
-      <div class="mb-[20%]">
+      <div class="mb-[7vh]">
         <img
           class="cursor-pointer"
           @click="router.push('contact')"
           :src="url4"
         />
       </div>
-      <div class="mb-[20%]">
+      <div class="mb-[7vh]">
         <img class="cursor-pointer" @click="router.push('story')" :src="url5" />
       </div>
-      <div class="flex">
+      <div class="flex mb-[7vh]">
         <img class="cursor-pointer" :src="url6" />
         <img class="cursor-pointer ml-10" :src="url7" />
       </div>
-      <div class="absolute bottom-[5%]">
+      <div class="absolute bottom-[5vh]">
         <img class="cursor-pointer" :src="url8" />
       </div>
     </div>

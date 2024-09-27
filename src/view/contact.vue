@@ -212,15 +212,41 @@ const formState = reactive<FormState>({
   country: "",
   message: "",
 });
-const onFinish = async (values: any) => {
-  console.log("Success:", values);
+// const onFinish = async (values: any) => {
+//   console.log("Success:", values);
+//   const res: any = await http.post("/api/front/member/feedback/save/", {
+//     params: values,
+//   });
+//   if (res.data.code === 200) {
+//     openTips.value = true;
+//   }
+// };
+
+const isSubmitting = ref(false);
+const onFinish = debounce(async (values: any) => {
+  if (isSubmitting.value) return;
+  isSubmitting.value = true;
   const res: any = await http.post("/api/front/member/feedback/save/", {
     params: values,
   });
   if (res.data.code === 200) {
     openTips.value = true;
   }
-};
+
+  isSubmitting.value = false;
+}, 300); // 300ms 防抖
+
+function debounce(func: any, wait: any) {
+  let timeout: any;
+  return function executedFunction(...args: any) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };

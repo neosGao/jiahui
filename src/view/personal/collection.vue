@@ -55,7 +55,7 @@
       <div class="content_box">
         <div class="item" v-for="(item, index) in datalist" :key="index">
           <div class="img_box">
-            <img :src="picRootPath + item.picUrl" />
+            <img :src="picRootPath + item.picUrl" style="height: 305px;width: 305px;"/>
             <div class="like" @click.stop="loveClick(item)">
               <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
               <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
@@ -157,7 +157,14 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
-    message.success("Favor success");
+    if(favor){
+      message.success("Favor success");
+    }else{
+      message.success("Cancel success");
+    }
+    
+  }else{
+    message.success("Favor failure");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };

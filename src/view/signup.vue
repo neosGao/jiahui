@@ -155,8 +155,9 @@
             <a-textarea v-model:value="formState.address" />
           </a-form-item>
         </a-col>
-        <a-col :span="24">
-          <img src="@/assets/img/signup/signup2.png" alt="" />
+        <a-col :span="24" style="font-size: 16px">
+          After hawing read and understood Haccle <span v-on:click="openPrivacy = true" style="font-size: 18px;">Privacy Notice</span> lagree /l do notagree to the procesing of my personal data for managing the registraion the Download Area as beter speciafiedin the abouvementioned Privacy Notice
+          <!-- <img src="@/assets/img/signup/signup2.png" alt="" /> -->
         </a-col>
         <a-col :span="24" class="mt-4">
           <a-checkbox v-model:checked="formState.agree"
@@ -171,6 +172,40 @@
       </a-row>
     </a-form>
   </div>
+  <a-modal v-model:open="openPrivacy" :footer="null" style="top:50px;" :width="800">
+    <div class="pt-[20px] text-left px-[20px]">
+       <p class="text-center">Registration Agreement</p> 
+        This Registration Agreement (the “Agreement”) is entered into between [Company Name] (the “Company”) and the individual or entity registering for an account (the “User”). By completing the registration process and using the Company’s services, the User agrees to be bound by the terms and conditions set forth in this Agreement.
+        <br>
+        Account Registration<br>
+        1.1 The User must provide accurate and complete information during the registration process.<br>
+        1.2 The User is responsible for maintaining the confidentiality of their account login credentials.<br>
+        1.3 The User must promptly notify the Company of any unauthorized use of their account.<br>
+
+        Use of Services<br>
+        2.1 The User agrees to use the Company’s services in compliance with all applicable laws and regulations.<br>
+        2.2 The User shall not use the services for any illegal or unauthorized purposes.<br>
+        2.3 The User is solely responsible for any content they upload, transmit, or display through the services.<br>
+
+        Intellectual Property<br>
+        3.1 The Company retains all rights, title, and interest in its intellectual property.<br>
+        3.2 The User shall not use the Company’s intellectual property without prior written consent.<br>
+
+        Termination<br>
+        4.1 Either party may terminate this Agreement at any time for any reason.<br>
+        4.2 Upon termination, the User’s access to the services will be immediately revoked.<br>
+
+        Limitation of Liability<br>
+        5.1 The Company shall not be liable for any direct, indirect, incidental, or consequential damages.<br>
+        5.2 The User agrees to indemnify and hold the Company harmless from any claims arising out of their use of the services.<br>
+
+        Governing Law and Jurisdiction<br>
+        6.1 This Agreement shall be governed by and construed in accordance with the laws of [Jurisdiction].<br>
+        6.2 Any disputes arising out of this Agreement shall be subject to the exclusive jurisdiction of the courts of [Jurisdiction].<br>
+
+        By completing the registration process, the User acknowledges that they have read, understood, and agreed to be bound by the terms and conditions of this Agreement.<br>
+    </div>
+  </a-modal>
   <a-modal v-model:open="openTips" :footer="null" style="top: 30%">
     <div class="pt-[50px] text-center px-[50px]">
       <CheckCircleFilled class="text-8xl text-[#208d7b]" />
@@ -203,6 +238,8 @@ import { message } from "ant-design-vue";
 const router = useRouter();
 const countryList = country;
 const openTips = ref(false);
+const openPrivacy = ref(false);
+
 interface FormState {
   email: string;
   telephone: string;
@@ -233,11 +270,17 @@ const formState = reactive<FormState>({
   agree: false,
 });
 const onFinish = async (values: any) => {
+  if(formState.agree){
+    message.error("Please select agree!");
+    return;
+  }
   const res: any = await http.post("/api/front/member/register", {
     params: values,
   });
   if (res.data.code === 200) {
     openTips.value = true;
+  }else{
+    message.error(res.data.message||"register fail!");
   }
 };
 

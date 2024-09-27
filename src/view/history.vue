@@ -37,11 +37,13 @@
         <div class="incenter">
           <img src="@/assets/img/history/history3.png" alt="" class="mt-20" />
         </div>
-        <div class="text-center text-3xl font-bold">why choose us</div>
+        <div class="text-center text-3xl boldFont">why choose us</div>
         <div class="incenter mt-[60px] border">
           <img src="@/assets/img/history/history4.png" alt="" class="w-[50%]" />
           <div class="w-[50%] px-[5%]">
-            <div class="text-4xl">Comprehensive Strength Of The Enterprise</div>
+            <div class="text-4xl boldFont">
+              Comprehensive Strength Of The Enterprise
+            </div>
             <div class="mt-10">
               Possess a forward-looking vision, perfect management system,
               suficient talent reserve, and rising asset scale.driving the
@@ -51,7 +53,9 @@
         </div>
         <div class="incenter mt-[60px] border">
           <div class="w-[50%] px-[5%]">
-            <div class="text-4xl">Professional Manufacturing Capabilities</div>
+            <div class="text-4xl boldFont">
+              Professional Manufacturing Capabilities
+            </div>
             <div class="mt-10">
               We have a sales team, design team, production team, quality
               inspection team, warehousing and logistics team that adapt to
@@ -64,7 +68,7 @@
         <div class="incenter mt-[60px] border">
           <img src="@/assets/img/history/history6.png" alt="" class="w-[50%]" />
           <div class="w-[50%] px-[5%]">
-            <div class="text-4xl">Rich And Diverse Products</div>
+            <div class="text-4xl boldFont">Rich And Diverse Products</div>
             <div class="mt-10">
               Possess a forward-looking vision, perfect management system,
               suficient talent reserve, and rising asset scale.driving the
@@ -73,7 +77,9 @@
           </div>
         </div>
         <div class="mt-[60px]">
-          <div class="text-4xl mb-2">Steady Increase In Market Share</div>
+          <div class="text-4xl mb-2 boldFont">
+            Steady Increase In Market Share
+          </div>
           <div>
             Products are exported to all over the world, and we have reached
             parnerships with many well-known brands
@@ -102,7 +108,7 @@
             </div>
           </div>
           <div class="w-[50%] px-[5%]">
-            <div class="text-4xl">
+            <div class="text-4xl boldFont">
               High-quality Ecological Supply Chain System
             </div>
             <div class="mt-10">
@@ -116,7 +122,7 @@
       <img src="@/assets/img/history/history10.png" alt="" class="mt-40" />
     </div>
     <div class="bg-[#f8f7f8] p-[100px] mt-[50px]">
-      <div class="text-3xl text-center">Market Distribution:</div>
+      <div class="text-3xl text-center boldFont">Market Distribution:</div>
       <div class="text-center">
         Multiple countries in Europe, Australia, North America, South America,
         Southeast Asia, Oceania, and Africa
@@ -127,7 +133,9 @@
     </div>
     <div class="max-w-[70%] mx-auto mt-[120px]">
       <a-row>
-        <a-col :span="12" class="text-4xl">Exhibiting experience</a-col>
+        <a-col :span="12" class="text-4xl boldFont"
+          >Exhibiting experience</a-col
+        >
         <a-col :span="12" class="text-xl"
           >Canton Fair, Lahore Exhibition, Dubai Exhibition, Birmingham
           Exhibition, Moscow Exhibition, Germany Frankfurt Exhibition, Shanghai

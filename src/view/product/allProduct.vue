@@ -23,7 +23,7 @@
         "
       >
         <img :src="picRootPath + a.picUrl" class="w-full" />
-        <div class="title">{{ a.name }}</div>
+        <div class="title boldFont">{{ a.name }}</div>
       </div>
     </div>
   </div>

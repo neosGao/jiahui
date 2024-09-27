@@ -7,6 +7,11 @@
   src: url('@/assets/font/HARMONYOS_SANS_SC_LIGHT.TTF') format('truetype');
 }
 
+@font-face {
+  font-family: 'boldFont'; /* 自定义字体名称 */
+  src: url('@/assets/font/HARMONYOS_SANS_SC_MEDIUM.TTF') format('truetype');
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -91,6 +96,11 @@ button:focus-visible {
 
 .incenter {
   @apply flex items-center justify-center;
+}
+
+.boldFont {
+  /* 使用粗体 */
+  font-family: 'boldFont', sans-serif;
 }
 
 :root {

@@ -79,16 +79,21 @@
         <div>RANGE ${{ filterArr[0] || 0 }} - ${{ filterArr[1] || 0 }}</div>
         <div class="text-2xl mt-5">Colours</div>
         <a-row :gutter="10" class="mt-2">
-          <a-col :span="4" v-for="(a, b) in selectList.colorList" :key="b"
-            ><div
-              class="w-[30px] h-[30px] rounded-full mt-2 shadow-slate-400"
-              :class="colorOne === a.id ? 'shadow-lg' : ''"
-              :style="{ backgroundColor: a.remark }"
+          <a-col :span="4" v-for="(a, b) in selectList.colorList" :key="b">
+            <div
+              class="w-[30px] h-[30px] rounded-full mt-2"
+              :style="{
+                backgroundColor: a.remark,
+                boxShadow:
+                  colorOne === a.id
+                    ? '0 0 5px rgba(128, 128, 128, 1)'
+                    : 'none' /* 选中时才有阴影 */,
+              }"
               @click="colorOne = a.id"
-            ></div
-          ></a-col>
+            ></div>
+          </a-col>
         </a-row>
-        <a-button type="primary" class="rounded-none mt-10" @click="searchLeft"
+        <a-button type="primary" class="rounded-none mt-10" @click="searchOne"
           >Search</a-button
         >
       </div>
@@ -99,7 +104,7 @@
               v-model:value="selectItem.Height"
               placeholder="Height"
               style="width: 120px"
-              @change="(val: any) => selectChange(val, 'Height')"
+              @change="selectChange"
             >
               <a-select-option
                 v-for="item in selectList.heightList"
@@ -111,7 +116,7 @@
               v-model:value="selectItem.Material"
               placeholder="Material"
               style="width: 120px"
-              @change="(val: any) => selectChange(val, 'Material')"
+              @change="selectChange"
             >
               <a-select-option
                 v-for="item in selectList.materialList"
@@ -123,7 +128,7 @@
               v-model:value="selectItem.Placement"
               placeholder="Placement"
               style="width: 120px"
-              @change="(val: any) => selectChange(val, 'Placement')"
+              @change="selectChange"
             >
               <a-select-option
                 v-for="item in selectList.palceList"
@@ -141,40 +146,55 @@
           </div>
         </div>
         <a-empty v-if="datalist.length === 0" />
-        <div class="content_box">
-          <div class="item" v-for="(item, index) in datalist" :key="index">
-            <div
-              class="img_box cursor-pointer"
-              @click="
-                router.push({
-                  path: '/detail',
-                  query: {
-                    name: route.query.name,
-                    id: item.id,
-                    tid: route.query.id,
-                  },
-                })
-              "
-            >
-              <img :src="picRootPath + item.picUrl" />
-              <div class="like" @click.stop="loveClick(item)">
-                <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-                <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+
+        <a-spin :spinning="loading">
+          <div class="content_box">
+            <div class="item" v-for="(item, index) in datalist" :key="index">
+              <div
+                class="img_box cursor-pointer"
+                @click="
+                  router.push({
+                    path: '/detail',
+                    query: {
+                      name: route.query.name,
+                      id: item.id,
+                      tid: route.query.id,
+                    },
+                  })
+                "
+              >
+                <img
+                  :src="picRootPath + item.picUrl"
+                  style="height: 300px; width: 300px"
+                />
+                <div class="like" @click.stop="loveClick(item)">
+                  <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
+                  <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+                </div>
               </div>
-            </div>
-            <div class="title_box">
-              <div class="title">{{ item.name }}</div>
-              <div class="look">
-                <EyeOutlined />
-                <span>{{ item.clickNum }}</span>
+              <div class="title_box">
+                <div class="title">{{ item.name }}</div>
+                <div class="look">
+                  <EyeOutlined />
+                  <span>{{ item.clickNum }}</span>
+                </div>
               </div>
-            </div>
-            <div class="tips_box">
-              <div class="tips">{{ item.hhNo }}</div>
-              <div class="tips">Weight: {{ item.weight }}g</div>
-              <div class="tips">Size: {{ item.sizeInfo }}</div>
+              <div class="tips_box">
+                <div class="tips">{{ item.hhNo }}</div>
+                <div class="tips">Weight: {{ item.weight }}g</div>
+                <div class="tips">Size: {{ item.sizeInfo }}</div>
+              </div>
             </div>
           </div>
+        </a-spin>
+        <div class="incenter">
+          <a-pagination
+            v-model:current="page.page"
+            :total="total"
+            show-less-items
+            :showSizeChanger="false"
+            @change="changePage"
+          />
         </div>
       </div>
     </div>
@@ -185,6 +205,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { http } from "../http";
+import { message } from "ant-design-vue";
 import {
   SearchOutlined,
   CloseCircleOutlined,
@@ -209,6 +230,7 @@ const selectItem: any = ref({
   Material: undefined,
   Placement: undefined,
 });
+const loading = ref(false);
 
 const total = ref(0);
 
@@ -224,7 +246,10 @@ const selectList: any = ref({
   priceList: [],
 });
 
-const selectChange = (_val: any, _name: any) => {
+const selectChange = (clear: boolean) => {
+  if (clear) {
+    page.value.page = 1;
+  }
   const height = selectList.value.heightList.filter(
     (item: any) => item.name == selectItem.value.Height
   )[0];
@@ -247,12 +272,20 @@ const getPicList = async () => {
   const res2: any = await http.get("/api/front/product/selectcriteria");
   selectList.value = res2.data.data;
   picList.value = res2.data.data.adtypeList;
+  leftList.value = res2.data.data.typeList;
 };
 
+const page = ref({
+  page: 1,
+  size: 12,
+});
+
 const search = async (params: any = {}) => {
+  loading.value = true;
   const searchParams = {
     word: searchText.value,
     ...params,
+    ...page.value,
   };
   const data: any = await http.get("/api/front/product/page", {
     params: searchParams,
@@ -260,15 +293,16 @@ const search = async (params: any = {}) => {
   console.log("😅 ~ search ~ data:", data.data.data.list);
   datalist.value = data.data.data.list;
   total.value = data.data.data.total;
+  loading.value = false;
 };
-const getLeft = async () => {
-  const data: any = await http.get(
-    // 获取左侧接口
-    "/api/front/product/search/typelist"
-  );
-  console.log("😅 ~ getLeft ~ data:", data.data.data);
-  leftList.value = data.data.data;
-};
+// const getLeft = async () => {
+//   const data: any = await http.get(
+//     // 获取左侧接口
+//     "/api/front/product/search/typelist"
+//   );
+//   console.log("😅 ~ getLeft ~ data:", data.data.data);
+//   leftList.value = data.data.data;
+// };
 const selectAll = (a: any) => {
   const idList = a.childs
     .map((item: any) => {
@@ -283,7 +317,7 @@ const selectAll = (a: any) => {
 };
 search();
 getPicList();
-getLeft();
+//getLeft();
 const loveClick = async (love: any) => {
   const favor = !Boolean(love.favor);
   const data: any = await http.post("/api/front/member/favorproduct", {
@@ -294,6 +328,13 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
+    if (favor) {
+      message.success("favor success");
+    } else {
+      message.success("cancel success");
+    }
+  } else if (data.data.code == 401) {
+    message.error("Please Log In !");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };
@@ -307,6 +348,11 @@ const searchPageForTid = (tid: any) => {
   };
   search({ tid });
 };
+const searchOne = (select: any = {}) => {
+  page.value.page = 1;
+  searchLeft(select);
+};
+
 const searchLeft = (select: any = {}) => {
   const params = {
     tids: Object.keys(checkedList.value).join(","),
@@ -316,6 +362,10 @@ const searchLeft = (select: any = {}) => {
     ...select,
   };
   search(params);
+};
+const changePage = (val: number) => {
+  page.value.page = val;
+  selectChange(false);
 };
 </script>
 

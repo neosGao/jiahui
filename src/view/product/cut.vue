@@ -29,7 +29,7 @@
         <a-select
           v-model:value="selectItem.Price"
           placeholder="Price Group"
-          @change="(val: any) => selectChange(val, 'Price Group')"
+          @change="selectChange"
         >
           <a-select-option
             v-for="item in selectList.priceList"
@@ -40,7 +40,7 @@
         <a-select
           v-model:value="selectItem.Colours"
           placeholder="Colours"
-          @change="(val: any) => selectChange(val, 'Colours')"
+          @change="selectChange"
         >
           <a-select-option v-for="item in selectList.colorList" :value="item.id"
             ><div
@@ -53,7 +53,7 @@
         <a-select
           v-model:value="selectItem.Height"
           placeholder="Height"
-          @change="(val: any) => selectChange(val, 'Height')"
+          @change="selectChange"
         >
           <a-select-option
             v-for="item in selectList.heightList"
@@ -64,7 +64,7 @@
         <a-select
           v-model:value="selectItem.Material"
           placeholder="Material"
-          @change="(val: any) => selectChange(val, 'Material')"
+          @change="selectChange"
         >
           <a-select-option
             v-for="item in selectList.materialList"
@@ -75,7 +75,7 @@
         <a-select
           v-model:value="selectItem.Placement"
           placeholder="Placement"
-          @change="(val: any) => selectChange(val, 'Placement')"
+          @change="selectChange"
         >
           <a-select-option
             v-for="item in selectList.palceList"
@@ -92,43 +92,56 @@
         <div class="btn"><SwapOutlined /></div>
       </div>
     </div>
-    <div class="content_box">
-      <div class="item" v-for="(item, index) in datalist" :key="index">
-        <div
-          class="img_box cursor-pointer"
-          @click="
-            router.push({
-              path: '/detail',
-              query: {
-                name: route.query.name,
-                id: item.id,
-                tid: route.query.id,
-              },
-            })
-          "
-        >
-          <img :src="picRootPath + item.picUrl" />
-          <div class="like" @click.stop="loveClick(item)">
-            <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
-            <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+    <a-spin :spinning="loading">
+      <div class="content_box">
+        <div class="item" v-for="(item, index) in datalist" :key="index">
+          <div
+            class="img_box cursor-pointer"
+            @click="
+              router.push({
+                path: '/detail',
+                query: {
+                  name: route.query.name,
+                  id: item.id,
+                  tid: route.query.id,
+                },
+              })
+            "
+          >
+            <img
+              :src="picRootPath + item.picUrl"
+              style="height: 305px; width: 305px"
+            />
+            <div class="like" @click.stop="loveClick(item)">
+              <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
+              <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
+            </div>
           </div>
-        </div>
-        <div class="title_box">
-          <div class="title">{{ item.name }}</div>
-          <div class="look">
-            <EyeOutlined />
-            <span>{{ item.clickNum }}</span>
+          <div class="title_box">
+            <div class="title">{{ item.name }}</div>
+            <div class="look">
+              <EyeOutlined />
+              <span>{{ item.clickNum }}</span>
+            </div>
           </div>
-        </div>
-        <div class="tips_box">
-          <div class="tips">{{ item.hhNo }}</div>
-          <div class="tips">Weight: {{ item.weight }}g</div>
-          <div class="tips">Size: {{ item.sizeInfo }}</div>
+          <div class="tips_box">
+            <div class="tips">{{ item.hhNo }}</div>
+            <div class="tips">Weight: {{ item.weight }}g</div>
+            <div class="tips">Size: {{ item.sizeInfo }}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </a-spin>
     <a-empty v-if="datalist.length === 0" />
-    <div class="more_btn" v-else>VIEW MORE</div>
+    <div class="incenter">
+      <a-pagination
+        v-model:current="page.page"
+        :total="total"
+        show-less-items
+        :showSizeChanger="false"
+        @change="changePage"
+      />
+    </div>
   </div>
   <bottomNav />
 </template>
@@ -145,6 +158,7 @@ const router = useRouter();
 
 const ProData: any = ref({});
 const typeId: any = ref("");
+const loading = ref(false);
 
 const selectList: any = ref({
   colorList: [],
@@ -161,7 +175,10 @@ const selectItem: any = ref({
   Placement: undefined,
 });
 
-const selectChange = (_val: any, _name: any) => {
+const selectChange = (clear: boolean) => {
+  if (clear) {
+    page.value.page = 1;
+  }
   const height = selectList.value.heightList.filter(
     (item: any) => item.name == selectItem.value.Height
   )[0];
@@ -186,9 +203,13 @@ const selectChange = (_val: any, _name: any) => {
     pe: price?.end ?? null,
     cid: colours?.id ?? null,
   };
-  console.log("😅 ~ selectChange ~ params:", params);
   search(params);
 };
+
+const page = ref({
+  page: 1,
+  size: 12,
+});
 
 const total = ref<number>(0);
 
@@ -210,9 +231,11 @@ const getPicList = async () => {
 };
 
 const search = async (params: any = {}) => {
+  loading.value = true;
   const searchParams = {
     tid: typeId.value,
     ...params,
+    ...page.value,
   };
   const data: any = await http.get("/api/front/product/page", {
     params: searchParams,
@@ -220,6 +243,7 @@ const search = async (params: any = {}) => {
   console.log("😅 ~ search ~ data:", data.data.data.list);
   datalist.value = data.data.data.list;
   total.value = data.data.data.total;
+  loading.value = false;
 };
 
 const changeTypeId = (a: any) => {
@@ -247,9 +271,19 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
-    message.success("Favor success");
+    if (favor) {
+      message.success("favor success");
+    } else {
+      message.success("cancel success");
+    }
+  } else if (data.data.code == 401) {
+    message.error("Please Log In !");
   }
   console.log("😅 ~ loveClick ~ data:", data);
+};
+const changePage = (val: number) => {
+  page.value.page = val;
+  selectChange(false);
 };
 </script>
 <style lang="less" scoped>

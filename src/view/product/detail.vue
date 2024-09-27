@@ -105,7 +105,7 @@
             })
           "
         >
-          <img :src="picRootPath + item.picUrl" />
+          <img :src="picRootPath + item.picUrl"  style="height: 305px;width: 305px;"/>
           <div class="like" @click.stop="loveClick(item)">
             <!-- 这里是双色点收藏按钮，判断是否收藏更改twoToneColor的颜色 -->
             <HeartTwoTone :twoToneColor="item.favor ? '#eb2f96' : ''" />
@@ -133,6 +133,7 @@ import { ref } from "vue";
 import { HeartTwoTone, EyeOutlined } from "@ant-design/icons-vue";
 import { useRoute, useRouter } from "vue-router";
 import { http } from "../../http";
+import { message } from "ant-design-vue";
 // 图片根目录
 const picRootPath = import.meta.env.VITE_PIC_URL;
 const route = useRoute();
@@ -194,6 +195,13 @@ const loveClick = async (love: any) => {
   });
   if (data.data.code == 200) {
     love.favor = favor;
+    if(favor){
+      message.success("favor success");
+    }else{
+      message.success("cancel success");
+    }
+  }else if (data.data.code == 401) {
+    message.error("Please Log In !");
   }
   console.log("😅 ~ loveClick ~ data:", data);
 };
@@ -205,11 +213,20 @@ const addBag = async () => {
       productId: infoObj.value.id,
     },
   });
+  if (data.data.code == 200) {
+    message.success("add cart success");
+  }
+  else if (data.data.code == 401) {
+    message.error("Please Log In !");
+  } 
   console.log("😅 ~ loveClick ~ data:", data);
 };
 const clickProlis = (a: any) => {
   console.log("😅 ~ clickProlis ~ a:", a);
-  infoObj.value = a;
+  infoObj.value = {
+    ...a,
+    prolis: infoObj.value.prolis,
+  };
   const picList = JSON.parse(a.picMoreUrl);
   imgLst.value = picList.map((item: any) => picRootPath + item);
 };

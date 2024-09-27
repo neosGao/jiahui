@@ -101,7 +101,7 @@ const lastNews = async (a: any) => {
   router.push({ path: "/newsPage", query: { id: a.id } });
 };
 const likeThis = async () => {
-  const data: any = await http.get("/api/front/member/favornews", {
+  const data: any = await http.post("/api/front/member/favornews", {
     params: { favor: true, id: route.query.id },
   });
   if (data.data.code === 200) {
